@@ -1,0 +1,1244 @@
+openapi: 3.0.0
+info:
+  title: WebCheckOut
+  version: '1.0'
+  description: |-
+    Con WebCheckOut tu sitio obtiene una URL a la cual será redireccionado tu usuario para realizar el proceso transaccional. De esta manera, evitas capturar información sensible y la definición para una interfaz de un proceso de pago.
+
+    El API de WebCheckOut está basado en REST, retorna respuestas con codificación JSON. Para hacer uso de este servicio es necesario que tu sitio se conecte usando la versión 1.2 de TLS.
+
+    Puede usar la API WebCheckOut en modo de prueba, que no interactúa con las redes bancarias. Dependiendo del endpoint usado en la solicitud determina si la misma es en modo productivo o en modo de prueba.
+
+    * Modo pruebas: https://test.placetopay.com/redirection/api/session/
+
+    * Modo producción: https://checkout.placetopay.com
+
+    #### Consideraciones:
+
+    * Se necesita la URL donde se van a enviar los datos mediante el uso del método POST (Endpoint).
+
+    * Se debe usar JSON para el envío de los parámetros de autenticación, información del pago y datos de control.
+
+    * El tiempo de expiración expiration debe ser una fecha válida en formato ISO 8601, indica el tiempo límite que tiene el usuario para realizar el pago y debe ser de al menos 5 minutos superior a la fecha actual.
+
+    **Importante**: El expiration es el tiempo máximo que se da para la sesión, si un usuario no realiza la operación la sesión queda pendiente hasta expirar.
+
+    * `La url de retorno (returnUrl) es utilizada para redirigir al usuario una vez terminada la operación. Se recomienda enviar en la URL un dato con el cual el sitio pueda identificar el registro por ejemplo: https://mysite.com/response/{reference}`.
+
+    * Configura en tu servidor una URL de notificación usando los puertos `80` ó `443` y en caso de que el pago se decline o apruebe, reciba una notificación mediante POST de forma asíncrona.
+
+    **Importante**: Esta URL de notificación debe ser suministrada a PlacetoPay para su configuración.
+
+    ### FLUJO DE INTEGRACION
+
+    1. Al momento del usuario proceder con la operación en tu sitio, debes consumir el método createRequest.
+    2. Si la solicitud es procesada correctamente, el servicio crea una sesión y retorna en la respuesta:
+    * Identificador `requestID`
+    * URL de procesamiento `processUrl`.
+    3. Crea un registro en tu sistema, relaciona ese registro al `requestID` y déjalo en estado pendiente.
+    4. Redirecciona al usuario al `processUrl` obtenido en el punto 2.
+    5. En la interfaz de Web Checkout el usuario realizará el proceso de pago o suscripción donde debe ingresar la información para procesar el pago.
+    6. Posteriormente el usuario debe seleccionar el medio de pago con el que va a realiar la compra ingresando los datos del medio de pago. 
+    7. Una vez el usuario realiza el proceso y hace clic en “Regresar al comercio”, éste es enviado a la URL de retorno `returnUrl` (Atributo especificado al crear la operación).
+    8. Al llegar a tu sitio, con el `requestID` del registro debes consultar a PlacetoPay el estado de la sesión usando el método getRequestInformation.
+    9. Ejecuta tu regla de negocio según el estado obtenido para actualizar el estado de la misma en tu base de datos.
+    10. De manera asincrónica, PlacetoPay realiza una notificación, del estado final de una sesión, a tu sitio.
+    11. Recomendamosimplementar un proceso sonda para resolver aquellas transacciones que no se resolvieron en los punto 7 y 9.
+
+
+    **Métodos de Interfaz de Web CheckOut**
+
+    El web service contiene diferentes métodos donde se ejecutan operaciones de tipo solicitud - respuesta, estas requieren para cada una, parámetros de ingreso que son usados por las estructuras de datos con las que se procesan información para posteriormente retornar una respuesta.
+    Si deseas ejecutar un método rápidamente puedes usar cualquiera de ellos de la parte izquierda y simularlo en la parte derecha de la documentacion.
+servers:
+  - url: 'https://authe-ptp.herokuapp.com/'
+    description: authenticacion
+  - description: Redirection
+    url: 'https://checkout.placetopay.ws/'
+  - url: 'https://test.placetopay.com/redirection/'
+    description: Pruebas_Redirección
+paths:
+  '':
+    post:
+      summary: Get Authentication structure
+      operationId: Post method to generate json with authentication structure
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  login:
+                    type: string
+                    minLength: 1
+                  tranKey:
+                    type: string
+                    minLength: 1
+                  seed:
+                    type: string
+                    minLength: 1
+                  nonce:
+                    type: string
+                    minLength: 1
+                required:
+                  - login
+                  - tranKey
+                  - seed
+                  - nonce
+              examples: {}
+      parameters:
+        - schema:
+            type: string
+            example: application/json
+            default: application/json
+          in: header
+          name: Content-Type
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                LOGIN:
+                  type: string
+                  minLength: 1
+                TRANK:
+                  type: string
+                  minLength: 1
+              required:
+                - LOGIN
+                - TRANK
+            examples:
+              Authentication example:
+                value:
+                  LOGIN: 184053a1c182247d2f53964fdb109e00
+                  TRANK: Q0nj0QeRN0h1EH3H
+        description: ''
+      description: "La autenticación al servicio debe ser enviada sobre el objeto auth, el cual debe contener los siguientes atributos:\n\n**Atributos**\n\n| Parametro | Descripción |\n|-----------|-------------|\n| login\t| Identificador del sitio.|\n| tranKey |llave transaccional, que está formada por la siguiente operación: Base64(SHA-1(nonce + seed + secretkey)). El nonce dentro de la operación es el original, es decir, el que no está en Base64. |\n| nonce | Valor aleatorio para cada solicitud codificado en Base64.|\n| seed |Fecha actual, la cual se genera en formato ISO 8601.|\n\n`El login y el secretKey son suministrados por PlacetoPay`\n\n`Esta estructura debe de ser enviada en cada petición realizada al servicio`\n\n `El seed no puede tener diferencia de más de 5 minutos.`\n \n **Errores**\n \n El servicio de Web CheckOut retorna los códigos de respuesta para la autenticación fallida en el atributo message del objeto status.\n \n| Código | Causa |\n|-----------|-------------|\n|100 | UsernameToken no proporcionado (Encabezado de la autorización malformado). |\n| 101 | Identificador de sitio no existe ( Login incorrecto o no se encuentra en el ambiente). |\n| 102 | El hash de TranKey no coincide (Trankey incorrecto o mal formado). |\n| 103 | Fecha de la semilla mayor de 5 minutos. |\n| 104 | Sitio inactivo. |\n| 105 | Sitio expirado. |\n| 106 | Credenciales expiradas. |\n| 107 | Mala definición del UsernameToken (No cumple con el encabezado WSSE). |\n| 200 | Saltar el encabezado de autenticación SOAP. |\n| 10001 | Contacte a Soporte. |\n\n**Errores frecuentes**\n\nMensaje de error `Autenticación mal formada`\n\nSe presenta cuando el sistema no detecta que se esté enviando login, tranKey, seed o nonce en la estructura auth enviada, también puede presentarse si se envían estos datos pero de manera incorrecta, es decir sin el parámetro content-type “application/json” de manera que el servidor interpreta la petición como texto en vez de un arreglo de datos.\n\nTus servidores requieren TLSv1.2 para recibir la solicitud, debido a la norma PCI. Por favor, revisa el cifrado y el protocolo utilizado para conectar al servidor. Si usas Java, ten presente que solo las versiones después de la 8 tienen soporte completo.\n\nSoapFault responde con el mensaje `Authentication Failed 103`\n\nEn el proceso de autenticación nosotros revisamos el campo Created, este campo debe estar en el tiempo GMT o el tiempo local usando el tiempo de zona. Si obtienes esta respuesta, se debe a que tu tiempo no es preciso con el tiempo real. Nosotros solo permitimos 5 minutos de diferencia entre los tiempos. Puedes usar NTP para mantener la precisión del reloj.\n\nMantén en mente que BASE64 debería ser para el raw output de la SHA1 y de acuerdo con todos los lenguajes de programación este puede ser requerido para configurar esta opción, por ejemplo. En PHP base64_encode(sha1(... , true)) este parametro retornaria el raw output para el `sHA1 algorithm`.\n\nEn la parte derecha puede simular la generacion de la autenticación requerida para cada una de las solicitudes que se realicen a la pasarela de pagos (webcheckout), dicho método recibe un login y un trankey por médio de una solicitud POST, internamente se realiza el procesamiento de la información para retornar una structura JSON que puede ser copiada y pegada en las demás solicitudes dentro del objeto auth.\n\nCabe aclarar que éste método se provee cómo una ayuda para generar la estructura de autenticación de las solicitudes y no hace parte de los método de integración de webcheckout\n\nurl referencia autenticación: https://placetopay.github.io/web-checkout-api-docs/?shell#autenticacion\n"
+      tags:
+        - Autenticación
+    parameters: []
+  api/collect:
+    parameters: []
+    post:
+      summary: CollectRequest
+      operationId: postcollect
+      responses:
+        '200':
+          description: |-
+            El servicio responde con una instancia de la clase RedirectInformation. Se puede verificar el status de la sesión a través de las siguientes llamadas invocando al metodo Getrequestinformation:
+
+            response.IsSuccessful() // return boolean
+            response.IsRejected() // return boolean
+            response.IsApproved() // return boolean
+            response.Status.status // return boolean
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      reason:
+                        type: number
+                      message:
+                        type: string
+                      date:
+                        type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth:
+                  type: object
+                  properties:
+                    login:
+                      type: string
+                    tranKey:
+                      type: string
+                    nonce:
+                      type: string
+                    seed:
+                      type: string
+                instrument:
+                  type: object
+                  properties:
+                    token:
+                      type: object
+                      properties:
+                        token:
+                          type: string
+                payer:
+                  type: object
+                  properties:
+                    document:
+                      type: string
+                    documentType:
+                      type: string
+                    name:
+                      type: string
+                    surname:
+                      type: string
+                    email:
+                      type: string
+                payment:
+                  type: object
+                  properties:
+                    reference:
+                      type: string
+                    description:
+                      type: string
+                    amount:
+                      type: object
+                      properties:
+                        currency:
+                          type: string
+                        total:
+                          type: number
+            examples:
+              Ejemplo:
+                value:
+                  auth:
+                    login: usuarioprueba
+                    tranKey: YhmdBEZKTMAFsxkI1SrgS4SdBfE=
+                    nonce: TlRoaE0yWTROMk0wWVRFellXUTVNVFUwWVRZNVpHRXpZbU16TWpJM01UWT0=
+                    seed: '2019-04-25T18:17:23-04:00'
+                  instrument:
+                    token:
+                      token: 1b394089c97bc5f155b684c068806d858d9e4180c8643b5b29cf216c4b656d3e
+                  payer:
+                    document: '911111111'
+                    documentType: CC
+                    name: Prueba aliado
+                    surname: JA
+                    email: juan.jimenez@placetopay.com
+                  payment:
+                    reference: '3110'
+                    description: Pago con suscripción 3110
+                    amount:
+                      currency: COP
+                      total: 10000
+      description: |
+        Permite realizar cobros sin la intervención del usuario usando medios de pago previamente suscritos, teniendo en cuenta la periodicidad pactada con el cliente al momento de la suscripcion del medio de pago.
+
+        **ATRIBUTOS**
+
+        | Parametro | Tipo | Descripción |
+        |-----------|------|-------------|
+        | payer **Requerido** | Person | Datos del titular del medio de pago almacenado.|
+        |payment **Requerido** | PaymentRequest | Objeto que contiene la estructura de pago cuando necesite solicitar un pago.|
+        | instrument **Requerido**| Instrument | Datos asociados al medio de pago suscrito. |
+      tags:
+        - Cobros recurrentes
+  api/session/:
+    parameters: []
+    post:
+      summary: createRequest
+      operationId: post-redirection
+      responses:
+        '200':
+          description: |-
+            El servicio responde una instancia de la clase `RedirectResponse`. Verificando el status de la respuesta, se puede determinar si se creó la session de pago.
+
+            | Parametro | Tipo | Descripción |
+            |-----------|------|-------------|
+            | Status | Status | Estructura que contiene el estado de la solicitud de pago |
+            | requestId | int | Referencia única de la sesión de pago |
+            | processUrl | String | URL donde se redirecciona al usuario para completar el proceso de pago |
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  status:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        minLength: 1
+                      reason:
+                        type: string
+                        minLength: 1
+                      message:
+                        type: string
+                        minLength: 1
+                      date:
+                        type: string
+                        minLength: 1
+                    required:
+                      - status
+                      - reason
+                      - message
+                      - date
+                  requestId:
+                    type: number
+                  processUrl:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - requestId
+                  - processUrl
+              examples:
+                Success:
+                  value:
+                    status:
+                      status: OK
+                      reason: PC
+                      message: La petición se ha procesado correctamente
+                      date: '2020-11-22T20:03:27-05:00'
+                    requestId: 30570
+                    processUrl: 'https://checkout.placetopay.ws/session/30570/23655a1af0999b947a721b42f6a43bf'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  status:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        minLength: 1
+                      reason:
+                        type: number
+                      message:
+                        type: string
+                        minLength: 1
+                      date:
+                        type: string
+                        minLength: 1
+                    required:
+                      - status
+                      - reason
+                      - message
+                      - date
+                required:
+                  - status
+              examples:
+                Bad Request:
+                  value:
+                    status:
+                      status: FAILED
+                      reason: 0
+                      message: El tiempo para realizar el pago es muy poco
+                      date: '2020-11-22T20:01:26-05:00'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      date:
+                        type: string
+                  requestId:
+                    type: number
+                  processUrl:
+                    type: string
+              examples:
+                Error de autenticación:
+                  value:
+                    status:
+                      status: FAILED
+                      reason: 401
+                      message: Autenticación fallida 101
+                      date: '2020-11-22T19:59:31-05:00'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth:
+                  type: object
+                  properties:
+                    login:
+                      type: string
+                    tranKey:
+                      type: string
+                    nonce:
+                      type: string
+                    seed:
+                      type: string
+                locale:
+                  type: string
+                buyer:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    surname:
+                      type: string
+                    email:
+                      type: string
+                    document:
+                      type: string
+                    documentType:
+                      type: string
+                    mobile:
+                      type:
+                        - string
+                        - number
+                payment:
+                  type: object
+                  properties:
+                    reference:
+                      type: string
+                    description:
+                      type: string
+                    amount:
+                      type: object
+                      properties:
+                        currency:
+                          type: string
+                        total:
+                          type: number
+                    allowPartial:
+                      type: string
+                expiration:
+                  type: string
+                returnUrl:
+                  type: string
+                ipAddress:
+                  type: string
+                userAgent:
+                  type: string
+            examples:
+              Ejemplo:
+                value:
+                  auth:
+                    login: usuarioprueba
+                    tranKey: jsHJzM3+XG754wXh+aBvi70D9/4=
+                    nonce: TTJSa05UVmtNR000TlRrM1pqQTRNV1EREprWkRVMU9EZz0=
+                    seed: '2019-04-25T18:17:23-04:00'
+                  locale: es_CO
+                  buyer:
+                    name: Deion
+                    surname: Ondricka
+                    email: dnetix@yopmail.com
+                    document: '1040035000'
+                    documentType: CC
+                    mobile: 3006108300
+                  payment:
+                    reference: '3210'
+                    description: Pago básico de prueba 04032019
+                    amount:
+                      currency: COP
+                      total: '10000'
+                    allowPartial: false
+                  expiration: '2019-03-05T00:00:00-05:00'
+                  returnUrl: 'https://mysite.com/response/3210'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+        description: ''
+      description: |-
+        Este método permite la creacion de una sesión de pago (`CreateRequest`) el cual solicita la creación de la sesión (petición de cobro) y retorna el identificador y la URL de procesamiento.
+         
+        Puede simular la operacion teniendo en cuenta el siguiente ejemplo, Colocando su autenticacion y el ejemplo en la parte derecha de la pagina.
+      tags:
+        - Creación de sesión
+      parameters:
+        - schema:
+            type: string
+            default: application/json
+          in: header
+          name: Content-Type
+          required: true
+  api/session:
+    parameters: []
+    post:
+      summary: createRequest subscription
+      operationId: postapi-session
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      reason:
+                        type: number
+                      message:
+                        type: string
+                      date:
+                        type: string
+                  requestId:
+                    type: number
+                  processUrl:
+                    type: string
+              examples:
+                Success:
+                  value:
+                    status:
+                      status: OK
+                      reason: PC
+                      message: La petición se ha procesado correctamente
+                      date: '2020-11-22T20:06:59-05:00'
+                    requestId: 30571
+                    processUrl: 'https://checkout.placetopay.ws/session/30571/d4e5269fce22fcf62f2127a6fa9d8a3a'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  status:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        minLength: 1
+                      reason:
+                        type: number
+                      message:
+                        type: string
+                        minLength: 1
+                      date:
+                        type: string
+                        minLength: 1
+                    required:
+                      - status
+                      - reason
+                      - message
+                      - date
+                required:
+                  - status
+              examples:
+                Unauthorized:
+                  value:
+                    status:
+                      status: FAILED
+                      reason: 401
+                      message: Autenticación fallida 101
+                      date: '2020-11-22T20:07:26-05:00'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth:
+                  type: object
+                  properties:
+                    login:
+                      type: string
+                    tranKey:
+                      type: string
+                    nonce:
+                      type: string
+                    seed:
+                      type: string
+                subscription:
+                  type: object
+                  properties:
+                    reference:
+                      type: string
+                    description:
+                      type: string
+                expiration:
+                  type: string
+                returnUrl:
+                  type: string
+                ipAddress:
+                  type: string
+                userAgent:
+                  type: string
+            examples:
+              ejemplo:
+                value:
+                  auth:
+                    login: usuarioprueba
+                    tranKey: jsHJzM3+XG754wXh+aBvi70D9/4=
+                    nonce: TTJSa05UVmtNR000TlRrM1pqQTRNV1EREprWkRVMU9EZz0=
+                    seed: '2019-04-25T18:17:23-04:00'
+                  subscription:
+                    reference: '3110'
+                    description: Una suscripción de prueba
+                  expiration: '2019-08-02T00:00:00-05:00'
+                  returnUrl: 'https://mysite.com/response/3210'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+        description: ''
+      description: |
+        La suscripción permite almacenar de forma segura (tokenizando) el medio de pago de un usuario, para que luego pueda efectuar cobros relacionados a este mismo.
+        Para hacer uso de esta funcionalidad es necesario enviar en el RedirectRequest la estructura `subscription`, el cual solicita la creación de la sesión (petición de suscripción) y retorna el `identificador` y la `URL de procesamiento`.
+
+        Estructura que se utilizan para el método de pago con suscripción.
+        * SubscriptionResponse
+        * CollectRequest
+        * NameValuePair
+        * Token
+        * Person
+        * Instrument
+
+        **Se recomienda realizar un cobro por un valor mínimo para identificar que la tarjeta se encuentra activa.**
+         
+        **La información del token debe ser almacenada en su sitio, relacionada al usuario y/o producto. Luego de tener el token, puede generar cobros al medio de pago tokenizado usando el servicio collect.**
+         
+        La estructura de la respuesta contiene toda la información de la petición original y una estructura de suscripción (**subscription**) con un instrumento (**instrument**) representado en forma de token.
+
+        Puede simular la operacion teniendo en cuenta el siguiente ejemplo, Colocando su autenticacion y el ejemplo en la parte derecha de la pagina.
+      tags:
+        - Creación de sesión
+      parameters:
+        - schema:
+            type: string
+            default: application/json
+          in: header
+          name: Content-Type
+          required: true
+  /api/session/REQUEST_ID:
+    parameters: []
+    post:
+      summary: getRequestInformation
+      operationId: post-api-session-REQUEST_ID
+      responses:
+        '200':
+          description: |
+            La respuesta de la transacción debe contener diferentes objetos:
+
+            *status
+
+            *request
+
+            *fields
+
+            Estructura que contiene la información de la respuesta sobre una solicitud o pago, le informa el estado actual de la misma.
+
+            **STATUS**
+
+            **Atributos**
+
+            | Parametro | Tipo | Descripción |
+            |-----------|------|-------------|
+            | status **Requerido** | String(32) | Estado de una petición o pago. |
+            | reason **Requerido** | String | Código del motivo proporcionado. |
+            | message **Requerido** | String | Descripción del código de razón. |
+            |date **String** | DateTime | Fecha y hora en que se genera el estado de pago. |
+
+            **Estado de una peticion o pago**
+
+            **OK**: Petición de autenticación procesada correctamente.
+
+            **FAILED**: Fallo en una petición de autenticación.
+
+            **APPROVED**: Petición de pago o suscripción terminada
+
+            **APPROVED_PARTIAL**: Si se permite parcialmente, se ha aprobado una transacción, pero aún queda un monto.
+
+            **PARTIAL_EXPIRED**: Cuando hay un pago parcial aprobado, pero la sesión ha caducado.
+
+            **REJECTED**: Se ha declinado la transacción.
+
+            **PENDING**: Transacción pendiente para la sesión, debe estar bloqueada hasta la resolución.
+
+            **PENDING_VALIDATION**: La sesión está pendiente de validación de identidad del usuario.
+
+            **REFUNDED**: Reintegro de una transacción por solicitud de un tarjetahabiente al comercio.
+
+            **REQUEST**
+
+            Estructura que contiene toda la información acerca de la transacción para ser procesada.
+
+            | Parametro | Tipo | Descripción |
+            |-----------|------|-------------|
+            | locale **Opcional** | string | Definido con los códigos ISO 631-1 (language) y ISO 3166-1 alpha-2 (2-letras del país).ej. en_US, es_CO |
+            | payer **Opcional** | Person | Información del ordenante, si establece este objeto, los datos del pagador utilizarán esta información. |
+            | buyer **Opcional** | Person | Información del comprador en la transacción. |
+            | payment **Opcional** | PaymentRequest | Objeto de pago cuando necesite solicitar un cobro. |
+            | subscription **Opcional** | SubscriptionRequest | Objeto de suscripción utilizado cuando se necesita un token. |
+            | paymentMethod **Opcional** | string | forzar el medio de pago en la interfaz de redirección, los códigos aceptadosson los de la lista. Si necesita más de uno separarlos con coma. ej. ATH,PSE,CR_VS |
+            | expiration **Requerido** | dateTime | Fecha de expiración de una solicitud, el usuario debe terminar el proceso antes de esta. |
+            | returnUrl **Requerido** | String | URL de retorno es utilizada para redirigir al usuario una vez termina la operación de pago. |
+            | cancelUrl **Opcional** | string | URL para retornar cuando el cliente aborte la operación.|
+            | ipAddress **Requerido** | string | Dirección IP del usuario. |
+            | userAgent **Requerido** | string | Agente de usuario informado por el usuario. |
+            | skipResult **Opcional** |bool | Si se envía el parámetro como true se omite la pantalla del resultado en redirección y us na vez aprobado el pago regresa al comercio automaticamente. |
+            | BuyerFill **Opcional** | bool | Por defecto se llenan los datos que se piden en redirección con los del comprador (buyer) enviados, si se envía como true se omite este autocompletado automático. |
+
+            **FIELDS**
+
+            Información adicional relacionada con la solicitud que el comercio requiere para guardar con la transacción.
+
+            | Parametro | Tipo | Descripción |
+            |-----------|------|-------------|
+            |keyword **Opcional** | string | Clave para el par de valores del dato. |
+            | value **opcional** | string | Valor para el par de datos. |
+            | displayOn **Opcional** | string | Bajo qué circunstancias el campo debe ser mostrado en la interfaz de redirección[none, payment, receipt, both, approved]. |
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  status:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      date:
+                        type: string
+                  request:
+                    type: object
+                    properties:
+                      locale:
+                        type: string
+                      buyer:
+                        type: object
+                        properties:
+                          document:
+                            type: string
+                          documentType:
+                            type: string
+                          name:
+                            type: string
+                          surname:
+                            type: string
+                          email:
+                            type: string
+                          mobile:
+                            type: number
+                      payer:
+                        type: object
+                        properties:
+                          document:
+                            type: string
+                          documentType:
+                            type: string
+                          name:
+                            type: string
+                          surname:
+                            type: string
+                          email:
+                            type: string
+                          mobile:
+                            type:
+                              - string
+                              - number
+                      payment:
+                        type: object
+                        properties:
+                          reference:
+                            type: string
+                          description:
+                            type: string
+                          amount:
+                            type: object
+                            properties:
+                              currency:
+                                type: string
+                              total:
+                                type:
+                                  - string
+                                  - number
+                          allowPartial:
+                            type: boolean
+                          subscribe:
+                            type: boolean
+                      fields:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            keyword:
+                              type: string
+                            value:
+                              type: string
+                            displayOn:
+                              type: string
+                      returnUrl:
+                        type: string
+                      ipAddress:
+                        type: string
+                      userAgent:
+                        type: string
+                      expiration:
+                        type: string
+                  payment:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: object
+                          properties:
+                            status:
+                              type: string
+                            reason:
+                              type: string
+                            message:
+                              type: string
+                            date:
+                              type: string
+                        internalReference:
+                          type: number
+                        paymentMethod:
+                          type: string
+                        paymentMethodName:
+                          type: string
+                        issuerName:
+                          type: string
+                        amount:
+                          type: object
+                          properties:
+                            from:
+                              type: object
+                              properties:
+                                currency:
+                                  type: string
+                                total:
+                                  type: number
+                            to:
+                              type: object
+                              properties:
+                                currency:
+                                  type: string
+                                total:
+                                  type: string
+                            factor:
+                              type: number
+                        authorization:
+                          type: string
+                        reference:
+                          type: string
+                        receipt:
+                          type: number
+                        franchise:
+                          type: string
+                        refunded:
+                          type: boolean
+                        processorFields:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              keyword:
+                                type: string
+                              value:
+                                type: string
+                              displayOn:
+                                type: string
+                              '':
+                                type: object
+                                properties:
+                                  keyword:
+                                    type: string
+                                  value:
+                                    type: string
+                                  '':
+                                    type: string
+                  subscription:
+                    type: 'null'
+              examples:
+                Ejemplo:
+                  value:
+                    requestId: 447063
+                    status:
+                      status: REJECTED
+                      reason: EX
+                      message: La petición ha expirado
+                      date: '2021-01-23T16:44:33-05:00'
+                    request:
+                      locale: es_CO
+                      buyer:
+                        document: '1040035000'
+                        documentType: CC
+                        name: Edmund
+                        surname: Leffler
+                        email: dnetix@yopmail.com
+                        mobile: '3006108300'
+                      payer:
+                        document: '1040035000'
+                        documentType: CC
+                        name: Edmund
+                        surname: Leffler
+                        email: dnetix@yopmail.com
+                        mobile: '3006108300'
+                      payment:
+                        reference: TEST_20210122_113216
+                        description: Rerum fugiat expedita eaque ut.
+                        amount:
+                          currency: COP
+                          total: 155000
+                        allowPartial: false
+                        subscribe: false
+                      fields:
+                        - keyword: _processUrl_
+                          value: 'https://test.placetopay.com/redirection/session/447063/bfeca0f837555b282f3dfbe5e40f1047'
+                          displayOn: none
+                      returnUrl: 'https://dnetix.co/p2p/client'
+                      ipAddress: 181.58.39.159
+                      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36'
+                      expiration: '2021-01-23T11:32:16-05:00'
+                    payment:
+                      - status:
+                          status: REJECTED
+                          reason: '01'
+                          message: Negada Establecimiento debe comunicarse con el centro de autorizaciones
+                          date: '2021-01-22T11:49:03-05:00'
+                        internalReference: '1502031249'
+                        paymentMethod: visa
+                        paymentMethodName: Visa
+                        issuerName: BANCO DE PRUEBAS
+                        amount:
+                          from:
+                            currency: COP
+                            total: 155000
+                          to:
+                            currency: COP
+                            total: 155000
+                          factor: '1'
+                        authorization: '000000'
+                        reference: TEST_20210122_113216
+                        receipt: '1611334143'
+                        franchise: CR_VS
+                        refunded: false
+                        processorFields:
+                          - keyword: lastDigits
+                            value: '****0040'
+                            displayOn: none
+                          - keyword: id
+                            value: 954e7c99a741e78982a1e43fbd46a4fb
+                            displayOn: none
+                    subscription: null
+      description: |-
+        Obtiene la información de la sesión y transacciones realizadas.
+
+        La consulta de información de una transacción se puede dar cuando el usuario es retornado a su sitio ó mediante una tarea programada que diariamente ejecute un script en el cual se consulten todas las operaciones pendientes en su sitio.
+
+        **Recomendación***: Implementar en su sitio las dos alternativas, pues si algo falla en el proceso de retorno y notificación, la tarea programada puede ser usada como contingencia.
+
+                  
+      tags:
+        - Obtener información
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth:
+                  type: object
+                  properties:
+                    login:
+                      type: string
+                    tranKey:
+                      type: string
+                    nonce:
+                      type: string
+                    seed:
+                      type: string
+            examples:
+              Ejemplo:
+                value:
+                  auth:
+                    login: string
+                    tranKey: string
+                    nonce: string
+                    seed: string
+        description: |
+          Para consultar la sesión debe enviar el identificador único de la sesión de pago **requestId** usando el método `GetRequestInformation`.
+
+          `Para este consumo también es necesario enviar en la petición la autenticación`.
+  /api/reverse:
+    post:
+      summary: reversePayment
+      operationId: post-api-reverse
+      responses:
+        '200':
+          description: "Servicio responde una instancia de la clase `ReverseResponse`. Se puede comprobar el status de la sesión a través:\n\n`response.IsSuccessful() // return boolean`\n\n`response.Status.status // return boolean`\n\n**Estructura de respuesta a una solicitud de pago reversado**\n\n**STATUS**\n\nAtributos\n\n| Parametro | Tipo | Descripción |\n|-----------|------|-------------|\n|status **Requerido** | String(32) | Estado de una petición o pago |\n| reason **Requerido** | String | Código del motivo proporcionado. |\n| message **Requerido** | String | Descripción del código de razón. |\n| date **String | DateTime | Fecha y hora en que se genera el estado de pago. |\n\n**Estado de una peticion o pago**\n\n**OK**: Petición de autenticación procesada correctamente.\n\n**FAILED**: Fallo en una petición de autenticación.\n\n**APPROVED**: Petición de pago o suscripción terminada\n\n| Parametro | Tipo | Descripción |\n|-----------|------|-------------|\n| internalReference **Opcional** | int | Referencia interna en PlacetoPay. |\n| reference      **Opcional** | string | Referencia enviada por el comercio para la transacción. |\n| paymentMethod **Opcional** | string | Código del método de pago utilizado. |\n| paymentMethodName **Opcional** | string | Nombre del método de pago utilizado. |\n| issuerName **Opcional** | string | Nombre del emisor o del procesador. |\n| amount      **Opcional** | AmountConversion | Valor procesado. |\n| receipt    **Opcional** | string | Numero de recibo de la transacción. |\n| franchise    **Opcional** | string | Franquicia de la tarjeta utilizada. |\n|refunded    **Opcional** | boolean | |\t\n| authorization **Opcional** | string | Código de autorización. |\n| processorFields **Opcional** | NameValuePair[] | Campos adicionales del procesador. |\n\n"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      date:
+                        type: string
+                  payment:
+                    type: object
+                    properties:
+                      status:
+                        type: object
+                        properties:
+                          status:
+                            type: string
+                          reason:
+                            type: string
+                          message:
+                            type: string
+                          date:
+                            type: string
+                      internalReference:
+                        type: number
+                      paymentMethod:
+                        type: string
+                      paymentMethodName:
+                        type: string
+                      issuerName:
+                        type: string
+                      amount:
+                        type: object
+                        properties:
+                          from:
+                            type: object
+                            properties:
+                              currency:
+                                type: string
+                              total:
+                                type: number
+                          to:
+                            type: object
+                            properties:
+                              currency:
+                                type: string
+                              total:
+                                type: number
+                          factor:
+                            type: integer
+                      authorization:
+                        type: string
+                      reference:
+                        type: string
+                      receipt:
+                        type: number
+                      franchise:
+                        type: string
+                      refunded:
+                        type: boolean
+              examples:
+                Ejemplo:
+                  value:
+                    status:
+                      status: APPROVED
+                      reason: '00'
+                      message: Se ha reversado el pago correctamente
+                      date: '2021-01-23T18:54:49-05:00'
+                    payment:
+                      status:
+                        status: APPROVED
+                        reason: '00'
+                        message: Aprobada
+                        date: '2021-01-23T18:54:49-05:00'
+                      internalReference: '1502099576'
+                      paymentMethod: visa
+                      paymentMethodName: Visa
+                      issuerName: BANCO DE PRUEBAS
+                      amount:
+                        from:
+                          currency: COP
+                          total: -200000
+                        to:
+                          currency: COP
+                          total: -200000
+                        factor: 1
+                      authorization: '000000'
+                      reference: '123456'
+                      receipt: '1611446089'
+                      franchise: CR_VS
+                      refunded: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth:
+                  type: object
+                  properties:
+                    login:
+                      type: string
+                    tranKey:
+                      type: string
+                    nonce:
+                      type: string
+                    seed:
+                      type: string
+                internalReference:
+                  type: number
+            examples:
+              Ejemplo:
+                value:
+                  auth:
+                    login: usuarioprueba
+                    tranKey: jsHJzM3+XG754wXh+aBvi70D9/4=
+                    nonce: TTJSa05UVmtNR000TlRrM1pqQTRNV1EREprWkRVMU9EZz0=
+                    seed: '2019-04-25T18:17:23-04:00'
+                  internalReference: '1468647381'
+      tags:
+        - Reversar pagos
+      description: |
+        Permite revertir un pago aprobado con el código de referencia interna y que esta se haya realziado el mismo dia antes de las 8 de la noche, ya que por restricciones en las redes bancarias si este se realiza luego de esta hora es podible que no se realice.
+      parameters: []
+  /api/session/:
+    post:
+      summary: Request Mixt
+      operationId: post-api-sesion
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      reason:
+                        type: string
+                      message:
+                        type: string
+                      date:
+                        type: string
+              examples:
+                Ejemplo:
+                  value:
+                    status:
+                      status: PARTIAL_EXPIRED
+                      reason: PX
+                      message: La petición está expirada o cancelada y se han realizado pagos
+                      date: '2019-04-01T11:15:38-05:00'
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+            multipart/form-data:
+              schema:
+                type: object
+                properties: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth:
+                  type: object
+                  properties:
+                    login:
+                      type: string
+                    tranKey:
+                      type: string
+                    nonce:
+                      type: string
+                    seed:
+                      type: string
+                payment:
+                  type: object
+                  properties:
+                    reference:
+                      type: string
+                    description:
+                      type: string
+                    amount:
+                      type: object
+                      properties:
+                        currency:
+                          type: string
+                        total:
+                          type: number
+                    allowPartial:
+                      type: boolean
+                expiration:
+                  type: string
+                returnUrl:
+                  type: string
+                ipAddress:
+                  type: string
+                userAgent:
+                  type: string
+            examples:
+              ejemplo:
+                value:
+                  auth:
+                    login: usuarioprueba
+                    tranKey: jsHJzM3+XG754wXh+aBvi70D9/4=
+                    nonce: TTJSa05UVmtNR000TlRrM1pqQTRNV1EREprWkRVMU9EZz0=
+                    seed: '2019-04-25T18:17:23-04:00'
+                  payment:
+                    reference: '3210'
+                    description: Pago mixto de prueba
+                    amount:
+                      currency: COP
+                      total: '10000'
+                    allowPartial: true
+                  expiration: '2019-03-05T00:00:00-05:00'
+                  returnUrl: 'https://mysite.com/response/3210'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+      description: |-
+        El pago mixto permite utilizar varios medios de pago al momento de realizar el pago  para una misma sesión.
+
+        Para hacer uso de esta funcionalidad, en la estructura payment del Pago es necesario enviar el atributo  `allowPartial` como: **True**, adicional se debe soliictar en PlacetoPay habilitar dicha funcionalidad en el panel administrativo.
+
+        **Estados adicionales de una sesión de pago mixto**
+
+        Al obtener el resultado de la operación, debe tener muy presente los siguiente dos estados, dado a que estos deben ser controlador por el comercio, si el usuario no termina el pago se debe determinar que hacer si se reversa o se hace otro procedimeinto:
+
+        **APPROVED_PARTIAL**: Indica que se realiza al menos un pago aprobado pero no se realizado el pago total de la sesión.
+
+        **PARTIAL_EXPIRED**: Indica que se realiza al menos un pago aprobado pero no se completó el pago total de la sesión y ésta expiró.
+
+        `Es importante identificar según la regla de negocio del sitio al obtener alguno de estos dos estados.`
+
+        `Para los pagos mixtos tambien se dan los demas estados de una transaccion normal APPROVED, REJECTED, PENDING, FAILED `
+      tags:
+        - Creación de sesión
+    parameters: []
+components:
+  schemas: {}
+tags:
+  - name: ''
+  - name: Autenticación
+  - name: Creación de sesión
+  - name: Cobros recurrentes
+  - name: Reversar pagos
+  - name: Obtener información
