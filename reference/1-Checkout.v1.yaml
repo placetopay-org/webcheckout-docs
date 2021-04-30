@@ -1185,6 +1185,25 @@ paths:
                           type: string
                         total:
                           type: number
+                        taxes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              kind:
+                                type: string
+                                enum:
+                                  - ice
+                                  - valueAddedTax
+                                  - exciseDuty
+                                  - airportTax
+                                  - stateTax
+                                  - municipalTax
+                                  - reducedStateTax
+                                example: valueAddedTax
+                                description: Tax Kind
+                              amount:
+                                type: string
                     allowPartial:
                       type: boolean
                 expiration:
@@ -1209,6 +1228,11 @@ paths:
                     amount:
                       currency: COP
                       total: '10000'
+                      taxes:
+                        - kind: ice
+                          amount: 6.96
+                        - kind: valueAddedTax
+                          amount: 11.02
                     allowPartial: true
                   expiration: '2019-03-05T00:00:00-05:00'
                   returnUrl: 'https://mysite.com/response/3210'
