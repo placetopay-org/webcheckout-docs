@@ -417,6 +417,25 @@ paths:
                           type: string
                         total:
                           type: number
+                        taxes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              kind:
+                                type: string
+                                enum:
+                                  - ice
+                                  - valueAddedTax
+                                  - exciseDuty
+                                  - airportTax
+                                  - stateTax
+                                  - municipalTax
+                                  - reducedStateTax
+                                example: valueAddedTax
+                                description: Tax Kind
+                              amount:
+                                type: string
                     allowPartial:
                       type: string
                 expiration:
