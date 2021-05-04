@@ -1,0 +1,60 @@
+{
+  "items": [
+    {
+      "type": "item",
+      "title": "Autenticación",
+      "uri": "docs/Autenticacion.md"
+    },
+    {
+      "type": "item",
+      "title": "Flujo de integración",
+      "uri": "docs/Flujo-de-integracion.md"
+    },
+    {
+      "type": "item",
+      "title": "Lightbox",
+      "uri": "docs/Lightbox.md"
+    },
+    {
+      "type": "item",
+      "title": "Plugins y componentes",
+      "uri": "docs/Plugins-y-componentes.md"
+    },
+   
+{
+      "type": "item",
+      "title": "WebCheckout",
+      "uri": "reference/WebCheckout-ES.yaml"
+    },
+
+    {
+      "type": "item",
+      "title": "Tipos de pago",
+      "uri": "docs/crear-sesion/A. Tipos de pago.md"
+    },
+     {
+      "type": "item",
+      "title": "Suscripción",
+      "uri": "docs/crear-sesion/F.-Suscripcion.md"
+    },
+    {
+      "type": "item",
+      "title": "Tipos de documento",
+      "uri": "docs/crear-sesion/B. Tipos de documento.md"
+    },
+    {
+      "type": "item",
+      "title": "Impuestos",
+      "uri": "docs/crear-sesion/C. Tipos de impuestos.md"
+    },
+    {
+      "type": "item",
+      "title": "Métodos de pago",
+      "uri": "docs/crear-sesion/D. Metodos-de-pago.md"
+    }
+ 
+   
+   
+    
+  ]
+}

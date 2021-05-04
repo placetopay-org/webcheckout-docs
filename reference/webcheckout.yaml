@@ -1,0 +1,959 @@
+openapi: 3.1.0
+info:
+  title: WebCheckout
+  version: '1.0'
+  description: |
+    Webcheckout crea una página de pago segura alojada en Placetopay, ésta le permite cobrar los pagos rápidamente. Puede ser accedido desde diferentes dispositivos
+
+    * **Diseño personalizado:** Puedes agregar tu imagen y colores corporativos.
+    * **Diferentes idiomas y monedas:** Operaciones soportadas con diferentes idiomas y monedas
+    * **Adaptado a diferentes resoluciones:** Diseño receptivo para diferentes dispositivos 
+    * **Wallet Placetopay:** Placetopay cuenta con su propia billetera, bridando mayor seguridad y facilidad en el proceso de pago.
+    * **Seguridad de la información:** Lineamientos PCI que garantizan seguridad en la captura y procesamiento de la información sensible dela tarjeta.
+    * **Funciones adicionales:** Impuestos, pagos mixtos, suscripciones, cobros recurrentes, promociones y más. 
+
+    **Importante:** El API de WebCheckOut está basado en REST. Para hacer uso de este servicio es necesario que tu sistema soporte comunicación con la versión 1.2 del protocolo TLS.
+  license: {}
+  contact:
+    url: 'https://www.placetopay.com/web/contactanos/'
+servers:
+  - description: SandBox Colombia
+    url: 'https://test.placetopay.com/redirection'
+  - url: 'https://test.placetopay.ec/redirection'
+    description: SandBox Ecuador
+paths:
+  /api/session:
+    post:
+      summary: Crear sesión (CreateRequest)
+      operationId: post-api-session
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  status:
+                    type: object
+                    description: |
+                      Estado de esta solicitud
+                    required:
+                      - status
+                      - reason
+                      - message
+                      - date
+                    properties:
+                      status:
+                        type: string
+                        minLength: 1
+                        description: 'Estado proporcionado, podría ser uno de esos: [OK, FAILED, APPROVED, APPROVED_PARTIAL, PARTIAL_EXPIRED, REJECTED, PENDING, PENDING_VALIDATION, REFUNDED, MANUAL]'
+                      reason:
+                        type: string
+                        minLength: 1
+                        description: |
+                          Código de motivo proporcionado
+                      message:
+                        type: string
+                        minLength: 1
+                        description: |
+                          Descripción del código de razón
+                      date:
+                        type: string
+                        minLength: 1
+                        description: |
+                          Fecha y hora de este estado
+                  requestId:
+                    type: number
+                    description: |
+                      Referencia única de esta sesión
+                  processUrl:
+                    type: string
+                    minLength: 1
+                    description: |
+                      URL para redireccionar el cliente para completar el proceso
+                required:
+                  - status
+                  - requestId
+                  - processUrl
+          headers: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  status:
+                    type: object
+                    required:
+                      - status
+                      - reason
+                      - message
+                      - date
+                    description: 'Estructura que contiene la información sobre una solicitud o pago, informa al estado actual de la misma.'
+                    properties:
+                      status:
+                        type: string
+                        minLength: 1
+                        description: |
+                          Estado proporcionado, podría ser uno de esos: [OK, FAILED, APPROVED, APPROVED_PARTIAL, PARTIAL_EXPIRED, REJECTED, PENDING, PENDING_VALIDATION, REFUNDED, MANUAL]
+                      reason:
+                        type: number
+                        description: |
+                          Código de motivo proporcionado
+                      message:
+                        type: string
+                        minLength: 1
+                        description: |
+                          Descripción del código de razón
+                      date:
+                        type: string
+                        minLength: 1
+                        description: |
+                          Fecha y hora de este estado
+                required:
+                  - status
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                auth:
+                  $ref: '#/components/schemas/Autentication'
+                '':
+                  $ref: '#/components/schemas/RedirectRequest'
+            examples:
+              Pago:
+                value:
+                  auth:
+                    login: test login
+                    tranKey: rgyVgf7QjpJt9p5rL1DpJYA6Osk=
+                    nonce: Wm1ZNE0yRXlNakUzWVRrME56VXlOV013TmpJMVlUTmhOVEV5TmpVeFptTT0=
+                    seed: '2021-05-03T22:21:17-05:00'
+                  locale: es_CO
+                  buyer:
+                    document: '4939349317'
+                    documentType: CC
+                    name: Clemens Auer
+                    surname: Beer
+                    email: gloria.gorczany@yahoo.com
+                    mobile: '3006108300'
+                    address:
+                      street: 21440 Belle Curve
+                      city: Kuphalborough
+                      state: Antioquia
+                      postalCode: '40881'
+                      country: US
+                  payment:
+                    reference: TEST_20210503_222115
+                    description: Quas unde eum quis molestias odit excepturi provident.
+                    amount:
+                      taxes:
+                        - kind: ice
+                          amount: 2.28
+                          base: 0
+                        - kind: valueAddedTax
+                          amount: 3.61
+                          base: 0
+                      details:
+                        - kind: shipping
+                          amount: 0.95
+                        - kind: tip
+                          amount: 0.95
+                        - kind: subtotal
+                          amount: 19
+                      currency: USD
+                      total: 26.79
+                    allowPartial: false
+                    shipping:
+                      document: '4939349317'
+                      documentType: CC
+                      name: Clemens Auer
+                      surname: Beer
+                      email: gloria.gorczany@yahoo.com
+                      mobile: '3006108300'
+                      address:
+                        street: 21440 Belle Curve
+                        city: Kuphalborough
+                        state: Antioquia
+                        postalCode: '40881'
+                        country: US
+                    items:
+                      - sku: 56000
+                        name: Nihil adipisci ut.
+                        category: physical
+                        qty: 1
+                        price: 19
+                        tax: 3.61
+                    subscribe: false
+                  fields:
+                    - keyword: Redeem Code
+                      value: 999285
+                      displayOn: payment
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 181.53.226.56
+                  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
+                  expiration: '2021-05-04T22:21:15-05:00'
+                  captureAddress: false
+                  skipResult: false
+                  noBuyerFill: false
+              Suscripción:
+                value:
+                  auth:
+                    login: test login
+                    tranKey: tBF+Fumami9Qq9HNeiKce+WWGFs=
+                    nonce: TURRME9EZzNaV1F3TTJJell6SmxaakZpWVRKallUWmxOemt3WmpsaE9HWT0=
+                    seed: '2021-05-03T22:55:00-05:00'
+                  locale: es_CO
+                  buyer:
+                    document: '4939349317'
+                    documentType: CC
+                    name: Clemens Auer
+                    surname: Beer
+                    email: gloria.gorczany@yahoo.com
+                    mobile: '3006108300'
+                    address:
+                      street: 21440 Belle Curve
+                      city: Kuphalborough
+                      state: Antioquia
+                      postalCode: '40881'
+                      country: US
+                  subscription:
+                    reference: TEST_20210503_222115
+                    description: Quas unde eum quis molestias odit excepturi provident.
+                  fields:
+                    - keyword: Redeem Code
+                      value: 999285
+                      displayOn: payment
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 181.53.226.56
+                  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
+                  expiration: '2021-05-04T22:21:15-05:00'
+                  captureAddress: false
+                  skipResult: false
+                  noBuyerFill: false
+        description: ''
+      description: |
+        Solicita la creación de la sesión (de tipo payment o subscription), retorna el identificador y la URL de procesamiento.
+      x-internal: false
+    parameters: []
+  '/api/session/{requestId}':
+    parameters:
+      - schema:
+          type: string
+        name: requestId
+        in: path
+        required: true
+    post:
+      summary: Consultar sesión (getRequestInformation)
+      operationId: post-api-session-requestId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectInformation'
+      description: |
+        Obtiene la información de la sesión, si en la sesión hay transacciones se muestra el detalle de las mismas.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Autentication'
+          application/xml:
+            schema:
+              description: ''
+              type: object
+              properties:
+                auth:
+                  type: object
+                  properties:
+                    login:
+                      type: string
+                      minLength: 1
+                    tranKey:
+                      type: string
+                      minLength: 1
+                    nonce:
+                      type: string
+                      minLength: 1
+                    seed:
+                      type: string
+                      minLength: 1
+                  required:
+                    - login
+                    - tranKey
+                    - nonce
+                    - seed
+              required:
+                - auth
+  /api/reverse:
+    post:
+      summary: Reversar pago (ReversePayment)
+      operationId: post-api-reverse
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReverseResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth:
+                  $ref: '#/components/schemas/Autentication'
+                internalReference:
+                  type: string
+                  description: |
+                    Referencia interna de la transacción a reversar que se encuentra en el listado de transacciones del getRequestInformation (payment).
+      description: |
+        Permite revertir un pago aprobado con el código de referencia interna.
+  /api/collect:
+    post:
+      summary: Cobro usando token (Collect)
+      operationId: post-api-collect
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRequest'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectRequest'
+      description: |
+        Permite realizar cobros sin la intervención del usuario usando medios de pago previamente suscritos.
+components:
+  schemas:
+    Person:
+      description: Estructura que refleja la información de una persona involucrada en una transacción.
+      type: object
+      properties:
+        document:
+          type: string
+          minLength: 1
+        documentType:
+          type: string
+          minLength: 1
+        name:
+          type: string
+          minLength: 1
+        surname:
+          type: string
+          minLength: 1
+        company:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          minLength: 1
+        mobile:
+          type: string
+          minLength: 1
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+              minLength: 1
+            city:
+              type: string
+              minLength: 1
+            state:
+              type: string
+              minLength: 1
+            postalCode:
+              type: string
+              minLength: 1
+            country:
+              type: string
+              minLength: 1
+          required:
+            - street
+            - city
+            - state
+            - postalCode
+            - country
+      required:
+        - document
+        - documentType
+        - name
+        - surname
+        - company
+        - email
+        - mobile
+        - address
+      title: Person
+    PaymentRequest:
+      title: PaymentRequest
+      type: object
+      description: |
+        Estructura que contiene la información acerca del pago de la transacción requerida al servicio web.
+      properties:
+        reference:
+          type: string
+          description: |
+            Única referencia para la solicitud de pago.
+        description:
+          type: string
+          description: |
+            Descripción de la cuenta.
+        amount:
+          $ref: '#/components/schemas/Amount'
+        allowPartial:
+          type: boolean
+          description: |
+            Define si el monto a ser cobrado puede ser parcial.
+        shipping:
+          $ref: '#/components/schemas/Person'
+        items:
+          $ref: '#/components/schemas/Items'
+        fields:
+          $ref: '#/components/schemas/NameValuePair'
+        recurring:
+          $ref: '#/components/schemas/Recurring'
+        subscribe:
+          type: boolean
+          description: |
+            Permite solicitar un proceso de cobro y suscripción en la misma sesión.
+      required:
+        - reference
+        - amount
+    Amount:
+      title: Amount
+      type: object
+      properties:
+        currency:
+          type: string
+        total:
+          type: string
+        taxes:
+          $ref: '#/components/schemas/TaxDetail'
+        details:
+          $ref: '#/components/schemas/AmountDetail'
+      required:
+        - currency
+        - total
+    Items:
+      title: Items
+      type: object
+      description: |
+        Posee una colección de estructuras de elementos.
+      properties:
+        item:
+          $ref: '#/components/schemas/Item'
+    NameValuePair:
+      description: |
+        Se utiliza para definir un tipo de par clave-valor
+      type: object
+      properties:
+        keyword:
+          type: string
+          minLength: 1
+          description: |
+            Clave para el par de valores del dato.
+        value:
+          type: string
+          minLength: 1
+          description: |
+            Valor para el par de datos.
+        displayOn:
+          type: string
+          minLength: 1
+          description: |
+            Bajo qué circunstancias el campo debe ser mostrado en la interfaz de redirección. [none, payment, receipt, both, approved]
+    Recurring:
+      description: Estructura que contiene la información requerida para una solicitud de pago recurrente.
+      type: object
+      properties:
+        periodicity:
+          type: string
+          minLength: 1
+          description: 'Periodicidad de la factura [D, M, Y]'
+        interval:
+          type: string
+          minLength: 1
+          description: |
+            Intervalo asociado a la periodicidad.
+        nextPayment:
+          type: string
+          minLength: 1
+          description: Fecha del próximo pago.
+          format: date
+        maxPeriods:
+          type:
+            - string
+            - integer
+          minLength: 1
+          description: |
+            Número máximo de periodo (-1 en caso de que no haya restricción.)
+        'dueDate ':
+          type: string
+          format: date
+          description: |
+            Fecha para finalizar el pago.
+        'notificationUrl ':
+          type: string
+          description: |
+            URL en el que el servicio notificará cada vez que se haga un pago recurrente.
+      required:
+        - periodicity
+        - interval
+        - nextPayment
+        - maxPeriods
+    Item:
+      description: ''
+      type: object
+      properties:
+        sku:
+          type: string
+          description: |
+            Unidad en stock correspondiente (SKU) al artículo.
+        name:
+          type: string
+          minLength: 1
+          description: |
+            Nombre del artículo.
+        category:
+          type: string
+          minLength: 1
+          description: |
+            Puede ser [digital, physical].
+        qty:
+          type: string
+          description: |
+            Número de un artículo en particular.
+        price:
+          type: number
+          description: |
+            Costo del artículo.
+        tax:
+          type: number
+          description: |
+            Impuesto del artículo.
+      required:
+        - sku
+    TaxDetail:
+      title: TaxDetail
+      type: object
+      properties:
+        kind:
+          type: string
+          description: 'Valor de clasificación, puede ser [valueAddedTax, exciseDuty].'
+        amount:
+          type: integer
+          description: |
+            Valor discriminado.
+      required:
+        - amount
+      description: |
+        Estructura para almacenar información sobre un impuesto.
+    AmountDetail:
+      title: AmountDetail
+      type: object
+      description: |
+        Estructura para almacenar información sobre el valor.
+      properties:
+        kind:
+          type: string
+          description: "\tValor de clasificación, puede ser [discount, additional,\nvatDevolutionBase, shipping,\nhandlingFee, insurance,\ngiftWrap, subtotal, fee, tip]\n"
+        amount:
+          type: integer
+          description: |
+            Valor discriminado.
+      required:
+        - kind
+        - amount
+    SubscriptionRequest:
+      title: SubscriptionRequest
+      type: object
+      description: |
+        Estructura que contiene la información relacionada con una solicitud de suscripción para obtener un Token.
+      properties:
+        reference:
+          type: string
+        description:
+          type: string
+        fields:
+          $ref: '#/components/schemas/NameValuePair'
+      required:
+        - reference
+    RedirectRequest:
+      title: RedirectRequest
+      type: object
+      description: |
+        Estructura que contiene toda la información acerca de la transacción para ser procesada.
+      properties:
+        locale:
+          type: string
+          description: |
+            Definido con los códigos ISO 631-1 (language) y ISO 3166-1 alpha-2 (2-letras del país). ej. en_US, es_CO
+        payer:
+          $ref: '#/components/schemas/Person'
+        buyer:
+          $ref: '#/components/schemas/Person'
+        payment:
+          $ref: '#/components/schemas/PaymentRequest'
+        subscription:
+          $ref: '#/components/schemas/SubscriptionRequest'
+        fields:
+          $ref: '#/components/schemas/NameValuePair'
+        paymentMethod:
+          type: string
+          description: |
+            Forzar el medio de pago en la interfaz de redirección, los códigos aceptados son los de la lista. Si necesita más de uno separarlos con coma. ej. visa,amex,master
+        expiration:
+          type: string
+          format: date-time
+          description: |
+            Fecha de expiración de una solicitud, el usuario debe terminar el proceso antes de esta fecha. 
+        returnUrl:
+          type: string
+          description: |
+            URL de retorno es utilizada para redirigir al usuario una vez termina la operación de pago.
+        cancelUrl:
+          type: string
+          description: |
+            URL para retornar cuando el cliente aborte la operación.
+        ipAddress:
+          type: string
+          description: |
+            Dirección IP del usuario.
+        userAgent:
+          type: string
+        skipResult:
+          type: boolean
+          description: |
+            Si se envía el parámetro como true se omite la pantalla del resultado en redirección y una vez aprobado el pago regresa al comercio automaticamente.
+        noBuyerFill:
+          type: boolean
+          description: |
+            Por defecto se llenan los datos que se piden en redirección con los del comprador (buyer) enviados, si se envía como true se omite este autocompletado automático.
+      x-examples:
+        example-1:
+          locale: string
+          payer:
+            document: string
+            documentType: string
+            name: string
+            surname: string
+            company: string
+            email: string
+            mobile: string
+            address:
+              street: string
+              city: string
+              state: string
+              postalCode: string
+              country: string
+          buyer:
+            document: string
+            documentType: string
+            name: string
+            surname: string
+            company: string
+            email: string
+            mobile: string
+            address:
+              street: string
+              city: string
+              state: string
+              postalCode: string
+              country: string
+          payment:
+            reference: string
+            description: string
+            amount:
+              currency: string
+              total: string
+              taxes:
+                kind: string
+                amount: 0
+              details:
+                kind: string
+                amount: 0
+            allowPartial: true
+            shipping:
+              document: string
+              documentType: string
+              name: string
+              surname: string
+              company: string
+              email: string
+              mobile: string
+              address:
+                street: string
+                city: string
+                state: string
+                postalCode: string
+                country: string
+            items:
+              item:
+                sku: string
+                name: string
+                category: string
+                qty: string
+                price: 0
+                tax: 0
+            fields:
+              keyword: string
+              value: string
+              displayOn: string
+            recurring:
+              periodicity: string
+              interval: string
+              nextPayment: '2019-08-24'
+              maxPeriods: null
+              'dueDate ': '2019-08-24'
+              'notificationUrl ': string
+            subscribe: true
+          subscription:
+            reference: string
+            description: string
+            fields:
+              keyword: string
+              value: string
+              displayOn: string
+          fields:
+            keyword: string
+            value: string
+            displayOn: string
+          paymentMethod: string
+          expiration: '2019-08-24T14:15:22Z'
+          returnUrl: string
+          cancelUrl: string
+          ipAddress: string
+          userAgent: string
+          skipResult: true
+          noBuyerFill: true
+    Autentication:
+      description: ''
+      type: object
+      title: Autentication
+      properties:
+        login:
+          type: string
+          minLength: 1
+          description: |
+            Identificador del sitio.
+        tranKey:
+          type: string
+          minLength: 1
+          description: 'Llave transaccional, que está formada por la siguiente operación: Base64(SHA-1(nonce + seed + secretkey)). El nonce dentro de la operación es el original, es decir, el que no está en Base64.'
+        nonce:
+          type: string
+          minLength: 1
+          description: |
+            Valor aleatorio para cada solicitud codificado en Base64.
+        seed:
+          type: string
+          minLength: 1
+          description: |
+            Fecha actual, la cual se genera en formato ISO 8601.
+      required:
+        - login
+        - tranKey
+        - nonce
+        - seed
+    Status:
+      description: |
+        Estructura que contiene la información de la respuesta sobre una solicitud o pago, e informa el estado actual de la misma.
+      type: object
+      properties:
+        status:
+          type: string
+          minLength: 1
+          description: Estado de una petición o pago
+        reason:
+          type: string
+          description: |
+            Código del motivo proporcionado.
+        message:
+          type: string
+          minLength: 1
+          description: |
+            Descripción del código de razón.
+        date:
+          type: string
+          minLength: 1
+          format: date-time
+          description: |
+            Fecha y hora en que se genera el estado de pago.
+      required:
+        - status
+        - reason
+        - message
+        - date
+    Transaction:
+      title: Transaction
+      type: object
+      description: |
+        Estructura que contiene información sobre el proceso de pago de la transacción en PlacetoPay.
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        internalReference:
+          type: integer
+          description: |
+            Referencia interna en PlacetoPay.
+        reference:
+          type: string
+          description: |
+            Referencia enviada por el comercio para la transacción.
+        paymentMethod:
+          type: string
+          description: |
+            Código del método de pago utilizado.
+        paymentMethodName:
+          type: string
+          description: |
+            Nombre del método de pago utilizado.
+        issuerName:
+          type: string
+          description: |
+            Nombre del emisor o del procesador.
+        amount:
+          $ref: '#/components/schemas/AmountConversion'
+        receipt:
+          type: string
+          description: |
+            Numero de recibo de la transacción.
+        franchise:
+          type: string
+          description: |
+            Franquicia de la tarjeta utilizada.
+        refunded:
+          type: boolean
+        authorization:
+          type: string
+          description: |
+            Código de autorización.
+        processorFields:
+          $ref: '#/components/schemas/NameValuePair'
+      required:
+        - status
+    AmountConversion:
+      title: AmountConversion
+      type: object
+      description: |
+        Estructura para definir el factor de conversión y los valores.
+      properties:
+        from:
+          $ref: '#/components/schemas/AmountBase'
+        to:
+          $ref: '#/components/schemas/AmountBase'
+        factor:
+          type: string
+    AmountBase:
+      title: AmountBase
+      type: object
+      description: |
+        Estructura que representa una cantidad que define la moneda y el total.
+      properties:
+        'currency ':
+          type: string
+          description: |
+            Moneda acorde al ISO 4217 (alphabetic code).
+        'total ':
+          type: number
+          description: |
+            Valor total.
+    SubscriptionResponse:
+      title: SubscriptionResponse
+      type: object
+      description: |
+        Estructura que contiene información para el método de pago suscripción.
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        type:
+          type: string
+          description: |
+            Esta cadena dicta el tipo de suscripción que se devuelve, puede ser [token, cuenta]
+        instrument:
+          $ref: '#/components/schemas/NameValuePair'
+      required:
+        - status
+    RedirectInformation:
+      title: RedirectInformation
+      type: object
+      description: |
+        Estructura de respuesta a una solicitud para una información de transacción.
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        request:
+          $ref: '#/components/schemas/RedirectRequest'
+        payment:
+          $ref: '#/components/schemas/Transaction'
+        subscription:
+          $ref: '#/components/schemas/SubscriptionResponse'
+    ReverseResponse:
+      title: ReverseResponse
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        payment:
+          $ref: '#/components/schemas/PaymentRequest'
+      description: |
+        Estructura de respuesta a una solicitud de pago reversado.
+    Instrument:
+      title: Instrument
+      type: object
+      description: |
+        Estructura que contiene los detalles de un medio de pago suscrito.
+      properties:
+        token:
+          $ref: '#/components/schemas/SimpleToken'
+    SimpleToken:
+      title: SimpleToken
+      type: object
+      description: |
+        Estructura que contiene los detalles de un token previamente obtenido mediante un proceso de suscripción, se debe enviar el token o el subtoken en los casos que se habilite, no es necesario enviar ambos.
+      properties:
+        token:
+          type: string
+          description: |
+            Token completo para tarjeta de crédito, debe ser usada para solicitar cualquier transacción a PlacetoPay.
+        subtoken:
+          type: string
+          description: |
+            Representación numérica del Token para casos donde es requerido un número adicional que parece como una tarjeta de crédito, los últimos 4 dígitos son iguales a los últimos 4 dígitos de la tarjeta de crédito.
+        installments:
+          type: integer
+          description: |
+            Número de cuotas en las cuales se solicita el cobro (opcional).
+        cvv:
+          type: string
+          description: |
+            Dígitos del código de seguridad de la tarjeta a usar en los casos en los que sea necesario, generalmente se deja en blanco si se tiene una terminal sin validación de CVV.
+    CollectRequest:
+      title: CollectRequest
+      type: object
+      description: |
+        Permite realizar cobros sin la intervención del usuario usando medios de pago previamente suscritos.
+      properties:
+        payer:
+          $ref: '#/components/schemas/Person'
+        payment:
+          $ref: '#/components/schemas/PaymentRequest'
+        instrument:
+          $ref: '#/components/schemas/Instrument'
+      required:
+        - payer
+        - payment
+        - instrument
+  securitySchemes: {}
