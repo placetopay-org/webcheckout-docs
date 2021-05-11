@@ -340,6 +340,7 @@ components:
     Person:
       description: Estructura que refleja la información de una persona involucrada en una transacción.
       type: object
+      title: Person
       properties:
         document:
           type: string
@@ -380,22 +381,6 @@ components:
             country:
               type: string
               minLength: 1
-          required:
-            - street
-            - city
-            - state
-            - postalCode
-            - country
-      required:
-        - document
-        - documentType
-        - name
-        - surname
-        - company
-        - email
-        - mobile
-        - address
-      title: Person
     PaymentRequest:
       title: PaymentRequest
       type: object
