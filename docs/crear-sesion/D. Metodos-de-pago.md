@@ -17,7 +17,7 @@ Valor | Descripción
  `discover` | Tarjetas  DISCOVER
  `visa_electron` | Tarjetas debito VISA ELECTRON
  `ATHMV` | ATH Movil (Solo aplica para Puerto Rico)
-  `EBATH` | ATH Movil (Solo aplica para Puerto Rico)
+  `EBATH` | ATH débito (Solo aplica para Puerto Rico)
  `pse` | PSE (Solo aplica para Colombia) | 
   
 
