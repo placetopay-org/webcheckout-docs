@@ -237,8 +237,7 @@ paths:
                   skipResult: false
                   noBuyerFill: false
         description: ''
-      description: |
-        Solicita la creación de la sesión (de tipo payment o subscription), retorna el identificador y la URL de procesamiento.
+      description: 'Solicita la creación de la sesión (de tipo payment o subscription), retorna el identificador y la URL de procesamiento.'
       x-internal: false
     parameters: []
   '/api/session/{requestId}':
@@ -335,6 +334,24 @@ paths:
               $ref: '#/components/schemas/CollectRequest'
       description: |
         Permite realizar cobros sin la intervención del usuario usando medios de pago previamente suscritos.
+      x-internal: false
+  /api/transaction:
+    post:
+      summary: ''
+      operationId: post-api-transaction
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRequest'
+      description: 'Permite realizar operaciones básicas de preauthorización como CHECKOUT, REAUTHORIZATION y REVERSE, por otro lado también permite revertir un pago aprobado con el código de referencia interna.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionActionRequest'
 components:
   schemas:
     Person:
@@ -580,52 +597,6 @@ components:
       type: object
       description: |
         Estructura que contiene toda la información acerca de la transacción para ser procesada.
-      properties:
-        locale:
-          type: string
-          description: |
-            Definido con los códigos ISO 631-1 (language) y ISO 3166-1 alpha-2 (2-letras del país). ej. en_US, es_CO
-        payer:
-          $ref: '#/components/schemas/Person'
-        buyer:
-          $ref: '#/components/schemas/Person'
-        payment:
-          $ref: '#/components/schemas/PaymentRequest'
-        subscription:
-          $ref: '#/components/schemas/SubscriptionRequest'
-        fields:
-          $ref: '#/components/schemas/NameValuePair'
-        paymentMethod:
-          type: string
-          description: |
-            Forzar el medio de pago en la interfaz de redirección, los códigos aceptados son los de la lista. Si necesita más de uno separarlos con coma. ej. visa,amex,master
-        expiration:
-          type: string
-          format: date-time
-          description: |
-            Fecha de expiración de una solicitud, el usuario debe terminar el proceso antes de esta fecha. 
-        returnUrl:
-          type: string
-          description: |
-            URL de retorno es utilizada para redirigir al usuario una vez termina la operación de pago.
-        cancelUrl:
-          type: string
-          description: |
-            URL para retornar cuando el cliente aborte la operación.
-        ipAddress:
-          type: string
-          description: |
-            Dirección IP del usuario.
-        userAgent:
-          type: string
-        skipResult:
-          type: boolean
-          description: |
-            Si se envía el parámetro como true se omite la pantalla del resultado en redirección y una vez aprobado el pago regresa al comercio automaticamente.
-        noBuyerFill:
-          type: boolean
-          description: |
-            Por defecto se llenan los datos que se piden en redirección con los del comprador (buyer) enviados, si se envía como true se omite este autocompletado automático.
       x-examples:
         example-1:
           locale: string
@@ -723,6 +694,55 @@ components:
           userAgent: string
           skipResult: true
           noBuyerFill: true
+      properties:
+        locale:
+          type: string
+          description: |
+            Definido con los códigos ISO 631-1 (language) y ISO 3166-1 alpha-2 (2-letras del país). ej. en_US, es_CO
+        payer:
+          $ref: '#/components/schemas/Person'
+        buyer:
+          $ref: '#/components/schemas/Person'
+        payment:
+          $ref: '#/components/schemas/PaymentRequest'
+        subscription:
+          $ref: '#/components/schemas/SubscriptionRequest'
+        fields:
+          $ref: '#/components/schemas/NameValuePair'
+        paymentMethod:
+          type: string
+          description: |
+            Forzar el medio de pago en la interfaz de redirección, los códigos aceptados son los de la lista. Si necesita más de uno separarlos con coma. ej. visa,amex,master
+        expiration:
+          type: string
+          format: date-time
+          description: |
+            Fecha de expiración de una solicitud, el usuario debe terminar el proceso antes de esta fecha. 
+        returnUrl:
+          type: string
+          description: |
+            URL de retorno es utilizada para redirigir al usuario una vez termina la operación de pago.
+        cancelUrl:
+          type: string
+          description: |
+            URL para retornar cuando el cliente aborte la operación.
+        ipAddress:
+          type: string
+          description: |
+            Dirección IP del usuario.
+        userAgent:
+          type: string
+        skipResult:
+          type: boolean
+          description: |
+            Si se envía el parámetro como true se omite la pantalla del resultado en redirección y una vez aprobado el pago regresa al comercio automaticamente.
+        noBuyerFill:
+          type: boolean
+          description: |
+            Por defecto se llenan los datos que se piden en redirección con los del comprador (buyer) enviados, si se envía como true se omite este autocompletado automático.
+        type:
+          type: string
+          description: crear una sesión de tipo checkin
     Autentication:
       description: ''
       type: object
@@ -941,4 +961,46 @@ components:
         - payer
         - payment
         - instrument
+    TransactionActionRequest:
+      title: TransactionActionRequest
+      type: object
+      description: 'Estructura que permite realizar solicitudes de preauthorización como CHECKOUT, REAUTHORIZATION y REVERSE'
+      x-examples:
+        checkout example:
+          internalReference: 1
+          amount:
+            currency: USD
+            total: 100
+          action: checkout
+        reauthorization example:
+          internalReference: 1
+          amount:
+            currency: USD
+            total: 100
+          action: reauthorization
+        reverse example:
+          internalReference: 1
+          action: reverse
+      properties:
+        internalReference:
+          type: integer
+        amount:
+          $ref: '#/components/schemas/Amount'
+        action:
+          type: string
+          example: checkout
+      required:
+        - internalReference
+        - action
+    DirectResponse:
+      title: DirectResponse
+      type: object
+      description: Estructura que contiene los detalles de del transacción
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        internalReference:
+          type: integer
+        reference:
+          type: string
   securitySchemes: {}
