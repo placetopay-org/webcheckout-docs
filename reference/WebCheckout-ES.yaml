@@ -17,7 +17,7 @@ info:
   contact:
     url: 'https://www.placetopay.com/web/contactanos/'
 servers:
-  - description: SandBox Colombia, Puerto Rico, Costa Rica, Panamá
+  - description: 'SandBox Colombia, Puerto Rico, Costa Rica, Panamá'
     url: 'https://test.placetopay.com/redirection'
   - url: 'https://test.placetopay.ec/redirection'
     description: SandBox Ecuador
@@ -598,102 +598,47 @@ components:
       description: |
         Estructura que contiene toda la información acerca de la transacción para ser procesada.
       x-examples:
-        example-1:
-          locale: string
+        'Crear sesión básica ':
+          locale: es_CO
           payer:
-            document: string
-            documentType: string
-            name: string
-            surname: string
-            company: string
-            email: string
-            mobile: string
-            address:
-              street: string
-              city: string
-              state: string
-              postalCode: string
-              country: string
-          buyer:
-            document: string
-            documentType: string
-            name: string
-            surname: string
-            company: string
-            email: string
-            mobile: string
-            address:
-              street: string
-              city: string
-              state: string
-              postalCode: string
-              country: string
+            name: Diego
+            surname: osorio
+            email: diego.calle4@placetopay.com
+            documentType: CC
+            document: '1036949824'
+            mobile: '3102903560'
           payment:
-            reference: string
-            description: string
+            reference: '331122'
+            description: Pago básico de ejemplo
             amount:
-              currency: string
-              total: string
-              taxes:
-                kind: string
-                amount: 0
-              details:
-                kind: string
-                amount: 0
-            allowPartial: true
-            shipping:
-              document: string
-              documentType: string
-              name: string
-              surname: string
-              company: string
-              email: string
-              mobile: string
-              address:
-                street: string
-                city: string
-                state: string
-                postalCode: string
-                country: string
-            items:
-              item:
-                sku: string
-                name: string
-                category: string
-                qty: string
-                price: 0
-                tax: 0
-            fields:
-              keyword: string
-              value: string
-              displayOn: string
-            recurring:
-              periodicity: string
-              interval: string
-              nextPayment: '2019-08-24'
-              maxPeriods: null
-              'dueDate ': '2019-08-24'
-              'notificationUrl ': string
-            subscribe: true
-          subscription:
-            reference: string
-            description: string
-            fields:
-              keyword: string
-              value: string
-              displayOn: string
-          fields:
-            keyword: string
-            value: string
-            displayOn: string
-          paymentMethod: string
-          expiration: '2019-08-24T14:15:22Z'
-          returnUrl: string
-          cancelUrl: string
-          ipAddress: string
-          userAgent: string
-          skipResult: true
-          noBuyerFill: true
+              currency: USD
+              total: 100
+            allowPartial: false
+          expiration: '2021-06-31T00:00:00-05:00'
+          returnUrl: 'https://mysite.com/response/3210'
+          ipAddress: 127.0.0.1
+          userAgent: PlacetoPay Sandbox
+        Crear sesión checkin:
+          locale: es_CO
+          type: checkin
+          payer:
+            name: Diego
+            surname: osorio
+            email: diego.calle4@placetopay.com
+            documentType: CC
+            document: '1036949824'
+            mobile: '3102903560'
+          payment:
+            reference: '331122'
+            description: Pago básico de ejemplo
+            amount:
+              currency: USD
+              total: 100
+            allowPartial: false
+          expiration: '2021-06-31T00:00:00-05:00'
+          returnUrl: 'https://mysite.com/response/3210'
+          ipAddress: 127.0.0.1
+          userAgent: PlacetoPay Sandbox
       properties:
         locale:
           type: string
