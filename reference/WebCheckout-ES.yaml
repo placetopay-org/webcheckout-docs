@@ -17,7 +17,7 @@ info:
   contact:
     url: 'https://www.placetopay.com/web/contactanos/'
 servers:
-  - description: SandBox Colombia, Puerto Rico, Costa Rica, Panamá
+  - description: 'SandBox Colombia, Puerto Rico, Costa Rica, Panamá'
     url: 'https://test.placetopay.com/redirection'
   - url: 'https://test.placetopay.ec/redirection'
     description: SandBox Ecuador
@@ -237,8 +237,7 @@ paths:
                   skipResult: false
                   noBuyerFill: false
         description: ''
-      description: |
-        Solicita la creación de la sesión (de tipo payment o subscription), retorna el identificador y la URL de procesamiento.
+      description: 'Solicita la creación de la sesión (de tipo payment o subscription), retorna el identificador y la URL de procesamiento.'
       x-internal: false
     parameters: []
   '/api/session/{requestId}':
@@ -335,6 +334,24 @@ paths:
               $ref: '#/components/schemas/CollectRequest'
       description: |
         Permite realizar cobros sin la intervención del usuario usando medios de pago previamente suscritos.
+      x-internal: false
+  /api/transaction:
+    post:
+      summary: ''
+      operationId: post-api-transaction
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRequest'
+      description: 'Permite realizar operaciones básicas de preauthorización como CHECKOUT, REAUTHORIZATION y REVERSE, por otro lado también permite revertir un pago aprobado con el código de referencia interna.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionActionRequest'
 components:
   schemas:
     Person:
@@ -580,6 +597,48 @@ components:
       type: object
       description: |
         Estructura que contiene toda la información acerca de la transacción para ser procesada.
+      x-examples:
+        'Crear sesión básica ':
+          locale: es_CO
+          payer:
+            name: Diego
+            surname: osorio
+            email: diego.calle4@placetopay.com
+            documentType: CC
+            document: '1036949824'
+            mobile: '3102903560'
+          payment:
+            reference: '331122'
+            description: Pago básico de ejemplo
+            amount:
+              currency: USD
+              total: 100
+            allowPartial: false
+          expiration: '2021-06-31T00:00:00-05:00'
+          returnUrl: 'https://mysite.com/response/3210'
+          ipAddress: 127.0.0.1
+          userAgent: PlacetoPay Sandbox
+        Crear sesión checkin:
+          locale: es_CO
+          type: checkin
+          payer:
+            name: Diego
+            surname: osorio
+            email: diego.calle4@placetopay.com
+            documentType: CC
+            document: '1036949824'
+            mobile: '3102903560'
+          payment:
+            reference: '331122'
+            description: Pago básico de ejemplo
+            amount:
+              currency: USD
+              total: 100
+            allowPartial: false
+          expiration: '2021-06-31T00:00:00-05:00'
+          returnUrl: 'https://mysite.com/response/3210'
+          ipAddress: 127.0.0.1
+          userAgent: PlacetoPay Sandbox
       properties:
         locale:
           type: string
@@ -626,103 +685,9 @@ components:
           type: boolean
           description: |
             Por defecto se llenan los datos que se piden en redirección con los del comprador (buyer) enviados, si se envía como true se omite este autocompletado automático.
-      x-examples:
-        example-1:
-          locale: string
-          payer:
-            document: string
-            documentType: string
-            name: string
-            surname: string
-            company: string
-            email: string
-            mobile: string
-            address:
-              street: string
-              city: string
-              state: string
-              postalCode: string
-              country: string
-          buyer:
-            document: string
-            documentType: string
-            name: string
-            surname: string
-            company: string
-            email: string
-            mobile: string
-            address:
-              street: string
-              city: string
-              state: string
-              postalCode: string
-              country: string
-          payment:
-            reference: string
-            description: string
-            amount:
-              currency: string
-              total: string
-              taxes:
-                kind: string
-                amount: 0
-              details:
-                kind: string
-                amount: 0
-            allowPartial: true
-            shipping:
-              document: string
-              documentType: string
-              name: string
-              surname: string
-              company: string
-              email: string
-              mobile: string
-              address:
-                street: string
-                city: string
-                state: string
-                postalCode: string
-                country: string
-            items:
-              item:
-                sku: string
-                name: string
-                category: string
-                qty: string
-                price: 0
-                tax: 0
-            fields:
-              keyword: string
-              value: string
-              displayOn: string
-            recurring:
-              periodicity: string
-              interval: string
-              nextPayment: '2019-08-24'
-              maxPeriods: null
-              'dueDate ': '2019-08-24'
-              'notificationUrl ': string
-            subscribe: true
-          subscription:
-            reference: string
-            description: string
-            fields:
-              keyword: string
-              value: string
-              displayOn: string
-          fields:
-            keyword: string
-            value: string
-            displayOn: string
-          paymentMethod: string
-          expiration: '2019-08-24T14:15:22Z'
-          returnUrl: string
-          cancelUrl: string
-          ipAddress: string
-          userAgent: string
-          skipResult: true
-          noBuyerFill: true
+        type:
+          type: string
+          description: crear una sesión de tipo checkin
     Autentication:
       description: ''
       type: object
@@ -941,4 +906,46 @@ components:
         - payer
         - payment
         - instrument
+    TransactionActionRequest:
+      title: TransactionActionRequest
+      type: object
+      description: 'Estructura que permite realizar solicitudes de preauthorización como CHECKOUT, REAUTHORIZATION y REVERSE'
+      x-examples:
+        checkout example:
+          internalReference: 1
+          amount:
+            currency: USD
+            total: 100
+          action: checkout
+        reauthorization example:
+          internalReference: 1
+          amount:
+            currency: USD
+            total: 100
+          action: reauthorization
+        reverse example:
+          internalReference: 1
+          action: reverse
+      properties:
+        internalReference:
+          type: integer
+        amount:
+          $ref: '#/components/schemas/Amount'
+        action:
+          type: string
+          example: checkout
+      required:
+        - internalReference
+        - action
+    DirectResponse:
+      title: DirectResponse
+      type: object
+      description: Estructura que contiene los detalles de del transacción
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        internalReference:
+          type: integer
+        reference:
+          type: string
   securitySchemes: {}
