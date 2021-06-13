@@ -26,7 +26,12 @@
       "title": "WebCheckout",
       "uri": "reference/WebCheckout-ES.yaml"
     },
-
+    
+{
+      "type": "item",
+      "title": "Notificación",
+      "uri": "docs/Notificacion.md"
+    },
     {
       "type": "item",
       "title": "Tipos de pago",
@@ -56,7 +61,14 @@
       "type": "item",
       "title": "Métodos de pago",
       "uri": "docs/crear-sesion/D. Metodos-de-pago.md"
+    },
+    {
+      "type": "item",
+      "title": "Prueba tu integración",
+      "uri": "docs/Prueba-tu-integracion.md"
     }
+
+    
  
    
    
