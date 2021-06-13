@@ -23,7 +23,11 @@ Código| Tipo de documento | Regla de validación
  TAX | TAX | `'/^[a-zA-Z0-9_]{4,16}$/'`
  LIC | Labeler Identification Code | `'/^[a-zA-Z0-9_]{4,16}$/'`
 
-### Colombia
+### Puerto Rico (PR)
+
+Para integraciones en este país no se realiza el envío de `DocumentType` ni del `Document`
+
+### Colombia (CO)
 
 Código| Tipo de documento | Regla de validación
 ---------|---------- |----------
@@ -33,15 +37,14 @@ Código| Tipo de documento | Regla de validación
  NIT | Número de Identificación Tributaria|` '/^[1-9]\d{6,9}$/'`
  RUT | Registro único tributario| `'/^[1-9]\d{6,9}$/'`
  
-### Ecuador
-
+### Ecuador (EC)
 Código| Tipo de documento | Regla de validación
 ---------|----------|---------
  CI | Cédula de identidad|`'/^\d{10}$/'`
  RUC | Registro Único de Contribuyentes|`'/^\d{13}$/'`
  
 
-### Costa Rica
+### Costa Rica (CR)
 
 Código| Tipo de documento | Regla de validación
 ---------|----------|------------
@@ -50,27 +53,27 @@ Código| Tipo de documento | Regla de validación
  DIMEX | DIMEX- Docuemnto de identificación de Migración y Extranjería|`'/^[1-9][0-9]{10,11}$/'`
   DIDI | DIDI - Docuemnto de identificación de diplomáticos|`'/^[1-9][0-9]{10,11}$/'`
 
-### Chile
+### Chile (CL)
 
 Código| Tipo de documento | Regla de validación
 ---------|----------|------------
  CLRUT | Cédula personal física |`'/^(\d{1,2}(?:\.?\d{1,3}){2}-[\dkK])$/'`
 
 
-### Panamá
+### Panamá (PA)
 
 Código| Tipo de documento| Regla de validación
 ---------|----------|------------
  CIP | Cédula de identidad personal| `/^(N,E,PE\d+)?\d{2,6}\d{2,6}$/`
 
- ### Brasil
+ ### Brasil (BR)
 
  Código| Tipo de documento| Regla de validación
 ---------|----------|------------
  CPF | Cadastro de Pessoas Físicas|`'/^\d{10,11}$/'`
 
 
- ### Perú 
+ ### Perú (PE)
 
   Código| Tipo de documento| Regla de validación
 ---------|----------|------------

@@ -34,6 +34,11 @@
     },
      {
       "type": "item",
+      "title": "Seguridad",
+      "uri": "docs/Seguridad.md"
+    },
+     {
+      "type": "item",
       "title": "Suscripción",
       "uri": "docs/crear-sesion/F.-Suscripcion.md"
     },

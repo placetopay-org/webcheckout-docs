@@ -17,7 +17,7 @@ info:
   contact:
     url: 'https://www.placetopay.com/web/contactanos/'
 servers:
-  - description: SandBox Colombia, Puerto Rico, Costa Rica, Panamá
+  - description: 'SandBox Colombia, Puerto Rico, Costa Rica, Panamá'
     url: 'https://test.placetopay.com/redirection'
   - url: 'https://test.placetopay.ec/redirection'
     description: SandBox Ecuador
@@ -348,6 +348,7 @@ components:
         documentType:
           type: string
           minLength: 1
+          description: NO USADO EN PUERTO RICO
         name:
           type: string
           minLength: 1
