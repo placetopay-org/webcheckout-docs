@@ -346,7 +346,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentRequest'
-      description: 'Permite realizar operaciones básicas de preauthorización como CHECKOUT, REAUTHORIZATION y REVERSE, por otro lado también permite revertir un pago aprobado con el código de referencia interna.'
+      description: 'Permite realizar operaciones básicas de preauthorización como CHECKOUT, REAUTHORIZATION (No aplica para Puerto Rico) y REVERSE, por otro lado también permite revertir un pago aprobado con el código de referencia interna.'
       requestBody:
         content:
           application/json:
