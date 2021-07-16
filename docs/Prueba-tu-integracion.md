@@ -37,10 +37,10 @@ Visa Electron (Debit card)|	4027390000000006 | Cualquiera (3 digitos) | Cualquie
 Visa Electron (Debit card)|	4215440000000001 | Cualquiera (3 digitos) | Cualquier fecha futura |	Rechaza
 Codensa	|5907120000000009 | Cualquiera (3 digitos) | Cualquier fecha futura |	Rechaza
 Tarjeta RIS	| 6372000000000007 | N/A | N/A |	Rechaza
-ATH| 0215020177972730  | Cualquiera (3 digitos) | Cualquier fecha futura | Aprueba.
-ATH| 2215714777972730  | Cualquiera (3 digitos) | Cualquier fecha futura | Aprueba.
-ATH| 2215716999194052  | Cualquiera (3 digitos) | Cualquier fecha futura | Deja la operación pendiente pero cuando se consulta cambia a aprobada.
-ATH| 0215025888083941  | Cualquiera (3 digitos) | Cualquier fecha futura | Deja la operación Pendiente pero cuando se consulta se mantiene en pendiente.
-ATH| 0215027111105163  | Cualquiera (3 digitos) | Cualquier fecha futura | Deja la operación Pendiente pero cuando se consulta cambia a rechazada.
-ATH| 0215026116775785  | Cualquiera (3 digitos) | Cualquier fecha futura | Rechazada.
-ATH| 2215719446775653  | Cualquiera (3 digitos) | Cualquier fecha futura | Rechazada.
+ATH (Solo Puerto Rico)| 0215020177972730  | Cualquiera (3 digitos) | Cualquier fecha futura | Aprueba.
+ATH (Solo Puerto Rico)| 2215714777972730  | Cualquiera (3 digitos) | Cualquier fecha futura | Aprueba.
+ATH (Solo Puerto Rico)| 2215716999194052  | Cualquiera (3 digitos) | Cualquier fecha futura | Deja la operación pendiente pero cuando se consulta cambia a aprobada.
+ATH (Solo Puerto Rico)| 0215025888083941  | Cualquiera (3 digitos) | Cualquier fecha futura | Deja la operación Pendiente pero cuando se consulta se mantiene en pendiente.
+ATH (Solo Puerto Rico)| 0215027111105163  | Cualquiera (3 digitos) | Cualquier fecha futura | Deja la operación Pendiente pero cuando se consulta cambia a rechazada.
+ATH (Solo Puerto Rico)| 0215026116775785  | Cualquiera (3 digitos) | Cualquier fecha futura | Rechazada.
+ATH (Solo Puerto Rico)| 2215719446775653  | Cualquiera (3 digitos) | Cualquier fecha futura | Rechazada.
