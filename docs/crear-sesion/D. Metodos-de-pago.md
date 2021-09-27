@@ -10,15 +10,38 @@ Al momento de crear una sesión puedes limitar los medios de pagos, de esa forma
 
 Valor | Descripción 
 ---------|----------
- `visa` | Tarjetas  VISA  
- `master` | Tarjetas  MASTERCARD
- `amex` | Tarjetas  AMERICAN EXPRESS
- `diners` | Tarjetas  DINERS
- `discover` | Tarjetas  DISCOVER
- `visa_electron` | Tarjetas debito VISA ELECTRON
- `ATHMV` | ATH Movil (Solo aplica para Puerto Rico)
-  `EBATH` | ATH débito (Solo aplica para Puerto Rico)
- `pse` | PSE (Solo aplica para Colombia) | 
+visa | Tarjetas  VISA  
+master | Tarjetas  MASTERCARD
+amex | Tarjetas  AMERICAN EXPRESS
+diners | Tarjetas  DINERS
+discover | Tarjetas  DISCOVER
+visa_electron | Tarjetas debito VISA ELECTRON
+_ATH_ | Corresponsales bancarios Grupo Aval
+_PPD_ | Débito pre-autorizado (PPD)
+_PSE_ | Débito a cuentas corrientes y ahorros (PSE
+AC_WU | Western Union
+ATHMV | ATH Móvil
+AV_AV | Banco AV Villas Recaudos
+AV_BB | Banco de Bogota Recaudos
+AV_BO | Banco de Occidente Recaudos
+BBVAC | BBVA Colombia Oficinas y corresponsales
+BTNBC | Bancolombia
+CAFAM | Cafam
+CDNSA | Codensa
+CMFDI | Comfandi
+DBTAC | Registro cuentas débito
+DVVND | Davivienda Oficinas y corresponsales
+EBATH | Tarjeta ATH
+EFCTY | Efecty
+GNOFC | Gana Recaudo en Oficina
+GNPIN | GanaPIN
+PYPAL | PayPal
+SFPAY | Safety Pay
+SOMOS | Somos Grupo EPM
+SPGRS | Supergiros
+T1_BC | Bancolombia Recaudos
+TYDAK | Tarjeta Alkosto
+TYDEX | Tarjeta Éxito
   
 
 ```json
