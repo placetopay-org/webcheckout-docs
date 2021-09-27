@@ -13,7 +13,9 @@ info:
     * **Funciones adicionales:** Impuestos, pagos mixtos, suscripciones, cobros recurrentes, promociones y más. 
 
     **Importante:** El API de WebCheckOut está basado en REST. Para hacer uso de este servicio es necesario que tu sistema soporte comunicación con la versión 1.2 del protocolo TLS.
-  license: {}
+  license:
+    name: MIT
+    url: 'https://www.tldrlegal.com/l/mit'
   contact:
     url: 'https://www.placetopay.com/web/contactanos/'
 servers:
@@ -77,6 +79,23 @@ paths:
                   - status
                   - requestId
                   - processUrl
+              examples:
+                Successful:
+                  value:
+                    status:
+                      status: OK
+                      reason: PC
+                      message: La petición se ha procesado correctamente
+                      date: '2021-06-10T11:00:06-05:00'
+                    requestId: 1814144
+                    processUrl: 'https://test.placetopay.com/redirection/session/1814144/66cf23ca0ff1cb75dc29b4e62f4c0747'
+                Failed:
+                  value:
+                    status:
+                      status: FAILED
+                      reason: 401
+                      message: Autenticación fallida 101
+                      date: '2021-06-10T11:00:41-05:00'
           headers: {}
         '401':
           description: Unauthorized
@@ -120,12 +139,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              type: object
-              properties:
-                auth:
-                  $ref: '#/components/schemas/Autentication'
-                '':
-                  $ref: '#/components/schemas/RedirectRequest'
+              $ref: '#/components/schemas/RedirectRequest'
             examples:
               Pago:
                 value:
@@ -346,7 +360,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentRequest'
-      description: 'Permite realizar operaciones básicas de preauthorización como CHECKOUT, REAUTHORIZATION y REVERSE, por otro lado también permite revertir un pago aprobado con el código de referencia interna.'
+      description: 'Permite realizar operaciones básicas sobre una transacción como CHECKOUT, REAUTHORIZATION y REVERSE, por otro lado también permite revertir un pago aprobado con el código de referencia interna.'
       requestBody:
         content:
           application/json:
@@ -440,7 +454,8 @@ components:
         currency:
           type: string
         total:
-          type: string
+          type:
+            - number
         taxes:
           $ref: '#/components/schemas/TaxDetail'
         details:
@@ -596,11 +611,16 @@ components:
       title: RedirectRequest
       type: object
       description: |
-        Estructura que contiene toda la información acerca de la transacción para ser procesada.
+        Estructura que contiene toda la información acerca de la solucitud de operación a ser procesada.
       x-examples:
         'Crear sesión básica ':
+          auth:
+            login: login prueba
+            tranKey: WG4Y08Qupy5K7P4SpI0vda2UrnU=
+            nonce: TWpjNFlUTmpaRFF4Wm1FM1lXTXlNMkZqTmpkbFpEUTJaVFZpWm1JNVkyVT0=
+            seed: '2021-06-10T11:03:38-05:00'
           locale: es_CO
-          payer:
+          buyer:
             name: Diego
             surname: osorio
             email: diego.calle4@placetopay.com
@@ -617,11 +637,16 @@ components:
           expiration: '2021-06-31T00:00:00-05:00'
           returnUrl: 'https://mysite.com/response/3210'
           ipAddress: 127.0.0.1
-          userAgent: PlacetoPay Sandbox
+          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36'
         Crear sesión checkin:
+          auth:
+            login: login prueba
+            tranKey: WG4Y08Qupy5K7P4SpI0vda2UrnU=
+            nonce: TWpjNFlUTmpaRFF4Wm1FM1lXTXlNMkZqTmpkbFpEUTJaVFZpWm1JNVkyVT0=
+            seed: '2021-06-10T11:03:38-05:00'
           locale: es_CO
           type: checkin
-          payer:
+          buyer:
             name: Diego
             surname: osorio
             email: diego.calle4@placetopay.com
@@ -638,8 +663,23 @@ components:
           expiration: '2021-06-31T00:00:00-05:00'
           returnUrl: 'https://mysite.com/response/3210'
           ipAddress: 127.0.0.1
-          userAgent: PlacetoPay Sandbox
+          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36'
+        Solicitar suscripción:
+          auth:
+            login: login prueba
+            tranKey: WG4Y08Qupy5K7P4SpI0vda2UrnU=
+            nonce: TWpjNFlUTmpaRFF4Wm1FM1lXTXlNMkZqTmpkbFpEUTJaVFZpWm1JNVkyVT0=
+            seed: '2021-06-10T11:03:38-05:00'
+          subscription:
+            reference: TEST_20210610_105959
+            description: Qui dicta expedita distinctio iure eius harum pariatur.
+          expiration: '2021-06-11T10:59:59-05:00'
+          ipAddress: 191.88.134.106
+          returnUrl: 'https://dnetix.co/p2p/client'
+          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36'
       properties:
+        auth:
+          $ref: '#/components/schemas/Autentication'
         locale:
           type: string
           description: |
@@ -688,6 +728,12 @@ components:
         type:
           type: string
           description: crear una sesión de tipo checkin
+      required:
+        - auth
+        - expiration
+        - returnUrl
+        - ipAddress
+        - userAgent
     Autentication:
       description: ''
       type: object
