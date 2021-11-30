@@ -26,114 +26,6 @@ paths:
     post:
       summary: Crear sesión (CreateRequest)
       operationId: post-api-session
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  status:
-                    type: object
-                    description: |
-                      Estado de esta solicitud
-                    required:
-                      - status
-                      - reason
-                      - message
-                      - date
-                    properties:
-                      status:
-                        type: string
-                        minLength: 1
-                        description: 'Estado proporcionado, podría ser uno de esos: [OK, FAILED, APPROVED, APPROVED_PARTIAL, PARTIAL_EXPIRED, REJECTED, PENDING, PENDING_VALIDATION, REFUNDED, MANUAL]'
-                      reason:
-                        type: string
-                        minLength: 1
-                        description: |
-                          Código de motivo proporcionado
-                      message:
-                        type: string
-                        minLength: 1
-                        description: |
-                          Descripción del código de razón
-                      date:
-                        type: string
-                        minLength: 1
-                        description: |
-                          Fecha y hora de este estado
-                  requestId:
-                    type: number
-                    description: |
-                      Referencia única de esta sesión
-                  processUrl:
-                    type: string
-                    minLength: 1
-                    description: |
-                      URL para redireccionar el cliente para completar el proceso
-                required:
-                  - status
-                  - requestId
-                  - processUrl
-              examples:
-                Respuesta:
-                  value:
-                    status:
-                      status: OK
-                      reason: PC
-                      message: La petición se ha procesado correctamente
-                      date: '2021-11-30T14:48:38-05:00'
-                    requestId: 156
-                    processUrl: 'https://checkout-co.placetopay.dev/session/1/defc692b2de1c72b0811c3d5b6444bae'
-          headers: {}
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  status:
-                    type: object
-                    required:
-                      - status
-                      - reason
-                      - message
-                      - date
-                    description: 'Estructura que contiene la información sobre una solicitud o pago, informa al estado actual de la misma.'
-                    properties:
-                      status:
-                        type: string
-                        minLength: 1
-                        description: |
-                          Estado proporcionado, podría ser uno de esos: [OK, FAILED, APPROVED, APPROVED_PARTIAL, PARTIAL_EXPIRED, REJECTED, PENDING, PENDING_VALIDATION, REFUNDED, MANUAL]
-                      reason:
-                        type: number
-                        description: |
-                          Código de motivo proporcionado
-                      message:
-                        type: string
-                        minLength: 1
-                        description: |
-                          Descripción del código de razón
-                      date:
-                        type: string
-                        minLength: 1
-                        description: |
-                          Fecha y hora de este estado
-                required:
-                  - status
-              examples:
-                Respuesta:
-                  value:
-                    status:
-                      status: FAILED
-                      reason: 401
-                      message: Autenticación fallida 102
-                      date: '2021-11-30T14:54:12-05:00'
       description: Solicita la creación de la sesión  retorna el identificador y la URL de procesamiento.
       x-internal: false
       requestBody:
@@ -299,6 +191,47 @@ paths:
                   returnUrl: 'https://dnetix.co/p2p/client'
                   ipAddress: 127.0.0.1
                   userAgent: PlacetoPay Sandbox
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/Status'
+                  requestId:
+                    type: integer
+                  processUrl:
+                    type: string
+              examples:
+                Respuesta:
+                  value:
+                    status:
+                      status: OK
+                      reason: PC
+                      message: La petición se ha procesado correctamente
+                      date: '2021-11-30T15:08:27-05:00'
+                    requestId: 1
+                    processUrl: 'https://checkout-co.placetopay.com/session/1/cc9b8690b1f7228c78b759ce27d7e80a'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/Status'
+              examples:
+                Respuesta:
+                  value:
+                    status:
+                      status: FAILED
+                      reason: 401
+                      message: Autenticación fallida 102
+                      date: '2021-11-30T15:12:25-05:00'
     parameters: []
   '/api/session/{requestId}':
     parameters:
