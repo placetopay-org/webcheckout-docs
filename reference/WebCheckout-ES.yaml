@@ -858,9 +858,13 @@ components:
             - string
             - number
         taxes:
-          $ref: '#/components/schemas/TaxDetail'
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxDetail'
         details:
-          $ref: '#/components/schemas/AmountDetail'
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxDetail'
     Items:
       title: Items
       type: object
