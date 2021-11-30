@@ -1309,10 +1309,6 @@ components:
           $ref: '#/components/schemas/PaymentRequest'
         instrument:
           $ref: '#/components/schemas/Instrument'
-      required:
-        - payer
-        - payment
-        - instrument
     TransactionActionRequest:
       title: TransactionActionRequest
       type: object
@@ -1333,6 +1329,7 @@ components:
         reverse example:
           internalReference: 1
           action: reverse
+      examples: []
       properties:
         auth:
           $ref: '#/components/schemas/Autentication'
@@ -1343,10 +1340,6 @@ components:
         action:
           type: string
           example: checkout
-      required:
-        - internalReference
-        - action
-      examples: []
     DirectResponse:
       title: DirectResponse
       type: object
