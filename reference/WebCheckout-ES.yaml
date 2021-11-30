@@ -963,7 +963,9 @@ components:
           type: string
           description: 'Valor de clasificación, puede ser [valueAddedTax, exciseDuty].'
         amount:
-          type: integer
+          type:
+            - integer
+            - number
           description: |
             Valor discriminado.
     AmountDetail:
@@ -976,7 +978,10 @@ components:
           type: string
           description: "\tValor de clasificación, puede ser [discount, additional,\nvatDevolutionBase, shipping,\nhandlingFee, insurance,\ngiftWrap, subtotal, fee, tip]\n"
         amount:
-          type: integer
+          type:
+            - integer
+            - number
+            - string
           description: |
             Valor discriminado.
     SubscriptionRequest:
