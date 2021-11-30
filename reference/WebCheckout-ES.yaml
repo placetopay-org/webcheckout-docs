@@ -77,7 +77,16 @@ paths:
                   - status
                   - requestId
                   - processUrl
-              examples: {}
+              examples:
+                Respuesta:
+                  value:
+                    status:
+                      status: OK
+                      reason: PC
+                      message: La petición se ha procesado correctamente
+                      date: '2021-11-30T14:48:38-05:00'
+                    requestId: 156
+                    processUrl: 'https://checkout-co.placetopay.dev/session/1/defc692b2de1c72b0811c3d5b6444bae'
           headers: {}
         '401':
           description: Unauthorized
@@ -117,129 +126,179 @@ paths:
                           Fecha y hora de este estado
                 required:
                   - status
+              examples:
+                Respuesta:
+                  value:
+                    status:
+                      status: FAILED
+                      reason: 401
+                      message: Autenticación fallida 102
+                      date: '2021-11-30T14:54:12-05:00'
+      description: Solicita la creación de la sesión  retorna el identificador y la URL de procesamiento.
+      x-internal: false
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              type: object
-              properties:
-                auth:
-                  $ref: '#/components/schemas/Autentication'
-                '':
-                  $ref: '#/components/schemas/RedirectRequest'
+              $ref: '#/components/schemas/RedirectRequest'
             examples:
-              Pago:
+              Crear Sesión simple:
                 value:
-                  auth:
-                    login: test login
-                    tranKey: rgyVgf7QjpJt9p5rL1DpJYA6Osk=
-                    nonce: Wm1ZNE0yRXlNakUzWVRrME56VXlOV013TmpJMVlUTmhOVEV5TmpVeFptTT0=
-                    seed: '2021-05-03T22:21:17-05:00'
                   locale: es_CO
-                  buyer:
-                    document: '4939349317'
-                    documentType: CC
-                    name: Clemens Auer
-                    surname: Beer
-                    email: gloria.gorczany@yahoo.com
-                    mobile: '3006108300'
-                    address:
-                      street: 21440 Belle Curve
-                      city: Kuphalborough
-                      state: Antioquia
-                      postalCode: '40881'
-                      country: US
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
                   payment:
-                    reference: TEST_20210503_222115
-                    description: Quas unde eum quis molestias odit excepturi provident.
+                    reference: '1122334455'
+                    description: Prueba
+                    amount:
+                      currency: USD
+                      total: 100
+                    allowPartial: false
+                  expiration: '2021-12-30T00:00:00-05:00'
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+              'Crear sesión de preautorización ':
+                value:
+                  locale: es_CO
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  type: checkin
+                  payment:
+                    reference: '1122334455'
+                    description: Prueba
+                    amount:
+                      currency: USD
+                      total: 100
+                    allowPartial: false
+                  expiration: '2021-12-30T00:00:00-05:00'
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+              Crear sesión con pago mixto:
+                value:
+                  locale: es_CO
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  payment:
+                    reference: '1122334455'
+                    description: Prueba
+                    amount:
+                      currency: USD
+                      total: 100
+                    allowPartial: true
+                  expiration: '2021-12-30T00:00:00-05:00'
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+              Crear sesión con impuestos:
+                value:
+                  locale: es_CO
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  payment:
+                    reference: '331122'
+                    description: Reference
                     amount:
                       taxes:
-                        - kind: ice
-                          amount: 2.28
-                          base: 0
-                        - kind: valueAddedTax
-                          amount: 3.61
-                          base: 0
+                        - kind: stateTax
+                          amount: 16.13
+                        - kind: municipalTax
+                          amount: 11.21
+                        - kind: reducedStateTax
+                          amount: 10.21
                       details:
-                        - kind: shipping
-                          amount: 0.95
                         - kind: tip
-                          amount: 0.95
+                          amount: 11
                         - kind: subtotal
-                          amount: 19
+                          amount: 11
                       currency: USD
-                      total: 26.79
+                      total: 500
                     allowPartial: false
-                    shipping:
-                      document: '4939349317'
-                      documentType: CC
-                      name: Clemens Auer
-                      surname: Beer
-                      email: gloria.gorczany@yahoo.com
-                      mobile: '3006108300'
-                      address:
-                        street: 21440 Belle Curve
-                        city: Kuphalborough
-                        state: Antioquia
-                        postalCode: '40881'
-                        country: US
-                    items:
-                      - sku: 56000
-                        name: Nihil adipisci ut.
-                        category: physical
-                        qty: 1
-                        price: 19
-                        tax: 3.61
-                    subscribe: false
-                  fields:
-                    - keyword: Redeem Code
-                      value: 999285
-                      displayOn: payment
+                  expiration: '2021-12-30T00:00:00-05:00'
                   returnUrl: 'https://dnetix.co/p2p/client'
-                  ipAddress: 181.53.226.56
-                  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
-                  expiration: '2021-05-04T22:21:15-05:00'
-                  captureAddress: false
-                  skipResult: false
-                  noBuyerFill: false
-              Suscripción:
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+              Crear sesión con dispersión:
                 value:
-                  auth:
-                    login: test login
-                    tranKey: tBF+Fumami9Qq9HNeiKce+WWGFs=
-                    nonce: TURRME9EZzNaV1F3TTJJell6SmxaakZpWVRKallUWmxOemt3WmpsaE9HWT0=
-                    seed: '2021-05-03T22:55:00-05:00'
                   locale: es_CO
-                  buyer:
-                    document: '4939349317'
-                    documentType: CC
-                    name: Clemens Auer
-                    surname: Beer
-                    email: gloria.gorczany@yahoo.com
-                    mobile: '3006108300'
-                    address:
-                      street: 21440 Belle Curve
-                      city: Kuphalborough
-                      state: Antioquia
-                      postalCode: '40881'
-                      country: US
-                  subscription:
-                    reference: TEST_20210503_222115
-                    description: Quas unde eum quis molestias odit excepturi provident.
-                  fields:
-                    - keyword: Redeem Code
-                      value: 999285
-                      displayOn: payment
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  payment:
+                    reference: '331122'
+                    description: Reference
+                    amount:
+                      currency: USD
+                      total: 500
+                    allowPartial: false
+                    dispersion:
+                      - agreement: '1299'
+                        agreementType: MERCHANT
+                        amount:
+                          currency: USD
+                          total: 200
+                      - agreement: ''
+                        agreementType: MERCHANT
+                        amount:
+                          currency: USD
+                          total: 300
+                  expiration: '2021-12-30T00:00:00-05:00'
                   returnUrl: 'https://dnetix.co/p2p/client'
-                  ipAddress: 181.53.226.56
-                  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
-                  expiration: '2021-05-04T22:21:15-05:00'
-                  captureAddress: false
-                  skipResult: false
-                  noBuyerFill: false
-        description: ''
-      description: 'Solicita la creación de la sesión (de tipo payment o subscription), retorna el identificador y la URL de procesamiento.'
-      x-internal: false
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+              Crear sesión suscripción:
+                value:
+                  locale: es_CO
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  subscription:
+                    reference: '331122'
+                    description: Una suscripción de prueba
+                  expiration: '2021-12-31T00:00:00-05:00'
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+              Crear sesión con recurrencia:
+                value:
+                  locale: es_CO
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  payment:
+                    reference: '331122'
+                    description: Pago con recurrencia
+                    amount:
+                      currency: USD
+                      total: 100
+                    recurring:
+                      periodicity: D
+                      interval: '1'
+                      nextPayment: '2021-12-30'
+                      maxPeriods: '12'
+                  expiration: '2022-12-15T00:00:00-05:00'
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
     parameters: []
   '/api/session/{requestId}':
     parameters:
@@ -455,7 +514,7 @@ paths:
                   internalReference: 640
                   amount:
                     currency: USD
-                    total: 500
+                    total: '500'
                   action: checkout
               Reauthorization:
                 value:
@@ -467,7 +526,7 @@ paths:
                   internalReference: 640
                   amount:
                     currency: USD
-                    total: 500
+                    total: '500'
                   action: reauthorization
               Reverse:
                 value:
@@ -811,11 +870,15 @@ components:
           returnUrl: 'https://mysite.com/response/3210'
           ipAddress: 127.0.0.1
           userAgent: PlacetoPay Sandbox
+      x-internal: false
+      examples: []
       properties:
         locale:
           type: string
           description: |
             Definido con los códigos ISO 631-1 (language) y ISO 3166-1 alpha-2 (2-letras del país). ej. en_US, es_CO
+        auth:
+          $ref: '#/components/schemas/Autentication'
         payer:
           $ref: '#/components/schemas/Person'
         buyer:
@@ -860,7 +923,6 @@ components:
         type:
           type: string
           description: crear una sesión de tipo checkin
-      x-internal: false
     Autentication:
       description: ''
       type: object
