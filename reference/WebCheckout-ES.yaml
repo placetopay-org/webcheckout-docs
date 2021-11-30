@@ -77,6 +77,7 @@ paths:
                   - status
                   - requestId
                   - processUrl
+              examples: {}
           headers: {}
         '401':
           description: Unauthorized
@@ -346,12 +347,138 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentRequest'
+              examples:
+                Checkout:
+                  value:
+                    status:
+                      status: APPROVED
+                      reason: '00'
+                      message: Aprobada
+                      date: '2021-11-30T09:36:00-05:00'
+                    payment:
+                      status:
+                        status: APPROVED
+                        reason: '00'
+                        message: Aprobada
+                        date: '2021-11-30T09:35:59-05:00'
+                      internalReference: 643
+                      paymentMethod: visa
+                      paymentMethodName: Visa
+                      issuerName: 'JPMORGAN CHASE BANK, N.A.'
+                      amount:
+                        from:
+                          currency: USD
+                          total: 500
+                        to:
+                          currency: USD
+                          total: 500
+                        factor: 1
+                      authorization: '550044'
+                      reference: '1122334455'
+                      receipt: '499435368733'
+                      franchise: PS_VS
+                      refunded: false
+                Reauthorization:
+                  value:
+                    status:
+                      status: APPROVED
+                      reason: '00'
+                      message: Aprobada
+                      date: '2021-11-30T09:26:50-05:00'
+                    payment:
+                      status:
+                        status: APPROVED
+                        reason: '00'
+                        message: Aprobada
+                        date: '2021-11-30T09:26:49-05:00'
+                      internalReference: 642
+                      paymentMethod: visa
+                      paymentMethodName: Visa
+                      issuerName: 'JPMORGAN CHASE BANK, N.A.'
+                      amount:
+                        from:
+                          currency: USD
+                          total: 500
+                        to:
+                          currency: USD
+                          total: 500
+                        factor: 1
+                      authorization: '883327'
+                      reference: '1122334455'
+                      receipt: '657093859996'
+                      franchise: PS_VS
+                      refunded: false
+                Reverse:
+                  value:
+                    status:
+                      status: APPROVED
+                      reason: '00'
+                      message: Aprobada
+                      date: '2021-11-30T09:37:46-05:00'
+                    payment:
+                      status:
+                        status: APPROVED
+                        reason: '00'
+                        message: Aprobada
+                        date: '2021-11-30T09:37:46-05:00'
+                      internalReference: 644
+                      paymentMethod: visa
+                      paymentMethodName: Visa
+                      issuerName: 'JPMORGAN CHASE BANK, N.A.'
+                      amount:
+                        from:
+                          currency: USD
+                          total: 500
+                        to:
+                          currency: USD
+                          total: 1000
+                        factor: 1
+                      authorization: '550044'
+                      reference: '1122334455'
+                      receipt: '499435368733'
+                      franchise: PS_VS
+                      refunded: false
       description: 'Permite realizar operaciones básicas de preauthorización como CHECKOUT, REAUTHORIZATION (No aplica para Puerto Rico) y REVERSE, por otro lado también permite revertir un pago aprobado con el código de referencia interna.'
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/TransactionActionRequest'
+            examples:
+              Checkout:
+                value:
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  internalReference: 640
+                  amount:
+                    currency: USD
+                    total: 500
+                  action: checkout
+              Reauthorization:
+                value:
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  internalReference: 640
+                  amount:
+                    currency: USD
+                    total: 500
+                  action: reauthorization
+              Reverse:
+                value:
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  internalReference: 123
+                  action: reverse
+        description: ''
       x-internal: false
 components:
   schemas:
@@ -432,6 +559,49 @@ components:
           type: boolean
           description: |
             Permite solicitar un proceso de cobro y suscripción en la misma sesión.
+        dispersion:
+          $ref: '#/components/schemas/PaymentRequest'
+      required:
+        - reference
+        - amount
+    Payment:
+      title: Payment
+      type: object
+      description: |
+        Estructura que contiene la información acerca del Pago de la transacción requerida al servicio web.
+      properties:
+        reference:
+          type: string
+          description: |
+            Única referencia para la solicitud de pago.
+        description:
+          type: string
+          description: |
+            Descripción de la cuenta.
+        amount:
+          $ref: '#/components/schemas/Amount'
+        allowPartial:
+          type: boolean
+          description: |
+            Define si el monto a ser cobrado puede ser parcial.
+        shipping:
+          $ref: '#/components/schemas/Person'
+        items:
+          $ref: '#/components/schemas/Items'
+        fields:
+          $ref: '#/components/schemas/NameValuePair'
+        recurring:
+          $ref: '#/components/schemas/Recurring'
+        subscribe:
+          type: boolean
+          description: |
+            Permite solicitar un proceso de cobro y suscripción en la misma sesión.
+        dispersion:
+          $ref: '#/components/schemas/PaymentRequest'
+        agreement:
+          type: integer
+        agreementType:
+          type: string
       required:
         - reference
         - amount
@@ -690,6 +860,7 @@ components:
         type:
           type: string
           description: crear una sesión de tipo checkin
+      x-internal: false
     Autentication:
       description: ''
       type: object
@@ -794,6 +965,18 @@ components:
             Código de autorización.
         processorFields:
           $ref: '#/components/schemas/NameValuePair'
+        dispersion:
+          $ref: '#/components/schemas/Transaction'
+        agreement:
+          type:
+            - integer
+            - 'null'
+          description: Identificador de destinatario de la transacción. Para el sitio principal de la transacción.
+        agreementType:
+          type:
+            - string
+            - 'null'
+          description: 'Valores: AIRLINE MERCHANT'
       required:
         - status
     AmountConversion:
@@ -929,6 +1112,8 @@ components:
           internalReference: 1
           action: reverse
       properties:
+        auth:
+          $ref: '#/components/schemas/Autentication'
         internalReference:
           type: integer
         amount:
@@ -939,15 +1124,27 @@ components:
       required:
         - internalReference
         - action
+      examples: []
     DirectResponse:
       title: DirectResponse
       type: object
       description: Estructura que contiene los detalles de del transacción
       properties:
+        requestId:
+          type: number
         status:
           $ref: '#/components/schemas/Status'
-        internalReference:
-          type: integer
-        reference:
-          type: string
+        transaction:
+          $ref: '#/components/schemas/Transaction'
+        processUrl:
+          type:
+            - string
+            - 'null'
+        file:
+          type:
+            - string
+            - 'null'
+        policies:
+          type: array
+          items: {}
   securitySchemes: {}
