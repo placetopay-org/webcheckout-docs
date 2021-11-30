@@ -854,7 +854,9 @@ components:
         currency:
           type: string
         total:
-          type: string
+          type:
+            - string
+            - number
         taxes:
           $ref: '#/components/schemas/TaxDetail'
         details:
