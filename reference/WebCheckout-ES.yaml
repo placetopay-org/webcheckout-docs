@@ -808,7 +808,9 @@ components:
           description: |
             Permite solicitar un proceso de cobro y suscripción en la misma sesión.
         dispersion:
-          $ref: '#/components/schemas/PaymentRequest'
+          type: array
+          items:
+            $ref: '#/components/schemas/DispersionDetail'
     Payment:
       title: Payment
       type: object
@@ -966,21 +968,6 @@ components:
         kind:
           type: string
           description: 'Valor de clasificación, puede ser [valueAddedTax, exciseDuty].'
-        amount:
-          type:
-            - integer
-            - number
-          description: |
-            Valor discriminado.
-    AmountDetail:
-      title: AmountDetail
-      type: object
-      description: |
-        Estructura para almacenar información sobre el valor.
-      properties:
-        kind:
-          type: string
-          description: "\tValor de clasificación, puede ser [discount, additional,\nvatDevolutionBase, shipping,\nhandlingFee, insurance,\ngiftWrap, subtotal, fee, tip]\n"
         amount:
           type:
             - integer
@@ -1353,26 +1340,25 @@ components:
         action:
           type: string
           example: checkout
-    DirectResponse:
-      title: DirectResponse
+    DispersionDetail:
+      title: DispersionDetail
       type: object
-      description: Estructura que contiene los detalles de del transacción
+      description: Estructura que refleja la información de los detalles para pago con dispersión.
+      examples:
+        - agreement: '1299'
+          agreementType: MERCHANT
+          amount:
+            currency: USD
+            total: 200
       properties:
-        requestId:
-          type: number
-        status:
-          $ref: '#/components/schemas/Status'
-        transaction:
-          $ref: '#/components/schemas/Transaction'
-        processUrl:
+        agreement:
           type:
             - string
+            - number
             - 'null'
-        file:
-          type:
-            - string
-            - 'null'
-        policies:
-          type: array
-          items: {}
+          description: Id del sitio a donde apunta dispersión
+        agreementType:
+          type: string
+        amount:
+          $ref: '#/components/schemas/Amount'
   securitySchemes: {}
