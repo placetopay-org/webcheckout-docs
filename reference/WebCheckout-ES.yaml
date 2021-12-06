@@ -576,11 +576,206 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentRequest'
+              examples:
+                Aprobado:
+                  value:
+                    requestId: 1
+                    status:
+                      status: APPROVED
+                      reason: '00'
+                      message: La petición ha sido aprobada exitosamente
+                      date: '2021-11-30T15:49:47-05:00'
+                    request:
+                      locale: es_CO
+                      payer:
+                        document: '1033332222'
+                        documentType: CC
+                        name: Name
+                        surname: LastName
+                        email: dnetix1@app.com
+                        mobile: '3111111111'
+                        address:
+                          postalCode: '12345'
+                      payment:
+                        reference: '1122334455'
+                        description: Prueba
+                        amount:
+                          currency: USD
+                          total: 100
+                        allowPartial: false
+                        subscribe: false
+                      returnUrl: 'https://redirection.test/home'
+                      ipAddress: 127.0.0.1
+                      userAgent: PlacetoPay Sandbox
+                      expiration: '2021-12-30T00:00:00-05:00'
+                    payment:
+                      - status:
+                          status: APPROVED
+                          reason: '00'
+                          message: Aprobada
+                          date: '2021-11-30T15:49:36-05:00'
+                        internalReference: 1
+                        paymentMethod: visa
+                        paymentMethodName: Visa
+                        issuerName: 'JPMORGAN CHASE BANK, N.A.'
+                        amount:
+                          from:
+                            currency: USD
+                            total: 100
+                          to:
+                            currency: USD
+                            total: 100
+                          factor: 1
+                        authorization: '000000'
+                        reference: '1122334455'
+                        receipt: '241516'
+                        franchise: DF_VS
+                        refunded: false
+                        processorFields:
+                          - keyword: lastDigits
+                            value: '1111'
+                            displayOn: none
+                    subscription: null
+                Pendiente:
+                  value:
+                    requestId: 1
+                    status:
+                      status: PENDING
+                      reason: PT
+                      message: La petición se encuentra pendiente
+                      date: '2021-11-30T15:45:57-05:00'
+                    request:
+                      locale: es_CO
+                      payer:
+                        document: '1033332222'
+                        documentType: CC
+                        name: Name
+                        surname: lastName
+                        email: dnetix1@app.com
+                        mobile: '3111111111'
+                        address:
+                          postalCode: '12345'
+                      payment:
+                        reference: '1122334455'
+                        description: Prueba
+                        amount:
+                          currency: USD
+                          total: 100
+                        allowPartial: false
+                        subscribe: false
+                      returnUrl: 'https://dnetix.co/p2p/client'
+                      ipAddress: 127.0.0.1
+                      userAgent: PlacetoPay Sandbox
+                      expiration: '2021-12-30T00:00:00-05:00'
+                    payment: null
+                    subscription: null
+                Rechazado:
+                  value:
+                    requestId: 1
+                    status:
+                      status: REJECTED
+                      reason: XN
+                      message: Se ha rechazado la petición
+                      date: '2021-11-30T16:44:24-05:00'
+                    request:
+                      locale: es_CO
+                      payer:
+                        document: '1033332222'
+                        documentType: CC
+                        name: Name
+                        surname: LastName
+                        email: dnetix@app.com
+                        mobile: '31111111111'
+                        address:
+                          postalCode: '12345'
+                      payment:
+                        reference: '331122'
+                        description: Reference
+                        amount:
+                          currency: USD
+                          total: 500
+                        allowPartial: false
+                        subscribe: false
+                      returnUrl: 'https://redirection.test/home'
+                      ipAddress: 127.0.0.1
+                      userAgent: PlacetoPay Sandbox
+                      expiration: '2021-12-30T00:00:00-05:00'
+                    payment:
+                      - status:
+                          status: REJECTED
+                          reason: '65'
+                          message: '65'
+                          date: '2021-11-30T16:22:19-05:00'
+                        internalReference: 1
+                        paymentMethod: visa
+                        paymentMethodName: Visa
+                        issuerName: 'CAIXA D''ESTALVIS UNIO DE CAIXES DE MANLLEU, SABADE'
+                        amount:
+                          from:
+                            currency: USD
+                            total: 100
+                          to:
+                            currency: USD
+                            total: 100
+                          factor: 1
+                        authorization: '000000'
+                        reference: '331122'
+                        franchise: TS_VS
+                        refunded: false
+                        processorFields:
+                          - keyword: lastDigits
+                            value: '1111'
+                            displayOn: none
+                    subscription: null
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CollectRequest'
+            examples:
+              Cobro con token simple:
+                value:
+                  locale: es_CO
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  payment:
+                    reference: '1122334455'
+                    description: Prueba
+                    amount:
+                      currency: USD
+                      total: 100
+                  instrument:
+                    token:
+                      token: e07ca9986cf0ecac8a557fa11c07bf37ea35e9e3e3a4180c49
+                  expiration: '2021-12-30T00:00:00-05:00'
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+              Cobro con token a una preautorización:
+                value:
+                  locale: es_CO
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  payment:
+                    reference: '1122334455'
+                    description: Prueba
+                    amount:
+                      currency: USD
+                      total: 100
+                  type: checkin
+                  instrument:
+                    token:
+                      token: e07ca9986cf0ecac8a557fa11c07bf37ea35e9e3e3a4180c49
+                  expiration: '2021-12-30T00:00:00-05:00'
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
       description: |
         Permite realizar cobros sin la intervención del usuario usando medios de pago previamente suscritos.
       x-internal: false
@@ -1303,12 +1498,30 @@ components:
       description: |
         Permite realizar cobros sin la intervención del usuario usando medios de pago previamente suscritos.
       properties:
+        locale:
+          type: string
+        auth:
+          $ref: '#/components/schemas/Autentication'
         payer:
+          $ref: '#/components/schemas/Person'
+        buyer:
           $ref: '#/components/schemas/Person'
         payment:
           $ref: '#/components/schemas/PaymentRequest'
+        type:
+          type: string
         instrument:
           $ref: '#/components/schemas/Instrument'
+        expiration:
+          type: string
+        returnUrl:
+          type: string
+        cancelUrl:
+          type: string
+        ipAddress:
+          type: string
+        userAgent:
+          type: string
     TransactionActionRequest:
       title: TransactionActionRequest
       type: object
