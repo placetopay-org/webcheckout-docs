@@ -641,6 +641,10 @@ paths:
                     - integer
                   description: |
                     Referencia interna de la transacción a reversar que se encuentra en el listado de transacciones del getRequestInformation (payment).
+                reference:
+                  type: string
+                signature:
+                  type: string
             examples:
               Ejemplo:
                 value:
@@ -650,46 +654,23 @@ paths:
                     nonce: NjE0OWVkODgwYjNhNw==
                     seed: '2021-09-21T09:34:48-05:00'
                   internalReference: 1
-      description: |
-        Permite cambiar el estado de una transacción 
+                  reference: '12345'
+                  signature: 3ccbae73d6a5bb1be7e00f9a2cfc3cc7cd95a311
+      description: Permite solicitar el cambio de estado de una transacción que se encuentre en estado pendiente
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReverseResponse'
+                $ref: '#/components/schemas/Status'
               examples:
                 Aprobada:
                   value:
-                    status:
-                      status: APPROVED
-                      reason: '00'
-                      message: Aprobada
-                      date: '2021-12-07T16:01:19-05:00'
-                    payment:
-                      status:
-                        status: APPROVED
-                        reason: '00'
-                        message: Aprobada
-                        date: '2021-12-07T16:01:18-05:00'
-                      internalReference: 1
-                      paymentMethod: visa
-                      paymentMethodName: Visa
-                      issuerName: 'JPMORGAN CHASE BANK, N.A.'
-                      amount:
-                        from:
-                          currency: USD
-                          total: 100
-                        to:
-                          currency: USD
-                          total: 100
-                        factor: 1
-                      authorization: '123456'
-                      reference: '12345'
-                      receipt: '230955511860'
-                      franchise: PS_VS
-                      refunded: false
+                    status: OK
+                    reason: null
+                    message: null
+                    date: '2021-12-07T16:27:56-05:00'
         '400':
           description: Bad Request
           content:
@@ -697,13 +678,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Status'
               examples:
-                Ejemplo:
+                Firma inválida:
                   value:
                     status:
                       status: FAILED
-                      reason: BR
-                      message: La transacción ya ha sido reversada
-                      date: '2021-12-07T16:03:41-05:00'
+                      reason: 0
+                      message: Firma inválida
+                      date: '2021-12-07T16:24:20-05:00'
     parameters: []
   /api/collect:
     post:
