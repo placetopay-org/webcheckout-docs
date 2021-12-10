@@ -49,6 +49,8 @@ Al obtener el resultado de la operación, debe tener muy presente los siguiente 
 
 Es importante identificar según la regla de negocio del sitio al obtener alguno de estos dos estados.
 
+> Nota: No se permiten pagos parciales cuando se envían impuestos, estos no se pueden dividir
+
 
 ## Pago Recurrente
 
@@ -103,3 +105,117 @@ En el caso de fallar un cobro recurrente, éste seguirá reintentado una vez cad
 La recurrencia se deja de reintentar si la primera respuesta no tiene sentido reintentar (Tarjeta invalida, robada, etc), es decir se reintenta sólo si es por saldo.
 
 Las recurrencias sólo pueden ser canceladas en la consola administrativa de PlacetoPay.
+
+## Pago con dispersión
+El pago con dispersión permite dividir el pago principal a diferentes convenios registrados en una misma sesión, además permite que cada parte de la transacción sea procesada por diferentes proveedores.
+**[Más información](https://docs-gateway.placetopay.com/docs/api-services-docs/ZG9jOjExNjAxOTc1)**
+
+Para hacer uso de esta funcionalidad es importante tener el `ID` del convenio a donde va dirigido el pago, por defecto si no se agrega ningún valor este tomará por defecto el medio de pago configurado en el sitio de la sesión,
+también es necesario indicar el tipo de convenio, en este caso `MERCHANT` o `AIRLINE`. **[Más información sobre códigos de aerolíneas](https://docs-gateway.placetopay.com/docs/api-services-docs/ZG9jOjIxNzUzMzYw-codigos-de-aerolineas)**
+
+En la estructura payment del pago es necesario enviar el esquema de dispersión
+
+Ejemplo: 
+
+```json
+{
+  "auth": {
+    "login": "usuarioprueba",
+    "tranKey": "jsHJzM3+XG754wXh+aBvi70D9/4=",
+    "nonce": "TTJSa05UVmtNR000TlRrM1pqQTRNV1EREprWkRVMU9EZz0=",
+    "seed": "2019-04-25T18:17:23-04:00"
+    },
+    "payment": {
+        "reference": "3210",
+        "description": "Pago con dispersion de prueba",
+        "amount": {
+            "currency": "COP",
+            "total": 100000
+        },
+        "dispersion": [ //Estructura de dispersión
+            {
+                "agreement": 1, //ID del convenio
+                "agreementType": "AIRLINE", //Tipo de convenio
+                "amount": {
+                    "currency": "COP",
+                    "total": 50000
+                }
+            },
+            {
+                "agreement": "",
+                "agreementType": "MERCHANT",
+                "amount": {
+                    "currency": "COP",
+                    "total": 50000
+                }
+            }
+        ]
+    },
+    "expiration": "2021-12-31T00:00:00-05:00",
+    "returnUrl": "https://mysite.com/response/3210",
+    "ipAddress": "127.0.0.1",
+    "userAgent": "PlacetoPay Sandbox"
+}
+```
+> Validaciones
+- No se permiten pagos mixtos con valores de dispersión
+- No se permiten pagos de preautorización con valores de dispersión
+- La suma total de las dispersiones deben ser igual al total del pago
+- Todas las monedas de las dispersiones deben ser igual a la moneda del pago
+
+Para el envió de impuestos, es importante que se encuentre en la estructura de cada una de las dispersiones
+
+
+Ejemplo: 
+
+```json
+{
+    "dispersion": [ //Estructura de dispersión
+        {
+            "agreement": 1, //ID del convenio
+            "agreementType": "AIRLINE", //Tipo de convenio
+            "amount": {
+                "currency": "COP",
+                "total": 50000
+            },
+            "taxes": [
+                {
+                    "kind": "airportTax",
+                    "amount": 16.13
+                }
+            ],
+            "details": [
+                {
+                    "kind": "tip",
+                    "amount": 11
+                }
+            ]
+        },
+        {
+            "agreement": "",
+            "agreementType": "MERCHANT",
+            "amount": {
+                "currency": "COP",
+                "total": 50000
+            },
+            "taxes": [
+                {
+                    "kind": "municipalTax",
+                    "amount": 16.13
+                }
+            ],
+            "details": [
+                {
+                    "kind": "tip",
+                    "amount": 11
+                }
+            ]
+        }
+    ]
+}
+```
+
+
+
+
+

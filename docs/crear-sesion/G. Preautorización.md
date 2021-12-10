@@ -38,6 +38,9 @@ La  transacción tipo **CHECKIN** es  utilizada  para  obtener  una  autorizaci�
     "userAgent": "PlacetoPay Sandbox"
 }
 ```
+> No se permite preautorización cuando se envían valores de dispersión
+
+> No se permite preautorización cuando se quiere hacer pagos mixtos
 
 ### **REAUTHORIZATION**
 La transacción tipo **REAUTHORIZATION** es utilizada para modificar el monto definido como depósito de garantía separado previamente, con una transacción tipo CHECKIN. Esto realiza una nueva autorización  por parte del banco.
