@@ -576,7 +576,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReverseResponse'
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/Status'
               examples:
                 Aprobada:
                   value:
@@ -613,7 +616,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Status'
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/Status'
               examples:
                 Ejemplo:
                   value:
@@ -625,7 +631,7 @@ paths:
   /api/notify:
     post:
       summary: Notificar Pago
-      operationId: post-api-reverse
+      operationId: post-api-notify
       requestBody:
         content:
           application/json:
@@ -643,8 +649,10 @@ paths:
                     Referencia interna de la transacción a reversar que se encuentra en el listado de transacciones del getRequestInformation (payment).
                 reference:
                   type: string
+                  description: Referencia del pago
                 signature:
                   type: string
+                  description: Firma de la transacción almacenada en core
             examples:
               Ejemplo:
                 value:
@@ -663,20 +671,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Status'
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/Status'
               examples:
                 Aprobada:
                   value:
-                    status: OK
-                    reason: null
-                    message: null
-                    date: '2021-12-07T16:27:56-05:00'
+                    status:
+                      status: OK
+                      reason: null
+                      message: null
+                      date: '2021-12-07T16:27:56-05:00'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Status'
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/Status'
               examples:
                 Firma inválida:
                   value:
@@ -1127,44 +1142,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DispersionDetail'
-    Payment:
-      title: Payment
-      type: object
-      description: |
-        Estructura que contiene la información acerca del Pago de la transacción requerida al servicio web.
-      properties:
-        reference:
-          type: string
-          description: |
-            Única referencia para la solicitud de pago.
-        description:
-          type: string
-          description: |
-            Descripción de la cuenta.
-        amount:
-          $ref: '#/components/schemas/Amount'
-        allowPartial:
-          type: boolean
-          description: |
-            Define si el monto a ser cobrado puede ser parcial.
-        shipping:
-          $ref: '#/components/schemas/Person'
-        items:
-          $ref: '#/components/schemas/Items'
-        fields:
-          $ref: '#/components/schemas/NameValuePair'
-        recurring:
-          $ref: '#/components/schemas/Recurring'
-        subscribe:
-          type: boolean
-          description: |
-            Permite solicitar un proceso de cobro y suscripción en la misma sesión.
-        dispersion:
-          $ref: '#/components/schemas/PaymentRequest'
-        agreement:
-          type: integer
-        agreementType:
-          type: string
     Amount:
       title: Amount
       type: object
@@ -1402,7 +1379,9 @@ components:
             Por defecto se llenan los datos que se piden en redirección con los del comprador (buyer) enviados, si se envía como true se omite este autocompletado automático.
         type:
           type: string
-          description: crear una sesión de tipo checkin
+          description: crear una sesión de preautorización
+          enum:
+            - checkin
     Autentication:
       description: ''
       type: object
@@ -1446,10 +1425,13 @@ components:
           type:
             - string
             - number
+            - 'null'
           description: |
             Código del motivo proporcionado.
         message:
-          type: string
+          type:
+            - string
+            - 'null'
           minLength: 1
           description: |
             Descripción del código de razón.
@@ -1573,45 +1555,6 @@ components:
           $ref: '#/components/schemas/Transaction'
         subscription:
           $ref: '#/components/schemas/SubscriptionResponse'
-    ReverseResponse:
-      title: ReverseResponse
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/Status'
-        payment:
-          $ref: '#/components/schemas/PaymentRequest'
-      description: |
-        Estructura de respuesta a una solicitud de pago reversado.
-      examples:
-        - status:
-            status: APPROVED
-            reason: '00'
-            message: Aprobada
-            date: '2021-12-07T16:01:19-05:00'
-          payment:
-            status:
-              status: APPROVED
-              reason: '00'
-              message: Aprobada
-              date: '2021-12-07T16:01:18-05:00'
-            internalReference: 1
-            paymentMethod: visa
-            paymentMethodName: Visa
-            issuerName: 'JPMORGAN CHASE BANK, N.A.'
-            amount:
-              from:
-                currency: USD
-                total: 100
-              to:
-                currency: USD
-                total: 100
-              factor: 1
-            authorization: '123456'
-            reference: '12345'
-            receipt: '230955511860'
-            franchise: PS_VS
-            refunded: false
     Instrument:
       title: Instrument
       type: object
@@ -1660,6 +1603,9 @@ components:
           $ref: '#/components/schemas/PaymentRequest'
         type:
           type: string
+          description: crear una sesión de preautorización
+          enum:
+            - checkin
         instrument:
           $ref: '#/components/schemas/Instrument'
         expiration:
@@ -1722,6 +1668,9 @@ components:
           description: Id del sitio a donde apunta dispersión
         agreementType:
           type: string
+          enum:
+            - MERCHANT
+            - AIRLINE
         amount:
           $ref: '#/components/schemas/Amount'
   securitySchemes: {}
