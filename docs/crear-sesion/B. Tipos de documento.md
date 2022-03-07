@@ -66,18 +66,31 @@ Código| Tipo de documento| Regla de validación
 ---------|----------|------------
  CIP | Cédula de identidad personal| `/^(N,E,PE\d+)?\d{2,6}\d{2,6}$/`
 
- ### Brasil (BR)
+### Brasil (BR)
 
  Código| Tipo de documento| Regla de validación
 ---------|----------|------------
  CPF | Cadastro de Pessoas Físicas|`'/^\d{10,11}$/'`
 
 
- ### Perú (PE)
+### Perú (PE)
 
   Código| Tipo de documento| Regla de validación
 ---------|----------|------------
  DNI | DNI|`'/^\d{8}$/'`
+  PERUC | Registro Único de Contribuyentes|`'/^(10,15,16,17,20)[0-9]{9}$/'`
 
+### Honduras (HN)
+
+ Código| Tipo de documento| Regla de validación
+---------|----------|------------
+ HNDNI | Documento nacional de identificación|`'/^[a-zA-Z0-9]{1,15}$/'`
+  HNDR | Documento de residencia|`'/^[a-zA-Z0-9]{1,15}$/'`
+
+### Belize (BZ)
+
+ Código| Tipo de documento| Regla de validación
+---------|----------|------------
+ BZSSN | Identificación de Seguridad Social|`'/^[0-9]{9}$/'`
 
 
