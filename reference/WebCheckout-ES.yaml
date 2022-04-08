@@ -18,8 +18,8 @@ info:
     url: 'https://www.placetopay.com/web/contactanos/'
 servers:
   - description: 'SandBox Colombia, Puerto Rico, Costa Rica, Panamá'
-    url: 'https://test.placetopay.com/redirection'
-  - url: 'https://test.placetopay.ec/redirection'
+    url: 'https://checkout-test.placetopay.com'
+  - url: 'https://checkout-test.placetopay.ec'
     description: SandBox Ecuador
 paths:
   /api/session:
@@ -280,7 +280,7 @@ paths:
                         subscribe: false
                       fields:
                         - keyword: _processUrl_
-                          value: 'https://test.placetopay.com/redirection/session/1/cb0f71a1f1ecdfab3ac345d3d670b097'
+                          value: 'https://checkout-test.placetopay.com/session/1/cb0f71a1f1ecdfab3ac345d3d670b097'
                           displayOn: none
                       returnUrl: 'https://redirection.test/home'
                       ipAddress: 127.0.0.1
@@ -368,7 +368,7 @@ paths:
                         subscribe: false
                       fields:
                         - keyword: _processUrl_
-                          value: 'https://test.placetopay.com/redirection/session/1/e0dfb6c7d6ab964b2377c825aef56a63'
+                          value: 'https://checkout-test.placetopay.com/session/1/e0dfb6c7d6ab964b2377c825aef56a63'
                           displayOn: none
                       returnUrl: 'https://dnetix.co/p2p/client'
                       ipAddress: 127.0.0.1
@@ -423,7 +423,7 @@ paths:
                             agreementType: MERCHANT
                       fields:
                         - keyword: _processUrl_
-                          value: 'https://test.placetopay.com/redirection/session/1/1dfbaf16c76c6ee83a63a956d704a9d1'
+                          value: 'https://checkout-test.placetopay.com/session/1/1dfbaf16c76c6ee83a63a956d704a9d1'
                           displayOn: none
                       returnUrl: 'https://redirection.test/home'
                       ipAddress: 127.0.0.1
