@@ -3,7 +3,7 @@
 ## Plugins
 
 
-CMS | Requisitos  | Versión plugin Placetopay 
+CMS | Requisitos  | Versión plugin Placetopay
 ---------|----------|---------
  Woocommerce |**Wordpress:** 5.6.2 / **Woocommerce:** 5.0.0 / **PHP:** 7.1 a 7.4 | [2.17.2](https://dev.placetopay.com/web/wp-content/uploads/2021/03/woocommerce-gateway-placetopay-2.17.2.zip)
  Magento | **Magento:** 2 1.7.7 / **PHP:** > 7.4  | [1.7.7](https://dev.placetopay.com/web/wp-content/uploads/2021/03/magento2-placetopay-1.7.7.zip)
@@ -14,6 +14,6 @@ CMS | Requisitos  | Versión plugin Placetopay
 
 Componenete | Descarga
 ------------|---------
-**PHP** | [Descargar aquí](https://github.com/dnetix/redirection)| 
+**PHP** | [Descargar aquí](https://github.com/dnetix/redirection)|
 **C#** |  [Descargar aquí](https://github.com/placetopay/redirection-csharp-sdk) |
 **Java**  | [Descargar aquí](https://github.com/placetopay/java-placetopay) |

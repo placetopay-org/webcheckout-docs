@@ -14,7 +14,7 @@ Para hacer uso de esta funcionalidad es necesario enviar en el `RedirectRequest`
 ```json
 {
    "auth": {
-    "login": "usuarioprueba",
+    "login": "usuarioPrueba",
     "tranKey": "jsHJzM3+XG754wXh+aBvi70D9/4=",
     "nonce": "TTJSa05UVmtNR000TlRrM1pqQTRNV1EREprWkRVMU9EZz0=",
     "seed": "2019-04-25T18:17:23-04:00"

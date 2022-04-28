@@ -5,12 +5,12 @@ tags: [Crear sesión]
 
 # Tipos de documento
 
-Al momento de solicitar crear una sesión, si usa alguna de las estructuras `payer`, `buyer` o `shipping` deberá enviar en el atributo **`DocumentType`** alguno de los siguientes códigos  dependiendo del pais:
+Al momento de solicitar crear una sesión, si usa alguna de las estructuras `payer`, `buyer` o `shipping` deberá enviar en el atributo **`DocumentType`** alguno de los siguientes códigos  dependiendo del país:
 
 ```json
 AVISO IMPORTANTE:
 
-Según  del tipo de documento enviado el sistema realizará la valdiación basado en  expresiones regulares 
+Según  del tipo de documento enviado el sistema realizará la validación basado en  expresiones regulares
 ```
 
 
@@ -36,13 +36,13 @@ Código| Tipo de documento | Regla de validación
  TI | Tarjeta de identidad| `'/^[1-9][0-9]{4,11}$/'`
  NIT | Número de Identificación Tributaria|` '/^[1-9]\d{6,9}$/'`
  RUT | Registro único tributario| `'/^[1-9]\d{6,9}$/'`
- 
+
 ### Ecuador (EC)
 Código| Tipo de documento | Regla de validación
 ---------|----------|---------
  CI | Cédula de identidad|`'/^\d{10}$/'`
  RUC | Registro Único de Contribuyentes|`'/^\d{13}$/'`
- 
+
 
 ### Costa Rica (CR)
 
@@ -92,5 +92,3 @@ Código| Tipo de documento| Regla de validación
  Código| Tipo de documento| Regla de validación
 ---------|----------|------------
  BZSSN | Identificación de Seguridad Social|`'/^[0-9]{9}$/'`
-
-

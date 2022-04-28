@@ -10,12 +10,12 @@ El `nonce` es un valor aleatorio por cada solicitud
 
 Valor | Descripción
 ---------|----------
- **login** | Identificador del sitio. 
+ **login** | Identificador del sitio.
  **tranKey** | Valor formado por la siguiente operación: `Base64(SHA-1(nonce + seed + secretkey))`. (El nonce dentro de la operación es el original, es decir, el que no está en Base64.)
- **nonce** | Valor aleatorio para cada solicitud codificado en Base64. 
- **seed** | Fecha actual, la cual se genera en formato ISO 8601. 
+ **nonce** | Valor aleatorio para cada solicitud codificado en Base64.
+ **seed** | Fecha actual, la cual se genera en formato ISO 8601.
 
- 
+
 ```json
 AVISO IMPORTANTE:
 
@@ -25,18 +25,18 @@ Sus claves de API tienen muchos privilegios, asegúrese de mantenerlas seguras. 
 ## Posibles errores
 
 
-Código | Causa 
+Código | Causa
 ---------|----------
- 100 | UsernameToken no proporcionado (Encabezado de la autorización malformado). 
- 101 | Identificador de sitio no existe ( Login incorrecto o no se encuentra en el ambiente). 
- 102 | 	El hash de TranKey no coincide (Trankey incorrecto o mal formado). 
+ 100 | UsernameToken no proporcionado (Encabezado de la autorización mal formado).
+ 101 | Identificador de sitio no existe ( Login incorrecto o no se encuentra en el ambiente).
+ 102 | 	El hash de TranKey no coincide (Trankey incorrecto o mal formado).
  103 | Fecha de la semilla mayor de 5 minutos.
- 104 | Sitio inactivo. 
- 105| Sitio expirado. 
+ 104 | Sitio inactivo.
+ 105| Sitio expirado.
  106 | Credenciales expiradas.
- 107| Mala definición del UsernameToken (No cumple con el encabezado WSSE). 
- 200| Saltar el encabezado de autenticación SOAP. 
- 10001| Contacte a Soporte. 
+ 107| Mala definición del UsernameToken (No cumple con el encabezado WSSE).
+ 200| Saltar el encabezado de autenticación SOAP.
+ 10001| Contacte a Soporte.
 
 ## Errores frecuentes
 
@@ -54,5 +54,5 @@ En el proceso de autenticación, Placetopay revisamos el campo Created, este cam
 
 - #### **Dando los mismos valores EXACTOS que en los ejemplos anteriores a la BASE64(SHA1($Nonce + $Created . $tranKey)) estoy obteniendo un password digest diferente.**
 
-Mantén en mente que BASE64 debería ser para el raw output de la SHA1 y de acuerdo con todos los lenguajes de programación este puede ser requerido para configurar esta opción, por ejemplo. En PHP base64_encode(sha1( … , true)) este parametro retornaria el raw output para el sHA1 algorithm
+Mantén en mente que BASE64 debería ser para el raw output de la SHA1 y de acuerdo con todos los lenguajes de programación este puede ser requerido para configurar esta opción, por ejemplo. En PHP base64_encode(sha1( … , true)) este parámetro retornaría el raw output para el sHA1 algorithm
 

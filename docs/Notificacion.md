@@ -34,7 +34,7 @@ Puedes validar que se trate de una respuesta de PlacetoPay haciendo un SHA-1 con
 
 **Validar que la transacción se encuentre sin resolver**
 
-Si deseas obtener más información sobre la sesión debes usar el metodo **`getRequestInformation`**
+Si deseas obtener más información sobre la sesión debes usar el método **`getRequestInformation`**
 
 ```json
 Bajo ninguna circunstancia reveles tu secretKey en ninguna parte accesible a los clientes o usuarios de su aplicación.

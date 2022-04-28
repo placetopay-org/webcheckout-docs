@@ -16,7 +16,7 @@ La  transacci처n tipo **CHECKIN** es  utilizada  para  obtener  una  autorizaci�
 ```json
 {
   "auth": {
-    "login": "usuarioprueba",
+    "login": "usuarioPrueba",
     "tranKey": "jsHJzM3+XG754wXh+aBvi70D9/4=",
     "nonce": "TTJSa05UVmtNR000TlRrM1pqQTRNV1EREprWkRVMU9EZz0=",
     "seed": "2019-04-25T18:17:23-04:00"
@@ -49,7 +49,7 @@ La transacci처n tipo **REAUTHORIZATION** es utilizada para modificar el monto de
 
 API | URL
 ---------|----------
- `POST` | /api/transaction | 
+ `POST` | /api/transaction |
 
  ```json
 {
@@ -69,7 +69,7 @@ La transacci처n tipo **CHECKOUT** es utilizada para confirmar el monto del dep처
 
 API | URL
 ---------|----------
- `POST` | /api/transaction | 
+ `POST` | /api/transaction |
 
  ```json
 {
@@ -88,7 +88,7 @@ La transacci처n tipo **REVERSE** es utilizada para reversar un pago de tipo CHEC
 
 API | URL
 ---------|----------
- `POST` | /api/transaction | 
+ `POST` | /api/transaction |
 
 ```json
 {
@@ -97,12 +97,3 @@ API | URL
 }
 
 ```
-
-
-
-
- 
-
-
-
-

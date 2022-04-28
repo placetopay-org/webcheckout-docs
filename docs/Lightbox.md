@@ -6,14 +6,14 @@ Pasos para usar el lightbox:
 
 1.	Usa la URL de tu país.
 
-**Nota:** La URL del pais está formada por `URL_Base`/lightbox.min.js
+**Nota:** La URL del país está formada por `URL_Base`/lightbox.min.js
 
 **Ejemplo:**
 
 - **Colombia, Puerto Rico, Costa Rica, Panamá:** https://secure.placetopay.com/redirection/lightbox.min.js
 
 - **Ecuador:** https://secure.placetopay.ec/redirection/lightbox.min.js
-	
+
 2.	Carga la etiqueta JavaScript en tu página usando el origen de tu país en el atributo src
 `<script src="REEMPLAZA_CON_URL_DE_TU_PAIS"></script>`
 3.	Configura el callback de la respuesta para que realice la acción que requieras, en este caso solo mostramos la información en el campo inferior
@@ -31,7 +31,7 @@ P.init(processUrl);
 ```json
 P.init(processUrl, { opacity: 0.4 });
 ```
-**AVISO IMPORTANTE ** 
+**AVISO IMPORTANTE **
 
 Ten en cuenta que si el lightbox no encuentra un ambiente propicio para su funcionamiento (Poco soporte de JS, Versión anterior o antigua de navegador) ejecutará una redirección a la URL de procesamiento.
 

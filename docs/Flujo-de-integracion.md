@@ -3,7 +3,7 @@
 1. Para redireccionar tu usuario al sistema de Webcheckout, debes consumir el método **`createRequest`**. **Si no deseas redireccionarlo puedes usar la opción de lightbox.**
 Si la solicitud es procesada correctamente, el servicio crea una sesión y retorna en la respuesta: Identificador `requestID` y URL de procesamiento `processUrl`.
 2. Crea un registro en tu sistema, relaciona ese registro al `requestID` y déjalo en estado pendiente.
-3. Redirecciona al usuario al `processUrl`. 
+3. Redirecciona al usuario al `processUrl`.
 4. En la interfaz de Web Checkout el usuario realizará el proceso de pago o suscripción donde debe ingresar la información para procesar el pago.
 5. Posteriormente el usuario debe seleccionar el medio de pago con el que va a realizar la compra ingresando los datos del medio de pago.
 6. Una vez el usuario realiza el proceso y hace clic en *“Regresar al comercio”*, éste es enviado a la URL de retorno returnUrl (Atributo especificado al crear la operación).

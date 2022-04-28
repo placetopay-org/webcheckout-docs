@@ -4,18 +4,18 @@ tags: [Crear sesión]
 
 # Métodos de pago
 
-Al momento de crear una sesión puedes limitar los medios de pagos, de esa forma obligas a tu usuario a pagarte esa sesión con métodos de pago en específicos. Puedes enviar el listado de métodos de pago en el atributo `paymentMethod` 
+Al momento de crear una sesión puedes limitar los medios de pagos, de esa forma obligas a tu usuario a pagarte esa sesión con métodos de pago en específicos. Puedes enviar el listado de métodos de pago en el atributo `paymentMethod`
 
 **Posibles valores:**
 
-Valor | Descripción 
+Valor | Descripción
 ---------|----------
-visa | Tarjetas  VISA  
+visa | Tarjetas  VISA
 master | Tarjetas  MASTERCARD
 amex | Tarjetas  AMERICAN EXPRESS
 diners | Tarjetas  DINERS
 discover | Tarjetas  DISCOVER
-visa_electron | Tarjetas debito VISA ELECTRON
+visa_electron | Tarjetas débito VISA ELECTRON
 _ATH_ | Corresponsales bancarios Grupo Aval
 _PPD_ | Débito pre-autorizado (PPD)
 _PSE_ | Débito a cuentas corrientes y ahorros (PSE
@@ -42,7 +42,6 @@ SPGRS | Supergiros
 T1_BC | Bancolombia Recaudos
 TYDAK | Tarjeta Alkosto
 TYDEX | Tarjeta Éxito
-  
 
 ```json
     "payment": {
@@ -60,7 +59,3 @@ TYDEX | Tarjeta Éxito
     "paymentMethod": "visa, master, amex"// Se define los metodos de pago a usar.
 
 ```
-
-
-
-

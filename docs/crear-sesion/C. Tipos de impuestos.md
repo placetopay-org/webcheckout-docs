@@ -6,9 +6,9 @@ tags: [Crear sesión]
 
 Los tipos de impuestos son las diferentes clases de tributo que las personas están obligadas a pagar a alguna organización.
 
-En este sentido, dependiendo de la actividad sobre la que recaiga, se le aplica un impuesto u otro. Presentan variación en la cuantía que el interesado debe abonar. Esto se basa en la normativa que presente cada sistema tributario. 
+En este sentido, dependiendo de la actividad sobre la que recaiga, se le aplica un impuesto u otro. Presentan variación en la cuantía que el interesado debe abonar. Esto se basa en la normativa que presente cada sistema tributario.
 
-En WebCheckout Placetopay los impuestos son enviados en el objeto `amount`  usado la estrcutura `taxes` 
+En WebCheckout Placetopay los impuestos son enviados en el objeto `amount`  usado la estructura `taxes`
 
             "taxes": [
                 {
@@ -31,6 +31,5 @@ Kind | País
  **ice** | Todos
  **airportTax** | Colombia y Ecuador
  **stateTax** | Puerto Rico
- **MunicipalTax** | Puerto Rico 
+ **MunicipalTax** | Puerto Rico
 **reducedStateTax** | Puerto Rico
- 
