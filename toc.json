@@ -20,13 +20,11 @@
       "title": "Plugins y componentes",
       "uri": "docs/Plugins-y-componentes.md"
     },
-   
 {
       "type": "item",
       "title": "WebCheckout",
       "uri": "reference/WebCheckout-ES.yaml"
     },
-    
 {
       "type": "item",
       "title": "Notificación",
@@ -37,12 +35,12 @@
       "title": "Tipos de pago",
       "uri": "docs/crear-sesion/A. Tipos de pago.md"
     },
-     {
+    {
       "type": "item",
       "title": "Seguridad",
       "uri": "docs/Seguridad.md"
     },
-     {
+    {
       "type": "item",
       "title": "Suscripción",
       "uri": "docs/crear-sesion/F.-Suscripcion.md"
@@ -72,11 +70,5 @@
       "title": "Preautorización",
       "uri": "docs/crear-sesion/G. Preautorización.md"
     }
-
-    
- 
-   
-   
-    
   ]
 }

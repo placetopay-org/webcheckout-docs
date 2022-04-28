@@ -7,10 +7,10 @@ info:
 
     * **Diseño personalizado:** Puedes agregar tu imagen y colores corporativos.
     * **Diferentes idiomas y monedas:** Operaciones soportadas con diferentes idiomas y monedas
-    * **Adaptado a diferentes resoluciones:** Diseño receptivo para diferentes dispositivos 
-    * **Wallet Placetopay:** Placetopay cuenta con su propia billetera, bridando mayor seguridad y facilidad en el proceso de pago.
+    * **Adaptado a diferentes resoluciones:** Diseño receptivo para diferentes dispositivos
+    * **Wallet Placetopay:** Placetopay cuenta con su propia billetera, brindando mayor seguridad y facilidad en el proceso de pago.
     * **Seguridad de la información:** Lineamientos PCI que garantizan seguridad en la captura y procesamiento de la información sensible dela tarjeta.
-    * **Funciones adicionales:** Impuestos, pagos mixtos, suscripciones, cobros recurrentes, promociones y más. 
+    * **Funciones adicionales:** Impuestos, pagos mixtos, suscripciones, cobros recurrentes, promociones y más.
 
     **Importante:** El API de WebCheckOut está basado en REST. Para hacer uso de este servicio es necesario que tu sistema soporte comunicación con la versión 1.2 del protocolo TLS.
   license: {}
@@ -1354,7 +1354,7 @@ components:
           type: string
           format: date-time
           description: |
-            Fecha de expiración de una solicitud, el usuario debe terminar el proceso antes de esta fecha. 
+            Fecha de expiración de una solicitud, el usuario debe terminar el proceso antes de esta fecha.
         returnUrl:
           type: string
           description: |

@@ -1,9 +1,9 @@
 ---
 tags: [Crear sesión]
 ---
-## Pago 
+## Pago
 
-Un pago hace referencia al proceso que se ejecuta luego de que el usuario ingresa la información solicitada 
+Un pago hace referencia al proceso que se ejecuta luego de que el usuario ingresa la información solicitada
 en WebCheckout Placetopay y éste solicita a la red realizar el cobro.
 
 ## Pago mixto
@@ -17,7 +17,7 @@ Ejemplo:
 ```json
 {
   "auth": {
-    "login": "usuarioprueba",
+    "login": "usuarioPrueba",
     "tranKey": "jsHJzM3+XG754wXh+aBvi70D9/4=",
     "nonce": "TTJSa05UVmtNR000TlRrM1pqQTRNV1EREprWkRVMU9EZz0=",
     "seed": "2019-04-25T18:17:23-04:00"
@@ -61,7 +61,7 @@ Para hacer uso de esta funcionalidad, en la estructura payment del Pago recurren
 ```json
 {
   "auth": {
-    "login": "usuarioprueba",
+    "login": "usuarioPrueba",
     "tranKey": "jsHJzM3+XG754wXh+aBvi70D9/4=",
     "nonce": "TTJSa05UVmtNR000TlRrM1pqQTRNV1EREprWkRVMU9EZz0=",
     "seed": "2019-04-25T18:17:23-04:00"
@@ -73,7 +73,7 @@ Para hacer uso de esta funcionalidad, en la estructura payment del Pago recurren
             "currency": "COP",
             "total": "10000"
         },
-        "recurring": { //Definimos las caracteristicas que tendrá la recurrencia.
+        "recurring": { //Definimos las características que tendrá la recurrencia.
             "periodicity": "M",
             "interval": "1",
             "nextPayment": "2019-04-04",
@@ -101,7 +101,7 @@ Atributo | Tipo | Descripción | ¿Requerido?
 Los cobros recurrentes sólo se realizarán en el caso que la transacción inicial sea aprobada.
 
 En el caso de fallar un cobro recurrente, éste seguirá reintentado una vez cada día durante 3 días, si luego de esto no se obtiene una transacción aprobada, la recurrencia se le cancela al tarjetahabiente.
- 
+
 La recurrencia se deja de reintentar si la primera respuesta no tiene sentido reintentar (Tarjeta invalida, robada, etc), es decir se reintenta sólo si es por saldo.
 
 Las recurrencias sólo pueden ser canceladas en la consola administrativa de PlacetoPay.
@@ -115,19 +115,19 @@ también es necesario indicar el tipo de convenio, en este caso `MERCHANT` o `AI
 
 En la estructura payment del pago es necesario enviar el esquema de dispersión
 
-Ejemplo: 
+Ejemplo:
 
 ```json
 {
   "auth": {
-    "login": "usuarioprueba",
+    "login": "usuarioPrueba",
     "tranKey": "jsHJzM3+XG754wXh+aBvi70D9/4=",
     "nonce": "TTJSa05UVmtNR000TlRrM1pqQTRNV1EREprWkRVMU9EZz0=",
     "seed": "2019-04-25T18:17:23-04:00"
     },
     "payment": {
         "reference": "3210",
-        "description": "Pago con dispersion de prueba",
+        "description": "Pago con dispersión de prueba",
         "amount": {
             "currency": "COP",
             "total": 100000
@@ -166,7 +166,7 @@ Ejemplo:
 Para el envió de impuestos, es importante que se encuentre en la estructura de cada una de las dispersiones
 
 
-Ejemplo: 
+Ejemplo:
 
 ```json
 {
@@ -214,8 +214,3 @@ Ejemplo:
     ]
 }
 ```
-
-
-
-
-
