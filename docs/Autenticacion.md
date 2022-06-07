@@ -5,15 +5,15 @@ UsernameToken Profile 1.1* para autenticar todas las solicitudes.
 
 La autenticación al servicio debe ser enviada sobre el objeto `auth`, el cual debe contener los siguientes atributos:
 
-Valores como `login` y `secretKey` son suministrados por Placetopay.
+Valores como `login` y `tranKey` son suministrados por Placetopay.
 El `nonce` es un valor aleatorio por cada solicitud
 
-Valor | Descripción
----------|----------
- **login** | Identificador del sitio.
- **tranKey** | Valor formado por la siguiente operación: `Base64(SHA-1(nonce + seed + secretkey))`. (El nonce dentro de la operación es el original, es decir, el que no está en Base64.)
- **nonce** | Valor aleatorio para cada solicitud codificado en Base64.
- **seed** | Fecha actual, la cual se genera en formato ISO 8601.
+| Valor       | Descripción                                                                                                                                                              |
+|-------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **login**   | Identificador del sitio.                                                                                                                                                 |
+| **tranKey** | Valor formado por la siguiente operación: `Base64(SHA-1(nonce + seed + tranKey))`. (El nonce dentro de la operación es el original, es decir, el que no está en Base64.) |
+| **nonce**   | Valor aleatorio para cada solicitud codificado en Base64.                                                                                                                |
+| **seed**    | Fecha actual, la cual se genera en formato ISO 8601.                                                                                                                     |
 
 
 ```json
