@@ -19,7 +19,7 @@ Webcheckout te permite:
 
 **1.** Para aceptar un pago por WebCheckout es necesario tener una *Sesión* de pago que se puede crear usando el método [API - Crear sesión (CreateRequest)](../WebCheckout-ES.yaml/paths/~1api~1session/post), en la respuesta de este servicio se obtendrá el `processURL` y el `requestId`.
 
-Ver más en: [Crear Sesión](../docs/Crear-sesion.md)
+Ver más en: [Crear Sesión](./create-sesion.md)
 
 **2.** En su sistema, crear un registro que relacione el pago en proceso con el `requestID` entregado, el proceso se encuentra en estado **pendiente**.
 
