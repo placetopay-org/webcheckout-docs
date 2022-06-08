@@ -1,3 +1,7 @@
+---
+stoplight-id: 0c1448ed0e011
+---
+
 # Crear sesión
 
 Este endpoint sirve para solicitar la creación de una sesión de pagos.

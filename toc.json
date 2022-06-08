@@ -2,13 +2,23 @@
   "items": [
     {
       "type": "item",
+      "title": "Introducción",
+      "uri": "docs/introduction.md"
+    },
+    {
+      "type": "item",
       "title": "Autenticación",
       "uri": "docs/Autenticacion.md"
     },
     {
       "type": "item",
-      "title": "Flujo de integración",
-      "uri": "docs/Flujo-de-integracion.md"
+      "title": "Plugins y componentes",
+      "uri": "docs/Plugins-y-componentes.md"
+    },
+    {
+      "type": "item",
+      "title": "Notificación",
+      "uri": "docs/Notificacion.md"
     },
     {
       "type": "item",
@@ -16,19 +26,13 @@
       "uri": "docs/Lightbox.md"
     },
     {
-      "type": "item",
-      "title": "Plugins y componentes",
-      "uri": "docs/Plugins-y-componentes.md"
+      "type": "divider",
+      "title": "Crear Sesión"
     },
-{
+    {
       "type": "item",
-      "title": "WebCheckout",
-      "uri": "reference/WebCheckout-ES.yaml"
-    },
-{
-      "type": "item",
-      "title": "Notificación",
-      "uri": "docs/Notificacion.md"
+      "title": "Crear Sesión",
+      "uri": "docs/create-session.md"
     },
     {
       "type": "item",
@@ -69,6 +73,15 @@
       "type": "item",
       "title": "Preautorización",
       "uri": "docs/crear-sesion/G. Preautorización.md"
+    },
+    {
+      "type": "divider",
+      "title": "API"
+    },
+    {
+      "type": "item",
+      "title": "WebCheckout",
+      "uri": "reference/WebCheckout-ES.yaml"
     }
   ]
 }

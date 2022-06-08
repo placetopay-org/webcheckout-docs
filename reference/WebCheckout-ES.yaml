@@ -1,26 +1,37 @@
 openapi: 3.1.0
 info:
-  title: WebCheckout
+  title: PlacetoPay WebCheckout
   version: '1.0'
   description: |
-    Webcheckout crea una página de pago segura alojada en Placetopay, ésta le permite cobrar los pagos rápidamente. Puede ser accedido desde diferentes dispositivos
+    WebCheckout es una página web prediseñada, optimizada y alojada en Placetopay que le permite aceptar pagos en línea de forma rápida y segura desde dispositivos móviles y de escritorio. Puedes aceptar pagos únicos, pagos recurrentes, pagos mixtos y suscribir medios de pago.
 
-    * **Diseño personalizado:** Puedes agregar tu imagen y colores corporativos.
-    * **Diferentes idiomas y monedas:** Operaciones soportadas con diferentes idiomas y monedas
-    * **Adaptado a diferentes resoluciones:** Diseño receptivo para diferentes dispositivos
-    * **Wallet Placetopay:** Placetopay cuenta con su propia billetera, brindando mayor seguridad y facilidad en el proceso de pago.
-    * **Seguridad de la información:** Lineamientos PCI que garantizan seguridad en la captura y procesamiento de la información sensible dela tarjeta.
-    * **Funciones adicionales:** Impuestos, pagos mixtos, suscripciones, cobros recurrentes, promociones y más.
+    Webcheckout te permite:
 
-    **Importante:** El API de WebCheckOut está basado en REST. Para hacer uso de este servicio es necesario que tu sistema soporte comunicación con la versión 1.2 del protocolo TLS.
+    * **Diseño personalizado:** Puedes personalizar los nombres, logos y colores de tu empresa.
+    * **Diferentes idiomas y monedas:** Aceptar pagos en multiples idiomas y monedas.
+    * **Adaptado a diferentes resoluciones:** Diseño receptivo para diferentes dispositivos.
+    * **Wallet PlacetoPay:** WebCheckout cuenta con su propia billetera que le permite a usuarios guardar medios de pago frecuentes brindando mayor seguridad y facilidad en el proceso de pago.
+    * **Seguridad de la información:** Lineamientos PCI que garantizan seguridad en la captura y procesamiento de la información sensible de tarjetas.
+    * **Pagos avanzados:** Pagos con Impuestos, pagos mixtos, suscripciones, cobros recurrentes, promociones y más...
+
+    <!-- theme: info -->
+    > #### Acerca de HTTPS
+    >
+    > Para hacer uso de este servicio es necesario que tu sistema soporte comunicación con la versión 1.2 del protocolo TLS.
   license: {}
   contact:
-    url: 'https://www.placetopay.com/web/contactanos/'
+    url: 'https://www.evertecinc.com/pasarela-de-pagos-e-commerce/'
+    name: PlacetoPay by Evertec
+  summary: Usa WebCheckout para aceptar pagos en línea de forma sencilla y segura
 servers:
-  - description: 'SandBox Colombia, Puerto Rico, Costa Rica, Panamá'
-    url: 'https://test.placetopay.com/redirection'
-  - url: 'https://test.placetopay.ec/redirection'
-    description: SandBox Ecuador
+  - description: 'Sandbox (CO, PR, CR, PA)'
+    url: 'https://checkout-test.placetopay.com/'
+  - url: 'https://checkout-test.placetopay.ec/'
+    description: SandBox EC
+  - url: 'https://checkout.placetopay.com'
+    description: 'Producción (CO, PR, CR, PA)'
+  - url: 'https://checkout.placetopay.ec'
+    description: Producción (EC)
 paths:
   /api/session:
     post:
