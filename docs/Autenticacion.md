@@ -5,13 +5,13 @@ UsernameToken Profile 1.1* para autenticar todas las solicitudes.
 
 La autenticación al servicio debe ser enviada sobre el objeto `auth`, el cual debe contener los siguientes atributos:
 
-Valores como `login` y `tranKey` son suministrados por Placetopay.
+Valores como `login` y `secretKey` son suministrados por Placetopay.
 El `nonce` es un valor aleatorio por cada solicitud
 
 | Valor       | Descripción                                                                                                                                                              |
 |-------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **login**   | Identificador del sitio.                                                                                                                                                 |
-| **tranKey** | Valor formado por la siguiente operación: `Base64(SHA-1(nonce + seed + tranKey))`. (El nonce dentro de la operación es el original, es decir, el que no está en Base64.) |
+| **tranKey** | Valor formado por la siguiente operación: `Base64(SHA-1(nonce + seed + secretKey))`. (El nonce dentro de la operación es el original, es decir, el que no está en Base64.) |
 | **nonce**   | Valor aleatorio para cada solicitud codificado en Base64.                                                                                                                |
 | **seed**    | Fecha actual, la cual se genera en formato ISO 8601.                                                                                                                     |
 
@@ -52,7 +52,7 @@ Tus servidores requieren TLSv1.2 para recibir la solicitud, debido a la norma PC
 
 En el proceso de autenticación, Placetopay revisamos el campo Created, este campo debe estar en el tiempo GMT o el tiempo local usando el tiempo de zona. Si obtienes esta respuesta, se debe a que tu tiempo no es preciso con el tiempo real. Nosotros solo permitimos 5 minutos de diferencia entre los tiempos. Puedes usar NTP para mantener la precisión del reloj.
 
-- #### **Dando los mismos valores EXACTOS que en los ejemplos anteriores a la BASE64(SHA1($Nonce + $Created . $tranKey)) estoy obteniendo un password digest diferente.**
+- #### **Dando los mismos valores EXACTOS que en los ejemplos anteriores a la BASE64(SHA1($Nonce + $Created . $secretKey)) estoy obteniendo un password digest diferente.**
 
 Mantén en mente que BASE64 debería ser para el raw output de la SHA1 y de acuerdo con todos los lenguajes de programación este puede ser requerido para configurar esta opción, por ejemplo. En PHP base64_encode(sha1( … , true)) este parámetro retornaría el raw output para el sHA1 algorithm
 
