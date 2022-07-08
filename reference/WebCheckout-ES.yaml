@@ -580,7 +580,7 @@ paths:
                     seed: '2021-09-21T09:34:48-05:00'
                   internalReference: 1
       description: |
-        Permite revertir un pago aprobado con el código de referencia interna.
+        Permite revertir un pago aprobado con el código de referencia interna `internalReference`.
       responses:
         '200':
           description: OK
@@ -1028,7 +1028,7 @@ paths:
                       receipt: '499435368733'
                       franchise: PS_VS
                       refunded: false
-      description: 'Permite realizar operaciones básicas de preauthorización como CHECKOUT, REAUTHORIZATION (No aplica para Puerto Rico) y REVERSE, por otro lado también permite revertir un pago aprobado con el código de referencia interna.'
+      description: 'Permite realizar operaciones básicas de preauthorización como `checkout`, `reauthorization`, (No aplica para Puerto Rico)  por otro lado también permite revertir un pago aprobado con el código de referencia interna `reverse`.'
       requestBody:
         content:
           application/json:
@@ -1166,11 +1166,11 @@ components:
         taxes:
           type: array
           items:
-            $ref: '#/components/schemas/TaxDetail'
+            $ref: '#/components/schemas/Taxes'
         details:
           type: array
           items:
-            $ref: '#/components/schemas/TaxDetail'
+            $ref: '#/components/schemas/Details'
     Items:
       title: Items
       type: object
@@ -1263,22 +1263,80 @@ components:
           type: number
           description: |
             Impuesto del artículo.
-    TaxDetail:
-      title: TaxDetail
+    Taxes:
+      title: Taxes
       type: object
       description: |
         Estructura para almacenar información sobre un impuesto.
+      examples:
+        - kind: valueAddedTax
+          amount: 1000
+          base: 0
       properties:
         kind:
           type: string
-          description: 'Valor de clasificación, puede ser [valueAddedTax, exciseDuty].'
+          description: Tipo de impuesto
+          enum:
+            - valueAddedTax
+            - exciseDuty
+            - ice
+            - airportTax
+            - stateTax
+            - MunicipalTax
+            - reducedStateTax
+          example: valueAddedTax
         amount:
           type:
             - integer
             - number
             - string
           description: |
-            Valor discriminado.
+            Monto del impuesto
+        base:
+          type:
+            - string
+            - number
+            - integer
+      required:
+        - kind
+        - amount
+    Details:
+      title: Details
+      type: object
+      description: |
+        Estructura para almacenar información sobre un detalle.
+      x-internal: false
+      examples:
+        - kind: discount
+          amount: 1000
+      properties:
+        kind:
+          type: string
+          description: Tipo de detalle
+          example: discount
+          enum:
+            - discount
+            - additional
+            - vatDevolutionBase
+            - shipping
+            - handlingFee
+            - insurance
+            - giftWrap
+            - subtotal
+            - fee
+            - tip
+            - airline
+            - interests
+        amount:
+          type:
+            - integer
+            - number
+            - string
+          description: |
+            Monto del detalle
+      required:
+        - kind
+        - amount
     SubscriptionRequest:
       title: SubscriptionRequest
       type: object
@@ -1632,7 +1690,7 @@ components:
     TransactionActionRequest:
       title: TransactionActionRequest
       type: object
-      description: 'Estructura que permite realizar solicitudes de preauthorización como CHECKOUT, REAUTHORIZATION y REVERSE'
+      description: 'Estructura que permite realizar solicitudes de preauthorización como checkout, reauthorization y reverse'
       x-examples:
         checkout example:
           internalReference: 1
@@ -1659,6 +1717,10 @@ components:
           $ref: '#/components/schemas/Amount'
         action:
           type: string
+          enum:
+            - checkout
+            - reauthorization
+            - reverse
           example: checkout
     DispersionDetail:
       title: DispersionDetail
@@ -1682,6 +1744,7 @@ components:
           enum:
             - MERCHANT
             - AIRLINE
+          example: MERCHANT
         amount:
           $ref: '#/components/schemas/Amount'
   securitySchemes: {}
