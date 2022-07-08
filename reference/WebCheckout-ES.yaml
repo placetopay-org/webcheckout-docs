@@ -1690,7 +1690,7 @@ components:
     TransactionActionRequest:
       title: TransactionActionRequest
       type: object
-      description: 'Estructura que permite realizar solicitudes de preauthorización como checkout, reauthorization y reverse'
+      description: 'Estructura que permite realizar solicitudes de preauthorización como `checkout`, `reauthorization` y `reverse`'
       x-examples:
         checkout example:
           internalReference: 1
