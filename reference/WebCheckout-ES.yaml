@@ -1117,6 +1117,9 @@ components:
             country:
               type: string
               minLength: 1
+            phone:
+              type: string
+              minLength: 1
     PaymentRequest:
       title: PaymentRequest
       type: object

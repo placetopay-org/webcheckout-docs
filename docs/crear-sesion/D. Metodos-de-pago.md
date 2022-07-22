@@ -42,6 +42,15 @@ SPGRS | Supergiros
 T1_BC | Bancolombia Recaudos
 TYDAK | Tarjeta Alkosto
 TYDEX | Tarjeta Éxito
+ID_DN | Interdin Diners
+ID_DS | Interdin Discover
+ID_VS | Interdin Visa
+ID_MC | Interdin Mastercard
+MT_VS | Medianet Visa
+MT_MC | Medianet Mastercard
+DF_AM | Datafast Amex
+DF_VS | Datafast Visa
+DF_MC | Datafast Mastercard
 
 ```json
     "payment": {
