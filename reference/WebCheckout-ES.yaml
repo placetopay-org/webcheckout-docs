@@ -202,6 +202,29 @@ paths:
                   returnUrl: 'https://dnetix.co/p2p/client'
                   ipAddress: 127.0.0.1
                   userAgent: PlacetoPay Sandbox
+              Crear sesión con modificadores:
+                value:
+                  locale: es_CO
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  payment:
+                    reference: '331122'
+                    description: Pago con modificadores
+                    amount:
+                      currency: UYU
+                      total: 2000
+                    modifiers:
+                      - type: FEDERAL_GOVERNMENT
+                        code: '17934'
+                        additional:
+                          invoice: '112233'
+                  expiration: '2022-12-15T00:00:00-05:00'
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
       responses:
         '200':
           description: OK
@@ -1080,66 +1103,89 @@ components:
         document:
           type: string
           minLength: 1
+          description: Documento de identidad
+          example: '1122334455'
         documentType:
           type: string
           minLength: 1
-          description: NO USADO EN PUERTO RICO
+          example: CC
+          description: Tipo de documento
         name:
           type: string
           minLength: 1
+          description: Nombre
+          example: John
         surname:
           type: string
           minLength: 1
+          description: Apellido (No aplica tipos de documento de tipo comercial)
+          example: Doe
         company:
           type: string
-          minLength: 1
+          description: Información de la compañia
+          example: Evertec
         email:
           type: string
           minLength: 1
+          example: johndoe@app.com
+          description: Correo Eléctronico
         mobile:
           type: string
           minLength: 1
+          description: Número de teléfono
+          example: '+5731111111111'
         address:
           type: object
+          description: Información de dirección
           properties:
             street:
               type: string
               minLength: 1
+              example: Calle falsa 123
             city:
               type: string
               minLength: 1
+              example: Medellín
             state:
               type: string
               minLength: 1
+              example: Poblado
             postalCode:
               type: string
               minLength: 1
+              example: '55555'
             country:
               type: string
               minLength: 1
+              example: Colombia
             phone:
               type: string
               minLength: 1
+              example: '+573111111111'
     PaymentRequest:
       title: PaymentRequest
       type: object
       description: |
         Estructura que contiene la información acerca del pago de la transacción requerida al servicio web.
+      examples: []
       properties:
         reference:
           type: string
           description: |
             Única referencia para la solicitud de pago.
+          example: '12345'
         description:
           type: string
           description: |
             Descripción de la cuenta.
+          example: Prueba de pago
         amount:
           $ref: '#/components/schemas/Amount'
         allowPartial:
           type: boolean
           description: |
             Define si el monto a ser cobrado puede ser parcial.
+          default: false
         shipping:
           $ref: '#/components/schemas/Person'
         items:
@@ -1152,10 +1198,21 @@ components:
           type: boolean
           description: |
             Permite solicitar un proceso de cobro y suscripción en la misma sesión.
+          default: false
         dispersion:
           type: array
+          description: Agrega información de dispersión
           items:
             $ref: '#/components/schemas/DispersionDetail'
+        modifiers:
+          type: array
+          description: Agrega información de tipo de ley
+          items:
+            $ref: '#/components/schemas/ModifiersDetail'
+      required:
+        - reference
+        - description
+        - amount
     Amount:
       title: Amount
       type: object
@@ -1192,34 +1249,43 @@ components:
           minLength: 1
           description: |
             Clave para el par de valores del dato.
+          example: '1111'
         value:
           type: string
           minLength: 1
           description: |
             Valor para el par de datos.
+          example: lastDigits
         displayOn:
           type: string
           minLength: 1
           description: |
             Bajo qué circunstancias el campo debe ser mostrado en la interfaz de redirección. [none, payment, receipt, both, approved]
+          example: none
     Recurring:
-      description: Estructura que contiene la información requerida para una solicitud de pago recurrente.
       type: object
+      description: Estructura que contiene la información requerida para una solicitud de pago recurrente.
       properties:
         periodicity:
           type: string
-          minLength: 1
           description: 'Periodicidad de la factura [D, M, Y]'
+          enum:
+            - D
+            - M
+            - 'Y'
+          example: D
         interval:
           type: string
           minLength: 1
           description: |
             Intervalo asociado a la periodicidad.
+          example: '1'
         nextPayment:
           type: string
           minLength: 1
           description: Fecha del próximo pago.
           format: date
+          example: '2019-08-24'
         maxPeriods:
           type:
             - string
@@ -1227,15 +1293,18 @@ components:
           minLength: 1
           description: |
             Número máximo de periodo (-1 en caso de que no haya restricción.)
+          example: 1
         'dueDate ':
           type: string
           format: date
           description: |
             Fecha para finalizar el pago.
+          example: '2019-09-24'
         'notificationUrl ':
           type: string
           description: |
             URL en el que el servicio notificará cada vez que se haga un pago recurrente.
+          example: 'https://checkout.placetopay.com'
     Item:
       description: ''
       type: object
@@ -1348,8 +1417,10 @@ components:
       properties:
         reference:
           type: string
+          example: '12345'
         description:
           type: string
+          example: Ejemplo de descripción
         fields:
           $ref: '#/components/schemas/NameValuePair'
     RedirectRequest:
@@ -1406,6 +1477,7 @@ components:
           type: string
           description: |
             Definido con los códigos ISO 631-1 (language) y ISO 3166-1 alpha-2 (2-letras del país). ej. en_US, es_CO
+          example: es_CO
         auth:
           $ref: '#/components/schemas/Autentication'
         payer:
@@ -1422,6 +1494,7 @@ components:
           type: string
           description: |
             Forzar el medio de pago en la interfaz de redirección, los códigos aceptados son los de la lista. Si necesita más de uno separarlos con coma. ej. visa,amex,master
+          example: visa
         expiration:
           type: string
           format: date-time
@@ -1431,29 +1504,42 @@ components:
           type: string
           description: |
             URL de retorno es utilizada para redirigir al usuario una vez termina la operación de pago.
+          example: 'https://commerce.test/return'
         cancelUrl:
           type: string
           description: |
             URL para retornar cuando el cliente aborte la operación.
+          example: 'https://commerce.test/cancel'
         ipAddress:
           type: string
           description: |
             Dirección IP del usuario.
+          example: 127.0.0.1
         userAgent:
           type: string
+          example: PlacetoPay Sandbox
         skipResult:
           type: boolean
           description: |
             Si se envía el parámetro como true se omite la pantalla del resultado en redirección y una vez aprobado el pago regresa al comercio automaticamente.
+          default: false
         noBuyerFill:
           type: boolean
           description: |
             Por defecto se llenan los datos que se piden en redirección con los del comprador (buyer) enviados, si se envía como true se omite este autocompletado automático.
+          default: false
         type:
           type: string
           description: crear una sesión de preautorización
           enum:
             - checkin
+          example: checkin
+      required:
+        - auth
+        - expiration
+        - returnUrl
+        - ipAddress
+        - userAgent
     Autentication:
       description: ''
       type: object
@@ -1493,6 +1579,7 @@ components:
           type: string
           minLength: 1
           description: Estado de una petición o pago
+          example: APPROVED
         reason:
           type:
             - string
@@ -1500,6 +1587,7 @@ components:
             - 'null'
           description: |
             Código del motivo proporcionado.
+          example: '00'
         message:
           type:
             - string
@@ -1507,12 +1595,14 @@ components:
           minLength: 1
           description: |
             Descripción del código de razón.
+          example: La petición ha sido aprobada exitosamente
         date:
           type: string
           minLength: 1
           format: date-time
           description: |
             Fecha y hora en que se genera el estado de pago.
+          example: '2022-07-27T14:51:27-05:00'
     Transaction:
       title: Transaction
       type: object
@@ -1525,42 +1615,59 @@ components:
           type: integer
           description: |
             Referencia interna en PlacetoPay.
+          example: 12345
         reference:
           type: string
           description: |
             Referencia enviada por el comercio para la transacción.
+          example: '12345'
         paymentMethod:
           type: string
           description: |
             Código del método de pago utilizado.
+          example: visa
         paymentMethodName:
           type: string
           description: |
             Nombre del método de pago utilizado.
+          example: Visa
         issuerName:
           type: string
           description: |
             Nombre del emisor o del procesador.
+          example: 'JPMORGAN CHASE BANK, N.A.'
         amount:
           $ref: '#/components/schemas/AmountConversion'
         receipt:
           type: string
           description: |
             Numero de recibo de la transacción.
+          example: '052617800175'
         franchise:
           type: string
           description: |
             Franquicia de la tarjeta utilizada.
+          example: PS_VS
         refunded:
           type: boolean
+          description: Se utiliza para definir si la transacción ha sido reversada
+          default: false
         authorization:
           type: string
           description: |
             Código de autorización.
+          example: '965960'
         processorFields:
-          $ref: '#/components/schemas/NameValuePair'
+          type: array
+          items:
+            $ref: '#/components/schemas/NameValuePair'
         dispersion:
-          $ref: '#/components/schemas/Transaction'
+          type:
+            - array
+            - 'null'
+          description: Estructura que contiene información de dispersión
+          items:
+            $ref: '#/components/schemas/Transaction'
         agreement:
           type:
             - integer
@@ -1568,11 +1675,41 @@ components:
             - string
             - number
           description: Identificador de destinatario de la transacción. Para el sitio principal de la transacción.
+          example: 186
         agreementType:
           type:
             - string
             - 'null'
-          description: 'Valores: AIRLINE MERCHANT'
+          description: Tipo de dispersión
+          enum:
+            - MERCHANT
+            - AIRLINE
+          example: MERCHANT
+        discount:
+          type:
+            - object
+            - 'null'
+          properties:
+            base:
+              type:
+                - string
+                - number
+              example: 3000
+            code:
+              type: string
+              example: '17934'
+            type:
+              type: string
+              example: FRANCHISE
+            amount:
+              type:
+                - number
+                - string
+              example: 1000
+        subscription:
+          type:
+            - string
+            - 'null'
     AmountConversion:
       title: AmountConversion
       type: object
@@ -1584,7 +1721,11 @@ components:
         to:
           $ref: '#/components/schemas/AmountBase'
         factor:
-          type: string
+          type:
+            - number
+            - string
+          example: 1
+          description: Factor de conversión
     AmountBase:
       title: AmountBase
       type: object
@@ -1595,24 +1736,65 @@ components:
           type: string
           description: |
             Moneda acorde al ISO 4217 (alphabetic code).
+          example: COP
         'total ':
-          type: number
+          type:
+            - number
+            - string
           description: |
             Valor total.
+          example: 10000
     SubscriptionResponse:
       title: SubscriptionResponse
       type: object
       description: |
         Estructura que contiene información para el método de pago suscripción.
+      examples:
+        - status:
+            status: APPROVED
+            reason: '00'
+            message: La petición ha sido aprobada exitosamente
+            date: '2022-07-27T14:51:27-05:00'
+          type: token
+          instrument:
+            - keyword: token
+              value: a3bfc8e2afb9ac5583922eccd6d2061c1b0592b099f04e352a894f37ae51cf1a
+              displayOn: none
+            - keyword: subtoken
+              value: '8740257204881111'
+              displayOn: none
+            - keyword: franchise
+              value: visa
+              displayOn: none
+            - keyword: franchiseName
+              value: Visa
+              displayOn: none
+            - keyword: issuerName
+              value: 'JPMORGAN CHASE BANK, N.A.'
+              displayOn: none
+            - keyword: lastDigits
+              value: '1111'
+              displayOn: none
+            - keyword: validUntil
+              value: '2029-12-31'
+              displayOn: none
+            - keyword: installments
+              value: null
+              displayOn: none
       properties:
         status:
           $ref: '#/components/schemas/Status'
         type:
           type: string
-          description: |
-            Esta cadena dicta el tipo de suscripción que se devuelve, puede ser [token, cuenta]
+          description: Define tipo de suscripción que se devuelve
+          example: token
+          enum:
+            - token
+            - cuenta
         instrument:
-          $ref: '#/components/schemas/NameValuePair'
+          type: array
+          items:
+            $ref: '#/components/schemas/NameValuePair'
     RedirectInformation:
       title: RedirectInformation
       type: object
@@ -1624,7 +1806,7 @@ components:
         request:
           $ref: '#/components/schemas/RedirectRequest'
         payment:
-          $ref: '#/components/schemas/Transaction'
+          $ref: '#/components/schemas/RedirectRequest'
         subscription:
           $ref: '#/components/schemas/SubscriptionResponse'
     Instrument:
@@ -1635,6 +1817,30 @@ components:
       properties:
         token:
           $ref: '#/components/schemas/SimpleToken'
+        pocket:
+          type:
+            - string
+            - 'null'
+          description: |
+            Código de billetera (casos cuando se realiza subscripciones que requieren pockets actualmente en Uruguay)
+
+            Códigos soportados
+
+            10 – Cuenta de ahorros en UYU
+
+            20 – Cuenta corriente en UYU
+
+            80 – Cuenta de ahorros en USD
+
+            90 – Cuenta corriente en USD
+          example: '10'
+          enum:
+            - '10'
+            - '20'
+            - '80'
+            - '90'
+      required:
+        - token
     SimpleToken:
       title: SimpleToken
       type: object
@@ -1645,18 +1851,31 @@ components:
           type: string
           description: |
             Token completo para tarjeta de crédito, debe ser usada para solicitar cualquier transacción a PlacetoPay.
+          example: a3bfc8e2afb9ac5583922eccd6d2061c1b0592b099f04e352a894f37ae51cf1a
         subtoken:
           type: string
           description: |
             Representación numérica del Token para casos donde es requerido un número adicional que parece como una tarjeta de crédito, los últimos 4 dígitos son iguales a los últimos 4 dígitos de la tarjeta de crédito.
+          example: '8740257204881112'
         installments:
-          type: integer
+          type:
+            - integer
+            - 'null'
           description: |
             Número de cuotas en las cuales se solicita el cobro (opcional).
+          example: 'null'
         cvv:
-          type: string
+          type:
+            - string
+            - 'null'
           description: |
             Dígitos del código de seguridad de la tarjeta a usar en los casos en los que sea necesario, generalmente se deja en blanco si se tiene una terminal sin validación de CVV.
+          example: '123'
+      examples:
+        - token: a3bfc8e2afb9ac5583922eccd6d2061c1b0592b099f04e352a894f37ae51cf1a
+          subtoken: '8740257204881112'
+          installments: null
+          cvv: '123'
     CollectRequest:
       title: CollectRequest
       type: object
@@ -1750,4 +1969,57 @@ components:
           example: MERCHANT
         amount:
           $ref: '#/components/schemas/Amount'
+    ModifiersDetail:
+      title: ModifiersDetail
+      type: object
+      description: Estructura que refleja la información de las leyes de impuestos.
+      examples:
+        - type: FEDERAL_GOVERNMENT
+          code: '17934'
+          additional:
+            invoice: '123345'
+      properties:
+        type:
+          type: string
+          description: Tipo de ley de impuesto
+          example: FEDERAL_GOVERNMENT
+          enum:
+            - FEDERAL_GOVERNMENT
+        code:
+          type:
+            - string
+            - integer
+          description: |-
+            Códigos soportados
+
+            17934 – Servicios Gastronómicos
+
+            18083 – IMESI Brasil - Argentina
+
+            19210 – Inclusión Financiera
+
+            18910 – Asignaciones Familiares
+
+            18999 – Reintegro Inmobiliarias
+          enum:
+            - 17934
+            - 18083
+            - 19210
+            - 18910
+            - 18999
+          example: 17934
+        additional:
+          type: object
+          required:
+            - invoice
+          properties:
+            invoice:
+              type: string
+              description: Información adicional del tipo de ley
+              maxLength: 9
+              example: '123456789'
+      required:
+        - type
+        - code
+        - additional
   securitySchemes: {}

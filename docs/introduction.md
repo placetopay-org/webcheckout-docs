@@ -17,7 +17,7 @@ Webcheckout te permite:
 
 # Flujo de integración
 
-**1.** Para aceptar un pago por WebCheckout es necesario tener una *Sesión* de pago que se puede crear usando el método [API - Crear sesión (CreateRequest)](../WebCheckout-ES.yaml/paths/~1api~1session/post), en la respuesta de este servicio se obtendrá el `processURL` y el `requestId`.
+**1.** Para aceptar un pago por WebCheckout es necesario tener una *Sesión* de pago que se puede crear usando el método [API - Crear sesión (CreateRequest)](../reference/WebCheckout-ES.yaml/paths/~1api~1session/post), en la respuesta de este servicio se obtendrá el `processURL` y el `requestId`.
 
 Ver más en: [Crear Sesión](create-session.md)
 
