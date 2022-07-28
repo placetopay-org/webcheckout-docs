@@ -960,6 +960,28 @@ paths:
                   returnUrl: 'https://dnetix.co/p2p/client'
                   ipAddress: 127.0.0.1
                   userAgent: PlacetoPay Sandbox
+              Cobro con  bolsillo de tarjeta:
+                value:
+                  locale: es_CO
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  payment:
+                    reference: '1122334455'
+                    description: Prueba
+                    amount:
+                      currency: USD
+                      total: 100
+                  instrument:
+                    pocket: 10
+                    token:
+                      token: e07ca9986cf0ecac8a557fa11c07bf37ea35e9e3e3a4180c49
+                  expiration: '2021-12-30T00:00:00-05:00'
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
       description: |
         Permite realizar cobros sin la intervención del usuario usando medios de pago previamente suscritos.
       x-internal: false
