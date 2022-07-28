@@ -21,7 +21,7 @@ Kind | Traducción | País
  **ice** | ICE | Todos
  **airportTax** | Tasa aeroportuaria | Colombia y Ecuador
  **stateTax** | IVU Estatal | Puerto Rico
- **MunicipalTax** | IVU Municipal | Puerto Rico
+ **municipalTax** | IVU Municipal | Puerto Rico
  **reducedStateTax** | IVU Reducido | Puerto Rico
 
 <!-- theme: warning -->

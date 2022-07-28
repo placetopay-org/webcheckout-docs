@@ -59,7 +59,6 @@ paths:
                     amount:
                       currency: USD
                       total: 100
-                    allowPartial: false
                   expiration: '2021-12-30T00:00:00-05:00'
                   returnUrl: 'https://dnetix.co/p2p/client'
                   ipAddress: 127.0.0.1
@@ -79,7 +78,6 @@ paths:
                     amount:
                       currency: USD
                       total: 100
-                    allowPartial: false
                   expiration: '2021-12-30T00:00:00-05:00'
                   returnUrl: 'https://dnetix.co/p2p/client'
                   ipAddress: 127.0.0.1
@@ -115,6 +113,8 @@ paths:
                     reference: '331122'
                     description: Reference
                     amount:
+                      currency: USD
+                      total: 500
                       taxes:
                         - kind: stateTax
                           amount: 16.13
@@ -122,14 +122,6 @@ paths:
                           amount: 11.21
                         - kind: reducedStateTax
                           amount: 10.21
-                      details:
-                        - kind: tip
-                          amount: 11
-                        - kind: subtotal
-                          amount: 11
-                      currency: USD
-                      total: 500
-                    allowPartial: false
                   expiration: '2021-12-30T00:00:00-05:00'
                   returnUrl: 'https://dnetix.co/p2p/client'
                   ipAddress: 127.0.0.1
@@ -148,7 +140,6 @@ paths:
                     amount:
                       currency: USD
                       total: 500
-                    allowPartial: false
                     dispersion:
                       - agreement: '1299'
                         agreementType: MERCHANT
@@ -218,10 +209,33 @@ paths:
                       total: 2000
                     modifiers:
                       - type: FEDERAL_GOVERNMENT
-                        code: '17934'
+                        code: 17934
                         additional:
                           invoice: '112233'
                   expiration: '2022-12-15T00:00:00-05:00'
+                  returnUrl: 'https://dnetix.co/p2p/client'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+              Crear sesión con detalles:
+                value:
+                  locale: es_CO
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  payment:
+                    reference: '331122'
+                    description: Reference
+                    amount:
+                      currency: USD
+                      total: 500
+                      details:
+                        - kind: tip
+                          amount: 11
+                        - kind: subtotal
+                          amount: 11
+                  expiration: '2021-12-30T00:00:00-05:00'
                   returnUrl: 'https://dnetix.co/p2p/client'
                   ipAddress: 127.0.0.1
                   userAgent: PlacetoPay Sandbox
@@ -1167,7 +1181,65 @@ components:
       type: object
       description: |
         Estructura que contiene la información acerca del pago de la transacción requerida al servicio web.
-      examples: []
+      examples:
+        - reference: '12345'
+          description: Prueba de pago
+          amount:
+            currency: COP
+            total: 2000
+            taxes:
+              - kind: valueAddedTax
+                amount: 1000
+                base: 0
+            details:
+              - kind: discount
+                amount: 1000
+          allowPartial: false
+          shipping:
+            document: '1122334455'
+            documentType: CC
+            name: John
+            surname: Doe
+            company: Evertec
+            email: johndoe@app.com
+            mobile: '+5731111111111'
+            address:
+              street: Calle falsa 123
+              city: Medellín
+              state: Poblado
+              postalCode: '55555'
+              country: Colombia
+              phone: '+573111111111'
+          items:
+            - sku: '12345'
+              name: product_1
+              category: physical
+              qty: '1'
+              price: 1000
+              tax: 0
+          fields:
+            - keyword: _test_field_value_
+              value: _test_field_
+              displayOn: approved
+          recurring:
+            periodicity: D
+            interval: '1'
+            nextPayment: '2019-08-24'
+            maxPeriods: 1
+            'dueDate ': '2019-09-24'
+            'notificationUrl ': 'https://checkout.placetopay.com'
+          subscribe: false
+          dispersion:
+            - agreement: '1299'
+              agreementType: MERCHANT
+              amount:
+                currency: USD
+                total: 200
+          modifiers:
+            - type: FEDERAL_GOVERNMENT
+              code: 17934
+              additional:
+                invoice: '123345'
       properties:
         reference:
           type: string
@@ -1189,9 +1261,17 @@ components:
         shipping:
           $ref: '#/components/schemas/Person'
         items:
-          $ref: '#/components/schemas/Items'
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/Item'
         fields:
-          $ref: '#/components/schemas/NameValuePair'
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/NameValuePair'
         recurring:
           $ref: '#/components/schemas/Recurring'
         subscribe:
@@ -1200,45 +1280,46 @@ components:
             Permite solicitar un proceso de cobro y suscripción en la misma sesión.
           default: false
         dispersion:
-          type: array
+          type:
+            - array
+            - 'null'
           description: Agrega información de dispersión
           items:
             $ref: '#/components/schemas/DispersionDetail'
         modifiers:
-          type: array
+          type:
+            - array
+            - 'null'
           description: Agrega información de tipo de ley
           items:
-            $ref: '#/components/schemas/ModifiersDetail'
-      required:
-        - reference
-        - description
-        - amount
+            $ref: '#/components/schemas/Modifiers'
     Amount:
       title: Amount
       type: object
+      x-internal: false
       properties:
         currency:
           type: string
+          example: COP
+          description: Moneda acorde al ISO 4217 (alphabetic code).
         total:
           type:
             - string
             - number
+          example: 2000
+          description: Valor total
         taxes:
-          type: array
+          type:
+            - array
+            - 'null'
           items:
             $ref: '#/components/schemas/Taxes'
         details:
-          type: array
+          type:
+            - array
+            - 'null'
           items:
             $ref: '#/components/schemas/Details'
-    Items:
-      title: Items
-      type: object
-      description: |
-        Posee una colección de estructuras de elementos.
-      properties:
-        item:
-          $ref: '#/components/schemas/Item'
     NameValuePair:
       description: |
         Se utiliza para definir un tipo de par clave-valor
@@ -1306,31 +1387,39 @@ components:
             URL en el que el servicio notificará cada vez que se haga un pago recurrente.
           example: 'https://checkout.placetopay.com'
     Item:
-      description: ''
+      description: Posee una colección de estructuras de elementos.
       type: object
       properties:
         sku:
           type: string
           description: |
             Unidad en stock correspondiente (SKU) al artículo.
+          example: '12345'
         name:
           type: string
           minLength: 1
           description: |
             Nombre del artículo.
+          example: product_1
         category:
           type: string
           minLength: 1
           description: |
             Puede ser [digital, physical].
+          enum:
+            - digital
+            - physical
+          example: physical
         qty:
           type: string
           description: |
             Número de un artículo en particular.
+          example: '1'
         price:
           type: number
           description: |
             Costo del artículo.
+          example: 1000
         tax:
           type: number
           description: |
@@ -1354,8 +1443,8 @@ components:
             - ice
             - airportTax
             - stateTax
-            - MunicipalTax
             - reducedStateTax
+            - municipalTax
           example: valueAddedTax
         amount:
           type:
@@ -1369,9 +1458,6 @@ components:
             - string
             - number
             - integer
-      required:
-        - kind
-        - amount
     Details:
       title: Details
       type: object
@@ -1406,9 +1492,6 @@ components:
             - string
           description: |
             Monto del detalle
-      required:
-        - kind
-        - amount
     SubscriptionRequest:
       title: SubscriptionRequest
       type: object
@@ -1471,7 +1554,123 @@ components:
           ipAddress: 127.0.0.1
           userAgent: PlacetoPay Sandbox
       x-internal: false
-      examples: []
+      examples:
+        - locale: es_CO
+          auth:
+            auth:
+              login: c51ce410c124a10e0db5e4b97fc2af39
+              tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+              nonce: NjE0OWVkODgwYjNhNw==
+              seed: '2021-09-21T09:34:48-05:00'
+          payer:
+            document: '1122334455'
+            documentType: CC
+            name: John
+            surname: Doe
+            company: Evertec
+            email: johndoe@app.com
+            mobile: '+5731111111111'
+            address:
+              street: Calle falsa 123
+              city: Medellín
+              state: Poblado
+              postalCode: '55555'
+              country: Colombia
+              phone: '+573111111111'
+          buyer:
+            document: '1122334455'
+            documentType: CC
+            name: John
+            surname: Doe
+            company: Evertec
+            email: johndoe@app.com
+            mobile: '+5731111111111'
+            address:
+              street: Calle falsa 123
+              city: Medellín
+              state: Poblado
+              postalCode: '55555'
+              country: Colombia
+              phone: '+573111111111'
+          payment:
+            reference: '12345'
+            description: Prueba de pago
+            amount:
+              currency: COP
+              total: 2000
+              taxes:
+                - kind: valueAddedTax
+                  amount: 1000
+                  base: 0
+              details:
+                - kind: discount
+                  amount: 1000
+            allowPartial: false
+            shipping:
+              document: '1122334455'
+              documentType: CC
+              name: John
+              surname: Doe
+              company: Evertec
+              email: johndoe@app.com
+              mobile: '+5731111111111'
+              address:
+                street: Calle falsa 123
+                city: Medellín
+                state: Poblado
+                postalCode: '55555'
+                country: Colombia
+                phone: '+573111111111'
+            items:
+              - sku: '12345'
+                name: product_1
+                category: physical
+                qty: '1'
+                price: 1000
+                tax: 0
+            fields:
+              - keyword: _test_field_value_
+                value: _test_field_
+                displayOn: approved
+            recurring:
+              periodicity: D
+              interval: '1'
+              nextPayment: '2019-08-24'
+              maxPeriods: 1
+              'dueDate ': '2019-09-24'
+              'notificationUrl ': 'https://checkout.placetopay.com'
+            subscribe: false
+            dispersion:
+              - agreement: '1299'
+                agreementType: MERCHANT
+                amount:
+                  currency: USD
+                  total: 200
+            modifiers:
+              - type: FEDERAL_GOVERNMENT
+                code: 17934
+                additional:
+                  invoice: '123345'
+          subscription:
+            reference: '12345'
+            description: Ejemplo de descripción
+            fields:
+              keyword: '1111'
+              value: lastDigits
+              displayOn: none
+          fields:
+            - keyword: _processUrl_
+              value: 'https://checkout.redirection.test/session/1/a592098e22acc709ec7eb30fc0973060'
+              displayOn: none
+          paymentMethod: visa
+          expiration: '2019-08-24T14:15:22Z'
+          returnUrl: 'https://commerce.test/return'
+          cancelUrl: 'https://commerce.test/cancel'
+          ipAddress: 127.0.0.1
+          userAgent: PlacetoPay Sandbox
+          skipResult: false
+          noBuyerFill: false
+          type: checkin
       properties:
         locale:
           type: string
@@ -1489,7 +1688,9 @@ components:
         subscription:
           $ref: '#/components/schemas/SubscriptionRequest'
         fields:
-          $ref: '#/components/schemas/NameValuePair'
+          type: array
+          items:
+            $ref: '#/components/schemas/NameValuePair'
         paymentMethod:
           type: string
           description: |
@@ -1534,12 +1735,6 @@ components:
           enum:
             - checkin
           example: checkin
-      required:
-        - auth
-        - expiration
-        - returnUrl
-        - ipAddress
-        - userAgent
     Autentication:
       description: ''
       type: object
@@ -1710,6 +1905,42 @@ components:
           type:
             - string
             - 'null'
+      examples:
+        - status:
+            status: APPROVED
+            reason: '00'
+            message: La petición ha sido aprobada exitosamente
+            date: '2022-07-27T14:51:27-05:00'
+          internalReference: 12345
+          reference: '12345'
+          paymentMethod: visa
+          paymentMethodName: Visa
+          issuerName: 'JPMORGAN CHASE BANK, N.A.'
+          amount:
+            from:
+              'currency ': COP
+              'total ': 10000
+            to:
+              'currency ': COP
+              'total ': 10000
+            factor: 1
+          receipt: '052617800175'
+          franchise: PS_VS
+          refunded: false
+          authorization: '965960'
+          processorFields:
+            - keyword: '1111'
+              value: lastDigits
+              displayOn: none
+          dispersion: null
+          agreement: null
+          agreementType: null
+          discount:
+            base: 3000
+            code: '17934'
+            type: FRANCHISE
+            amount: 1000
+          subscription: null
     AmountConversion:
       title: AmountConversion
       type: object
@@ -1751,7 +1982,7 @@ components:
         Estructura que contiene información para el método de pago suscripción.
       examples:
         - status:
-            status: APPROVED
+            status: OK
             reason: '00'
             message: La petición ha sido aprobada exitosamente
             date: '2022-07-27T14:51:27-05:00'
@@ -1800,13 +2031,210 @@ components:
       type: object
       description: |
         Estructura de respuesta a una solicitud para una información de transacción.
+      examples:
+        - requestId: 1
+          status:
+            status: APPROVED
+            reason: '00'
+            message: La petición ha sido aprobada exitosamente
+            date: '2022-07-27T14:51:27-05:00'
+          request:
+            locale: es_CO
+            payer:
+              document: '1122334455'
+              documentType: CC
+              name: John
+              surname: Doe
+              company: Evertec
+              email: johndoe@app.com
+              mobile: '+5731111111111'
+              address:
+                street: Calle falsa 123
+                city: Medellín
+                state: Poblado
+                postalCode: '55555'
+                country: Colombia
+                phone: '+573111111111'
+            buyer:
+              document: '1122334455'
+              documentType: CC
+              name: John
+              surname: Doe
+              company: Evertec
+              email: johndoe@app.com
+              mobile: '+5731111111111'
+              address:
+                street: Calle falsa 123
+                city: Medellín
+                state: Poblado
+                postalCode: '55555'
+                country: Colombia
+                phone: '+573111111111'
+            payment:
+              reference: '12345'
+              description: Prueba de pago
+              amount:
+                currency: COP
+                total: 2000
+                taxes:
+                  - kind: valueAddedTax
+                    amount: 1000
+                    base: 0
+                details:
+                  - kind: discount
+                    amount: 1000
+              allowPartial: false
+              shipping:
+                document: '1122334455'
+                documentType: CC
+                name: John
+                surname: Doe
+                company: Evertec
+                email: johndoe@app.com
+                mobile: '+5731111111111'
+                address:
+                  street: Calle falsa 123
+                  city: Medellín
+                  state: Poblado
+                  postalCode: '55555'
+                  country: Colombia
+                  phone: '+573111111111'
+              items:
+                - sku: '12345'
+                  name: product_1
+                  category: physical
+                  qty: '1'
+                  price: 1000
+                  tax: 0
+              fields:
+                - keyword: _test_field_value_
+                  value: _test_field_
+                  displayOn: approved
+              recurring:
+                periodicity: D
+                interval: '1'
+                nextPayment: '2019-08-24'
+                maxPeriods: 1
+                'dueDate ': '2019-09-24'
+                'notificationUrl ': 'https://checkout.placetopay.com'
+              subscribe: false
+              dispersion:
+                - agreement: '1299'
+                  agreementType: MERCHANT
+                  amount:
+                    currency: USD
+                    total: 200
+              modifiers:
+                - type: FEDERAL_GOVERNMENT
+                  code: 17934
+                  additional:
+                    invoice: '123345'
+            subscription:
+              reference: '12345'
+              description: Ejemplo de descripción
+              fields:
+                keyword: '1111'
+                value: lastDigits
+                displayOn: none
+            fields:
+              - keyword: _processUrl_
+                value: 'https://checkout.redirection.test/session/1/a592098e22acc709ec7eb30fc0973060'
+                displayOn: none
+            paymentMethod: visa
+            expiration: '2019-08-24T14:15:22Z'
+            returnUrl: 'https://commerce.test/return'
+            cancelUrl: 'https://commerce.test/cancel'
+            ipAddress: 127.0.0.1
+            userAgent: PlacetoPay Sandbox
+            skipResult: false
+            noBuyerFill: false
+            type: checkin
+          payment:
+            - status:
+                status: APPROVED
+                reason: '00'
+                message: La petición ha sido aprobada exitosamente
+                date: '2022-07-27T14:51:27-05:00'
+              internalReference: 12345
+              reference: '12345'
+              paymentMethod: visa
+              paymentMethodName: Visa
+              issuerName: 'JPMORGAN CHASE BANK, N.A.'
+              amount:
+                from:
+                  'currency ': COP
+                  'total ': 10000
+                to:
+                  'currency ': COP
+                  'total ': 10000
+                factor: 1
+              receipt: '052617800175'
+              franchise: PS_VS
+              refunded: false
+              authorization: '965960'
+              processorFields:
+                - keyword: '1111'
+                  value: lastDigits
+                  displayOn: none
+              dispersion: null
+              agreement: null
+              agreementType: null
+              discount:
+                base: 3000
+                code: '17934'
+                type: FRANCHISE
+                amount: 1000
+              subscription: null
+          subscription:
+            status:
+              status: OK
+              reason: '00'
+              message: La petición ha sido aprobada exitosamente
+              date: '2022-07-27T14:51:27-05:00'
+            type: token
+            instrument:
+              - keyword: token
+                value: a3bfc8e2afb9ac5583922eccd6d2061c1b0592b099f04e352a894f37ae51cf1a
+                displayOn: none
+              - keyword: subtoken
+                value: '8740257204881111'
+                displayOn: none
+              - keyword: franchise
+                value: visa
+                displayOn: none
+              - keyword: franchiseName
+                value: Visa
+                displayOn: none
+              - keyword: issuerName
+                value: 'JPMORGAN CHASE BANK, N.A.'
+                displayOn: none
+              - keyword: lastDigits
+                value: '1111'
+                displayOn: none
+              - keyword: validUntil
+                value: '2029-12-31'
+                displayOn: none
+              - keyword: installments
+                value: null
+                displayOn: none
       properties:
+        requestId:
+          type:
+            - string
+            - number
+            - integer
+          example: 1
+          description: Id de la petición
         status:
           $ref: '#/components/schemas/Status'
         request:
           $ref: '#/components/schemas/RedirectRequest'
         payment:
-          $ref: '#/components/schemas/RedirectRequest'
+          type:
+            - array
+            - 'null'
+          items:
+            $ref: '#/components/schemas/Transaction'
         subscription:
           $ref: '#/components/schemas/SubscriptionResponse'
     Instrument:
@@ -1821,6 +2249,8 @@ components:
           type:
             - string
             - 'null'
+            - number
+            - integer
           description: |
             Código de billetera (casos cuando se realiza subscripciones que requieren pockets actualmente en Uruguay)
 
@@ -1839,8 +2269,6 @@ components:
             - '20'
             - '80'
             - '90'
-      required:
-        - token
     SimpleToken:
       title: SimpleToken
       type: object
@@ -1863,7 +2291,7 @@ components:
             - 'null'
           description: |
             Número de cuotas en las cuales se solicita el cobro (opcional).
-          example: 'null'
+          example: null
         cvv:
           type:
             - string
@@ -1969,13 +2397,13 @@ components:
           example: MERCHANT
         amount:
           $ref: '#/components/schemas/Amount'
-    ModifiersDetail:
+    Modifiers:
       title: ModifiersDetail
       type: object
       description: Estructura que refleja la información de las leyes de impuestos.
       examples:
         - type: FEDERAL_GOVERNMENT
-          code: '17934'
+          code: 17934
           additional:
             invoice: '123345'
       properties:
@@ -1989,6 +2417,7 @@ components:
           type:
             - string
             - integer
+            - number
           description: |-
             Códigos soportados
 
