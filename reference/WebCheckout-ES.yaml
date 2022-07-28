@@ -2398,9 +2398,9 @@ components:
         amount:
           $ref: '#/components/schemas/Amount'
     Modifiers:
-      title: ModifiersDetail
+      title: Modifiers
       type: object
-      description: Estructura que refleja la información de las leyes de impuestos.
+      description: 'Estructura que refleja la información sobre un modificador de pago, aplicado a las leyes de impuestos.'
       examples:
         - type: FEDERAL_GOVERNMENT
           code: 17934
@@ -2409,7 +2409,7 @@ components:
       properties:
         type:
           type: string
-          description: Tipo de ley de impuesto
+          description: Tipo de modificador
           example: FEDERAL_GOVERNMENT
           enum:
             - FEDERAL_GOVERNMENT
@@ -2419,6 +2419,8 @@ components:
             - integer
             - number
           description: |-
+            Código del modificador. Cuando el tipo es FEDERAL_GOVERMENT, representa el número de ley para descuento.
+
             Códigos soportados
 
             17934 – Servicios Gastronómicos
@@ -2439,16 +2441,11 @@ components:
           example: 17934
         additional:
           type: object
-          required:
-            - invoice
+          description: Informaciones adicionales del moficador
           properties:
             invoice:
               type: string
-              description: Información adicional del tipo de ley
+              description: Número de factura. Requerido cuando tipo es FEDERAL_GOVERMENT.
               maxLength: 9
               example: '123456789'
-      required:
-        - type
-        - code
-        - additional
   securitySchemes: {}
