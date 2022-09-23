@@ -1579,11 +1579,10 @@ components:
       examples:
         - locale: es_CO
           auth:
-            auth:
-              login: c51ce410c124a10e0db5e4b97fc2af39
-              tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
-              nonce: NjE0OWVkODgwYjNhNw==
-              seed: '2021-09-21T09:34:48-05:00'
+            login: c51ce410c124a10e0db5e4b97fc2af39
+            tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+            nonce: NjE0OWVkODgwYjNhNw==
+            seed: '2021-09-21T09:34:48-05:00'
           payer:
             document: '1122334455'
             documentType: CC
