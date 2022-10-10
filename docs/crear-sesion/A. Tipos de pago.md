@@ -97,14 +97,14 @@ Atributo | Tipo | Descripción | ¿Requerido?
  **dueDate**   | `date` | Fecha para finalizar el pago.| Opcional |
  **notificationUrl**   | `string` |URL en el que el servicio notificará cada vez que se haga un pago recurrente.| Opcional |
 
-> Nota
+> Nota:
 - El atributo `nextPayment` no es obligatorio, en caso de que no se envié, se calcula dependiendo del atributo `interval` y `periodicity`, en caso de que se declare debe ser una fecha futura a la fecha actual
 
-En el caso de fallar un cobro recurrente, éste seguirá reintentado una vez cada día durante 3 días, si luego de esto no se obtiene una transacción aprobada, la recurrencia se le cancela al tarjetahabiente.
+- En el caso de fallar un cobro recurrente, éste seguirá reintentado una vez cada día durante 3 días, si luego de esto no se obtiene una transacción aprobada, la recurrencia se le cancela al tarjetahabiente.
 
-La recurrencia se deja de reintentar si la primera respuesta no tiene sentido reintentar (Tarjeta invalida, robada, etc), es decir se reintenta sólo si es por saldo.
+- La recurrencia se deja de reintentar si la primera respuesta no tiene sentido reintentar (Tarjeta invalida, robada, etc), es decir se reintenta sólo si es por saldo.
 
-Las recurrencias sólo pueden ser canceladas en la consola administrativa de PlacetoPay.
+- Las recurrencias sólo pueden ser canceladas en la consola administrativa de PlacetoPay.
 
 ## Pago con dispersión
 El pago con dispersión permite dividir el pago principal a diferentes convenios registrados en una misma sesión, además permite que cada parte de la transacción sea procesada por diferentes proveedores.
@@ -157,7 +157,7 @@ Ejemplo:
     "userAgent": "PlacetoPay Sandbox"
 }
 ```
-> Validaciones
+> Nota:
 - No se permiten pagos mixtos con valores de dispersión
 - No se permiten pagos de preautorización con valores de dispersión
 - La suma total de las dispersiones deben ser igual al total del pago
