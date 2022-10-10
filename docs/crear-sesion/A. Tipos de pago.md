@@ -92,13 +92,13 @@ Atributo | Tipo | Descripción | ¿Requerido?
 ---------|----------|--------- |---------
  **periodicity**  | `string` | Periodicidad de la factura [D=Día, M=Mes, Y=Año]| Requerido |
  **interval**   | `int` | Intervalo asociado a la periodicidad.| Requerido |
- **nextPayment**   | `date` |Fecha del próximo pago.| Requerido |
+ **nextPayment**   | `date` |Fecha del próximo pago.| Opcional |
  **maxPeriods**   | `int` | Número máximo de periodo (-1 en caso de que no haya restricción.)| Requerido |
  **dueDate**   | `date` | Fecha para finalizar el pago.| Opcional |
  **notificationUrl**   | `string` |URL en el que el servicio notificará cada vez que se haga un pago recurrente.| Opcional |
 
-
-Los cobros recurrentes sólo se realizarán en el caso que la transacción inicial sea aprobada.
+> Nota
+- El atributo `nextPayment` no es obligatorio, en caso de que no se envié, se calcula dependiendo del atributo `interval` y `periodicity`, en caso de que se declare debe ser una fecha futura a la fecha actual
 
 En el caso de fallar un cobro recurrente, éste seguirá reintentado una vez cada día durante 3 días, si luego de esto no se obtiene una transacción aprobada, la recurrencia se le cancela al tarjetahabiente.
 
