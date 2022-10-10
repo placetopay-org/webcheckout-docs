@@ -1368,6 +1368,13 @@ components:
     Recurring:
       type: object
       description: Estructura que contiene la información requerida para una solicitud de pago recurrente.
+      examples:
+        - periodicity: D
+          interval: '1'
+          nextPayment: '2019-08-24'
+          maxPeriods: 1
+          'dueDate ': '2019-09-24'
+          'notificationUrl ': 'https://checkout.placetopay.com'
       properties:
         periodicity:
           type: string
@@ -1378,14 +1385,16 @@ components:
             - 'Y'
           example: D
         interval:
-          type: string
+          type:
+            - string
+            - integer
           minLength: 1
           description: |
             Intervalo asociado a la periodicidad.
           example: '1'
+          maxLength: 127
         nextPayment:
           type: string
-          minLength: 1
           description: Fecha del próximo pago.
           format: date
           example: '2019-08-24'
@@ -1393,10 +1402,11 @@ components:
           type:
             - string
             - integer
-          minLength: 1
           description: |
             Número máximo de periodo (-1 en caso de que no haya restricción.)
           example: 1
+          minLength: -1
+          maxLength: 32767
         'dueDate ':
           type: string
           format: date
