@@ -37,8 +37,7 @@ Según el tipo de sesión se podrá presentar alguno de los siguientes casos:
 ### Sesión de pago con dispersión:
 1. Se redondea cada uno de los valores de la dispersión en base a ISO 4217.
 2. Se realiza una sumatoria de los valores anteriormente redondeados.
-3. Se comparará la sumatoria de la dispersión con el `payment.amount.total` redondeado,  en caso de que la sumatoria no concuerde se generará un mensaje de error al crear la sesión.
-4. En caso de que los valores concuerden se almacenará la sesión con la información que llego de la dispersión sin redondear, y el `payment.amount.total` se almacenará con los valores formateados según la ISO 4217 
+3. Se comparará la sumatoria de la dispersión con el `payment.amount.total` redondeado,  si la suma es correcta, la sesión se creará con éxito.
 
 Ejemplos:
 ```
