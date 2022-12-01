@@ -39,3 +39,18 @@ Según el tipo de sesión se podrá presentar alguno de los siguientes casos:
 2. Se realiza una sumatoria de los valores anteriormente redondeados.
 3. Se comparará la sumatoria de la dispersión con el `payment.amount.total` redondeado,  en caso de que la sumatoria no concuerde se generará un mensaje de error al crear la sesión.
 4. En caso de que los valores concuerden se almacenará la sesión con la información que llego de la dispersión sin redondear, y el `payment.amount.total` se almacenará con los valores formateados según la ISO 4217 
+
+Ejemplos:
+```
+USD: 
+576.12345 => 576.12
+576.9875 => 576.99
+
+CLP:
+576.12345 => 576
+576.9875 => 577
+
+COP:
+576.12345 => 576.12
+576.9875 => 576.99
+```
