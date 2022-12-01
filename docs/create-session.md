@@ -24,3 +24,18 @@ Ejemplos:
 | Estados Unidos (US) | Inglés  (en) | `en_US` |
 
 El parámetro `locale` es **opcional**, en caso de que no se envíe o no cumpla con los estándares previamente descritos, se tomará por defecto el locale y país del sitio que está creando la sesión.
+
+## Manejo decimales y monedas
+
+Al momento de realizar la creación de una sesión de pago, webcheckout utiliza la [ISO 4217](https://es.wikipedia.org/wiki/ISO_4217) para realizar validaciones y almacenamiento de los montos a pagar.
+
+Según el tipo de sesión se podrá presentar alguno de los siguientes casos:
+
+### Sesión de pago estandar:
+1. El valor del campo `payment.total.amount` será redondeado en base a la ISO 4217 y posteriormente almacenado.
+
+### Sesión de pago con dispersión:
+1. Se redondea cada uno de los valores de la dispersión en base a ISO 4217.
+2. Se realiza una sumatoria de los valores anteriormente redondeados.
+3. Se comparará la sumatoria de la dispersión con el `payment.amount.total` redondeado,  en caso de que la sumatoria no concuerde se generará un mensaje de error al crear la sesión.
+4. En caso de que los valores concuerden se almacenará la sesión con la información que llego de la dispersión sin redondear, y el `payment.amount.total` se almacenará con los valores formateados según la ISO 4217 
