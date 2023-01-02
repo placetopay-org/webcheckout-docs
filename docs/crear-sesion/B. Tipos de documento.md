@@ -25,7 +25,14 @@ Código| Tipo de documento | Regla de validación
 
 ### Puerto Rico (PR)
 
-Para integraciones en este país no se realiza el envío de `DocumentType` ni del `Document`
+Para integraciones en este país no se realiza el envío de `DocumentType` ni del `Document`.
+
+Sin embargo, los documentos habilitados para este país son
+
+ Código| Tipo de documento| Regla de validación
+---------|----------|------------
+ EIN | Employer Identification Number|`'/^[1-9]\d?-\d{7}$/'`
+
 
 ### Colombia (CO)
 
@@ -87,9 +94,18 @@ Código| Tipo de documento| Regla de validación
 ---------|----------|------------
  HNDNI | Documento nacional de identificación|`'/^[a-zA-Z0-9]{1,15}$/'`
   HNDR | Documento de residencia|`'/^[a-zA-Z0-9]{1,15}$/'`
+  RTN | Número de registro tributario|`'/^[0-9]{14,16}$/'`
 
 ### Belize (BZ)
 
  Código| Tipo de documento| Regla de validación
 ---------|----------|------------
  BZSSN | Identificación de Seguridad Social|`'/^[0-9]{9}$/'`
+ BRN | Business Registration number|`'/^[0-9]{5,7}$/'`
+
+ ### Uruguay (UY)
+
+ Código| Tipo de documento| Regla de validación
+---------|----------|------------
+ UYCI | Cédula de Identidad|`'/^\d{6,7}-[0-9]$/'`
+ UYRUT | Registro Único Tributario|`'/^\d{12}$/'`
