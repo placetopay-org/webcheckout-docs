@@ -25,7 +25,7 @@ Kind | Traducción | País
  **reducedStateTax** | IVU Reducido | Puerto Rico
 
 <!-- theme: warning -->
-> ### Nota Importante
+> ### Importante
 >
 > *Cuando se escribe erroneamente el `kind` o no existe en el listado de tipos de impuestos, el `tax` no se incluye dentro de la sesión de Webcheckout*
 
@@ -115,7 +115,7 @@ los `details` estan dentro de la estructura `amount` siendo el atributo `details
 ```
 
 <!-- theme: danger -->
-> ### Nota Importante
+> ### Importante
 >
 > *No se permite el uso de pagos mixtos cuando se utilizan taxes/details ya que estos no se pueden dividir y genera un error al crear la sesión*
 

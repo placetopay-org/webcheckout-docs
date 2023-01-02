@@ -168,8 +168,8 @@ Ejemplo:
 >- *No se permiten pagos de preautorización con valores de dispersión.*
 >- *La suma total de las dispersiones deben ser igual al total del pago.*
 >- *Todas las monedas de las dispersiones deben ser igual a la moneda del pago.*
->- *Para el envió de impuestos, es importante que se encuentre en la estructura de cada una de las dispersiones.*
 
+Para el envió de impuestos, es importante que se encuentre en la estructura de cada una de las dispersiones
 
 Ejemplo:
 
