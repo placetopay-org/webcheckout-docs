@@ -65,6 +65,7 @@ Código| Tipo de documento | Regla de validación
 Código| Tipo de documento| Regla de validación
 ---------|----------|------------
  CIP | Cédula de identidad personal| `/^(N,E,PE\d+)?\d{2,6}\d{2,6}$/`
+ PARUC | Registro Único de Contribuyente| `^[a-zA-Z0-9\-]{1,16}$/`
 
 ### Brasil (BR)
 
