@@ -8,7 +8,7 @@ Este flujo de trabajo es usado con el fin de reservar **(CHECKIN)** un monto de 
 Este monto en el transcurso del tiempo puede cambiar **(REAUTHORIZATION)** según las necesidades del comercio o cambios en los servicios elegidos por el tarjetahabiente.
 Por último, el reverso **(REVERSE)** es un tipo de transacción, el cual permite reversar un pago aprobado o debitado con el código de referencia interna.
 
-### **CHECKIN**
+## **CHECKIN**
 La  transacción tipo **CHECKIN** es  utilizada  para  obtener  una  autorización por  parte  del  banco. Realiza un débito a una tarjeta de crédito/débito el cual se utiliza como depósito de garantía por la utilización de un bien o servicio.
 
 **Ejemplo:**
@@ -38,11 +38,14 @@ La  transacción tipo **CHECKIN** es  utilizada  para  obtener  una  autorizaci�
     "userAgent": "PlacetoPay Sandbox"
 }
 ```
-> No se permite preautorización cuando se envían valores de dispersión
 
-> No se permite preautorización cuando se quiere hacer pagos mixtos
+<!-- theme: warning -->
+> ### Importante
+>
+>- *No se permiten pagos de preautorización cuando se quiere hacer un pago mixto.*
+>- *No se permiten pagos de preautorización con valores de dispersión.*
 
-### **REAUTHORIZATION**
+## **REAUTHORIZATION**
 La transacción tipo **REAUTHORIZATION** es utilizada para modificar el monto definido como depósito de garantía separado previamente, con una transacción tipo CHECKIN. Esto realiza una nueva autorización  por parte del banco.
 
 **Ejemplo:**
@@ -62,7 +65,7 @@ API | URL
 }
 ```
 
-### **CHECKOUT**
+## **CHECKOUT**
 La transacción tipo **CHECKOUT** es utilizada para confirmar el monto del depósito de garantía separado previamente, con una transacción tipo **CHECKIN/REAUTHORIZATION**. Esto formaliza la transacción de compra con el banco.
 
 **Ejemplo:**
@@ -81,7 +84,7 @@ API | URL
   "action": "checkout"
 }
 ```
-### **REVERSE**
+## **REVERSE**
 La transacción tipo **REVERSE** es utilizada para reversar un pago de tipo CHECKOUT o un pago debitado común y corriente.
 
 **Ejemplo:**
