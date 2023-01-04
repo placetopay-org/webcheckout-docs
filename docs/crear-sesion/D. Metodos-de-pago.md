@@ -28,22 +28,12 @@ Por lo tanto, la configuración de los medios de pago se brinda según el país 
 ---------|----------
  BTNBC | Botón Bancolombia 
 
-### CAFAM
+### CODENSA
 
   Código | Nombre
 ---------|----------
- CAFAM | Tarjeta CAFAM
+ CDNSA | Tarjeta CODENSA
 
- ### CREDIBANCO
-
-Código | Nombre 
----------|----------
- CR_VS | Tarjeta Visa 
- CR_MC | Tarjeta Mastercard 
- CR_DN | Tarjeta Diners Club 
- CR_DS | Tarjeta Discover 
- CR_AM | Tarjeta American Express 
- CR_VE | Tarjeta débito Visa Electron
 
  ### COMFANDI
 
@@ -51,11 +41,22 @@ Código | Nombre
 ---------|----------
  CMFDI | Comfandi 
 
+ ### CREDIBANCO
+
+Código | Nombre 
+---------|----------
+ CR_VS | Tarjeta Visa 
+ CR_MC | Tarjeta Mastercard 
+ CR_DN | Tarjeta Diners Club  
+ CR_AM | Tarjeta American Express 
+ CR_VE | Tarjeta débito Visa Electron
+
  ### EQUITY
 
   Código | Nombre
 ---------|----------
- CDNSA | Tarjeta CODENSA
+ CAFAM | Tarjeta CAFAM
+
 
 ### FLAMINGO
 
@@ -87,8 +88,7 @@ Código | Nombre
 ---------|----------
  RM_VS | Tarjeta Visa 
  RM_MC | Tarjeta Mastercard 
- RM_DN | Tarjeta Diners Club 
- RM_DS | Tarjeta Discover   
+ RM_DN | Tarjeta Diners Club    
  RM_AM | Tarjeta American Express 
  SOMOS | Somos Grupo EPM
 
@@ -176,15 +176,23 @@ Código | Nombre
  MD_AM | Tarjeta American Express 
   
 
-## PANAMÁ
+## PANAMÁ / COSTA RICA / BELICE / HONDURAS
+
+### TECNICARD
+
+ Código | Nombre
+---------|----------
+ TC_VS | Tarjeta Visa 
+ TC_MC | Tarjeta Mastercard 
+ TC_DN | Tarjeta Diners Club 
+ TC_DS | Tarjeta Discover   
+ TC_AM | Tarjeta American Express  
 
 ### TELERED
 
   Código | Nombre
 ---------|----------
- TR_TC | Tarjeta Clave 
-
- ## PANAMÁ / COSTA RICA / BELICE / HONDURAS
+ TR_TC | Tarjeta Clave
 
 ### TRANSERVER
 
@@ -222,19 +230,6 @@ Código | Nombre
  EBATM | Tarjeta ATH Mastercard 
  EBACH | ACH 
 
-
- ## UNKNOWN
- ### TECNICARD
-
- Código | Nombre
----------|----------
- TC_VS | Tarjeta Visa 
- TC_MC | Tarjeta Mastercard 
- TC_DN | Tarjeta Diners Club 
- TC_DS | Tarjeta Discover   
- TC_AM | Tarjeta American Express 
-
-
 Al momento de crear una sesión puedes limitar los medios de pagos, de esa forma obligas a tu usuario a pagarte esa sesión con métodos de pago en específicos. Puedes enviar el listado de métodos de pago en el atributo `paymentMethod`
 
 ```json
@@ -250,6 +245,6 @@ Al momento de crear una sesión puedes limitar los medios de pagos, de esa forma
     "ipAddress": "181.53.226.56",
     "returnUrl": "https://dnetix.co/p2p/client",
     "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
-    "paymentMethod": "PS_VS, PS_MS, PS_"// Se define los metodos de pago a usar.
+    "paymentMethod": "PS_VS, PS_MS, PS_AM"// Se define los metodos de pago a usar.
 
 ```
