@@ -1354,7 +1354,12 @@ components:
             Clave para el par de valores del dato.
           example: '1111'
         value:
-          type: string
+          type:
+            - string
+            - object
+            - integer
+            - array
+            - number
           minLength: 1
           description: |
             Valor para el par de datos.
@@ -1365,6 +1370,23 @@ components:
           description: |
             Bajo qué circunstancias el campo debe ser mostrado en la interfaz de redirección. [none, payment, receipt, both, approved]
           example: none
+      examples:
+        - value: '468232'
+          keyword: merchantCode
+          displayOn: none
+        - value:
+            code: '1'
+            type: '03'
+            groupCode: X
+            installments: 3
+          keyword: credit
+          displayOn: none
+        - value: 2056
+          keyword: totalAmount
+          displayOn: none
+        - value: 685.33
+          keyword: installmentAmount
+          displayOn: none
     Recurring:
       type: object
       description: Estructura que contiene la información requerida para una solicitud de pago recurrente.
