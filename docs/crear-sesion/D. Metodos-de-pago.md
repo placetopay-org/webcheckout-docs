@@ -176,6 +176,13 @@ Código | Nombre
  MD_AM | Tarjeta American Express 
   
 
+ ## INTERNACIONAL
+
+  Código | Nombre
+---------|----------
+ PYPAL | PayPal 
+
+
 ## PANAMÁ / COSTA RICA / BELICE / HONDURAS
 
 ### TECNICARD
