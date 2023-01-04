@@ -96,7 +96,7 @@ Código| Tipo de documento| Regla de validación
   HNDR | Documento de residencia|`'/^[a-zA-Z0-9]{1,15}$/'`
   RTN | Número de registro tributario|`'/^[0-9]{14,16}$/'`
 
-### Belize (BZ)
+### Belice (BZ)
 
  Código| Tipo de documento| Regla de validación
 ---------|----------|------------
