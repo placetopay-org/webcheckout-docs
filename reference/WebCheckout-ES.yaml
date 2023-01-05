@@ -1954,7 +1954,7 @@ components:
           example: '965960'
         processorFields:
           type: array
-          description: Estructura que puede crecer en el tiempo según la información disponible para el medio de pago.
+          description: Estructura que  puede variar en el tiempo según la información disponible para el medio de pago.
           items:
             $ref: '#/components/schemas/NameValuePair'
         dispersion:
