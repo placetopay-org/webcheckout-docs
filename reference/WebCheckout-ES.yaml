@@ -1346,30 +1346,6 @@ components:
       description: |
         Se utiliza para definir un tipo de par clave-valor
       type: object
-      properties:
-        keyword:
-          type: string
-          minLength: 1
-          description: |
-            Clave para el par de valores del dato.
-          example: '1111'
-        value:
-          type:
-            - string
-            - object
-            - integer
-            - array
-            - number
-          minLength: 1
-          description: |
-            Valor para el par de datos.
-          example: lastDigits
-        displayOn:
-          type: string
-          minLength: 1
-          description: |
-            Bajo qué circunstancias el campo debe ser mostrado en la interfaz de redirección. [none, payment, receipt, both, approved]
-          example: none
       examples:
         - value: '468232'
           keyword: merchantCode
@@ -1387,6 +1363,31 @@ components:
         - value: 685.33
           keyword: installmentAmount
           displayOn: none
+      properties:
+        keyword:
+          type: string
+          minLength: 1
+          description: |
+            Clave para el par de valores del dato.
+          example: '1111'
+        value:
+          type:
+            - string
+            - object
+            - array
+            - number
+            - boolean
+            - integer
+          minLength: 1
+          description: |
+            Valor para el par de datos.
+          example: lastDigits
+        displayOn:
+          type: string
+          minLength: 1
+          description: |
+            Bajo qué circunstancias el campo debe ser mostrado en la interfaz de redirección. [none, payment, receipt, both, approved]
+          example: none
     Recurring:
       type: object
       description: Estructura que contiene la información requerida para una solicitud de pago recurrente.
@@ -1856,6 +1857,52 @@ components:
       type: object
       description: |
         Estructura que contiene información sobre el proceso de pago de la transacción en PlacetoPay.
+      examples:
+        - status:
+            status: APPROVED
+            reason: '00'
+            message: La petición ha sido aprobada exitosamente
+            date: '2022-07-27T14:51:27-05:00'
+          internalReference: 12345
+          reference: '12345'
+          paymentMethod: visa
+          paymentMethodName: Visa
+          issuerName: 'JPMORGAN CHASE BANK, N.A.'
+          amount:
+            from:
+              'currency ': COP
+              'total ': 10000
+            to:
+              'currency ': COP
+              'total ': 10000
+            factor: 1
+          receipt: '052617800175'
+          franchise: PS_VS
+          refunded: false
+          authorization: '965960'
+          processorFields:
+            - keyword: '1111'
+              value: lastDigits
+              displayOn: none
+            - value:
+                code: '1'
+                type: '03'
+                groupCode: X
+                installments: 3
+              keyword: credit
+              displayOn: none
+            - value: 2056
+              keyword: totalAmount
+              displayOn: none
+          dispersion: null
+          agreement: null
+          agreementType: null
+          discount:
+            base: 3000
+            code: '17934'
+            type: FRANCHISE
+            amount: 1000
+          subscription: null
       properties:
         status:
           $ref: '#/components/schemas/Status'
@@ -1907,6 +1954,7 @@ components:
           example: '965960'
         processorFields:
           type: array
+          description: Estructura que puede crecer en el tiempo según la información disponible para el medio de pago.
           items:
             $ref: '#/components/schemas/NameValuePair'
         dispersion:
@@ -1958,52 +2006,6 @@ components:
           type:
             - string
             - 'null'
-      examples:
-        - status:
-            status: APPROVED
-            reason: '00'
-            message: La petición ha sido aprobada exitosamente
-            date: '2022-07-27T14:51:27-05:00'
-          internalReference: 12345
-          reference: '12345'
-          paymentMethod: visa
-          paymentMethodName: Visa
-          issuerName: 'JPMORGAN CHASE BANK, N.A.'
-          amount:
-            from:
-              'currency ': COP
-              'total ': 10000
-            to:
-              'currency ': COP
-              'total ': 10000
-            factor: 1
-          receipt: '052617800175'
-          franchise: PS_VS
-          refunded: false
-          authorization: '965960'
-          processorFields:
-            - keyword: '1111'
-              value: lastDigits
-              displayOn: none
-            - value:
-                code: '1'
-                type: '03'
-                groupCode: X
-                installments: 3
-              keyword: credit
-              displayOn: none
-            - value: 2056
-              keyword: totalAmount
-              displayOn: none
-          dispersion: null
-          agreement: null
-          agreementType: null
-          discount:
-            base: 3000
-            code: '17934'
-            type: FRANCHISE
-            amount: 1000
-          subscription: null
     AmountConversion:
       title: AmountConversion
       type: object
