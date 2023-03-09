@@ -281,6 +281,94 @@ paths:
                       message: Autenticación fallida 102
                       date: '2021-11-30T15:12:25-05:00'
     parameters: []
+  /api/reverse:
+    post:
+      summary: Reversar pago (ReversePayment)
+      operationId: post-api-reverse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth:
+                  $ref: '#/components/schemas/Autentication'
+                internalReference:
+                  type:
+                    - string
+                    - number
+                    - integer
+                  description: |
+                    Referencia interna de la transacción a reversar que se encuentra en el listado de transacciones del getRequestInformation (payment).
+            examples:
+              Ejemplo:
+                value:
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  internalReference: 1
+      description: |
+        Permite revertir un pago aprobado con el código de referencia interna `internalReference`.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/Status'
+              examples:
+                Aprobada:
+                  value:
+                    status:
+                      status: APPROVED
+                      reason: '00'
+                      message: Aprobada
+                      date: '2021-12-07T16:01:19-05:00'
+                    payment:
+                      status:
+                        status: APPROVED
+                        reason: '00'
+                        message: Aprobada
+                        date: '2021-12-07T16:01:18-05:00'
+                      internalReference: 1
+                      paymentMethod: visa
+                      paymentMethodName: Visa
+                      issuerName: 'JPMORGAN CHASE BANK, N.A.'
+                      amount:
+                        from:
+                          currency: USD
+                          total: 100
+                        to:
+                          currency: USD
+                          total: 100
+                        factor: 1
+                      authorization: '123456'
+                      reference: '12345'
+                      receipt: '230955511860'
+                      franchise: PS_VS
+                      refunded: false
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/Status'
+              examples:
+                Ejemplo:
+                  value:
+                    status:
+                      status: FAILED
+                      reason: BR
+                      message: La transacción ya ha sido reversada
+                      date: '2021-12-07T16:03:41-05:00'
   '/api/session/{requestId}':
     parameters:
       - schema:
@@ -546,6 +634,142 @@ paths:
                             refunded: false
                             agreementType: MERCHANT
                     subscription: null
+                Parcialmente Expirado:
+                  value:
+                    requestId: 1
+                    status:
+                      status: PARTIAL_EXPIRED
+                      reason: PX
+                      message: La petición esta expirada o cancelada y se han realizado pagos
+                      date: '2021-12-30T00:00:00-05:00'
+                    request:
+                      locale: es_CO
+                      payer:
+                        document: '111111111'
+                        documentType: CC
+                        name: Diego
+                        surname: Calle
+                        email: dnetix@yopmail.com
+                        mobile: '+573111111111'
+                      payment:
+                        reference: '111111'
+                        description: Reference
+                        amount:
+                          currency: USD
+                          total: 500
+                        allowPartial: false
+                        subscribe: false
+                        dispersion:
+                          - reference: '331122'
+                            description: Reference
+                            amount:
+                              currency: USD
+                              total: 200
+                            allowPartial: false
+                            subscribe: false
+                            agreement: '111'
+                            agreementType: MERCHANT
+                          - reference: '331122'
+                            description: Reference
+                            amount:
+                              currency: USD
+                              total: 300
+                            allowPartial: false
+                            subscribe: false
+                            agreementType: MERCHANT
+                      fields:
+                        - keyword: _processUrl_
+                          value: 'https://checkout.redirection.test/session/750/20e2eb0d4681a916549e95ed49a11080'
+                          displayOn: none
+                      returnUrl: 'https://redirection.test/home'
+                      ipAddress: 127.0.0.1
+                      userAgent: PlacetoPay Sandbox
+                      expiration: '2021-12-30T00:00:00-05:00'
+                    payment:
+                      - amount:
+                          to:
+                            total: 500
+                            currency: USD
+                          from:
+                            total: 500
+                            currency: USD
+                          factor: 1
+                        status:
+                          date: '2021-12-30T00:00:00-05:00'
+                          reason: '61'
+                          status: APPROVED_PARTIAL
+                          message: 'Negada, Monto excede el máximo definido por la Entidad Financiera en el archivo de Tarjetahabientes'
+                        receipt: '1111111111'
+                        refunded: false
+                        franchise: EB_VS
+                        reference: Reference
+                        dispersion:
+                          - amount:
+                              to:
+                                total: 200
+                                currency: USD
+                              from:
+                                total: 200
+                                currency: USD
+                              factor: 1
+                            status:
+                              date: '2021-12-30T00:00:00-05:00'
+                              reason: '00'
+                              status: APPROVED
+                              message: Aprobada
+                            receipt: '110000857921'
+                            refunded: false
+                            franchise: EB_VS
+                            agreementType: MERCHANT
+                            authorization: '1234567'
+                            internalReference: 2
+                          - amount:
+                              to:
+                                total: 300
+                                currency: USD
+                              from:
+                                total: 300
+                                currency: USD
+                              factor: 1
+                            status:
+                              date: '2021-12-30T00:00:00-05:00'
+                              reason: '61'
+                              status: REJECTED
+                              message: 'Negada, Monto excede el máximo definido por la Entidad Financiera en el archivo de Tarjetahabientes'
+                            receipt: '421693'
+                            refunded: false
+                            franchise: EB_VS
+                            agreementType: MERCHANT
+                            authorization: '000000'
+                            internalReference: 2
+                        issuerName: 'BANCO DE GUAYAQUIL, S.A.'
+                        authorization: '614761'
+                        paymentMethod: visa
+                        processorFields:
+                          - value: '4549106521651'
+                            keyword: merchantCode
+                            displayOn: none
+                          - value: '19371021'
+                            keyword: terminalNumber
+                            displayOn: none
+                          - value: '411076'
+                            keyword: bin
+                            displayOn: none
+                          - value: 200
+                            keyword: totalAmount
+                            displayOn: none
+                          - value: '0057'
+                            keyword: lastDigits
+                            displayOn: none
+                          - value: eeacbe4f36c8f8117fc4d7ab47fa366f
+                            keyword: id
+                            displayOn: none
+                          - value: '61'
+                            keyword: b24
+                            displayOn: none
+                        internalReference: 1
+                        paymentMethodName: Visa
+                    subscription: null
       description: |
         Obtiene la información de la sesión, si en la sesión hay transacciones se muestra el detalle de las mismas.
       requestBody:
@@ -588,94 +812,6 @@ paths:
                     - seed
               required:
                 - auth
-  /api/reverse:
-    post:
-      summary: Reversar pago (ReversePayment)
-      operationId: post-api-reverse
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                auth:
-                  $ref: '#/components/schemas/Autentication'
-                internalReference:
-                  type:
-                    - string
-                    - number
-                    - integer
-                  description: |
-                    Referencia interna de la transacción a reversar que se encuentra en el listado de transacciones del getRequestInformation (payment).
-            examples:
-              Ejemplo:
-                value:
-                  auth:
-                    login: c51ce410c124a10e0db5e4b97fc2af39
-                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
-                    nonce: NjE0OWVkODgwYjNhNw==
-                    seed: '2021-09-21T09:34:48-05:00'
-                  internalReference: 1
-      description: |
-        Permite revertir un pago aprobado con el código de referencia interna `internalReference`.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    $ref: '#/components/schemas/Status'
-              examples:
-                Aprobada:
-                  value:
-                    status:
-                      status: APPROVED
-                      reason: '00'
-                      message: Aprobada
-                      date: '2021-12-07T16:01:19-05:00'
-                    payment:
-                      status:
-                        status: APPROVED
-                        reason: '00'
-                        message: Aprobada
-                        date: '2021-12-07T16:01:18-05:00'
-                      internalReference: 1
-                      paymentMethod: visa
-                      paymentMethodName: Visa
-                      issuerName: 'JPMORGAN CHASE BANK, N.A.'
-                      amount:
-                        from:
-                          currency: USD
-                          total: 100
-                        to:
-                          currency: USD
-                          total: 100
-                        factor: 1
-                      authorization: '123456'
-                      reference: '12345'
-                      receipt: '230955511860'
-                      franchise: PS_VS
-                      refunded: false
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    $ref: '#/components/schemas/Status'
-              examples:
-                Ejemplo:
-                  value:
-                    status:
-                      status: FAILED
-                      reason: BR
-                      message: La transacción ya ha sido reversada
-                      date: '2021-12-07T16:03:41-05:00'
   /api/notify:
     post:
       summary: Notificar Pago
@@ -1828,6 +1964,13 @@ components:
           minLength: 1
           description: Estado de una petición o pago
           example: APPROVED
+          enum:
+            - PENDING
+            - APPROVED
+            - REJECTED
+            - APPROVED_PARTIAL
+            - PARTIAL_EXPIRED
+            - FAILED
         reason:
           type:
             - string
