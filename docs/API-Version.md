@@ -18,7 +18,7 @@ Cuando se agrega una nueva funcionalidad, es muy probable que venga acompañada 
 
 Debido a la evolución de algunas funcionalidades, es probable que agreguemos nuevos parámetros **opcionales** en las solicitudes que pueden hacer los clientes integradores.
 
-**Ejemplo:** En el api de `Crear Sesión` se podría agrega un parámetro **opcional** `notificationUrl` para aquellos clientes integradores que quieren definir la url de notificación de esa sesión.
+**Ejemplo:** En el api `CreateRequest` se podría agrega un parámetro **opcional** `notificationUrl` para aquellos clientes integradores que quieren definir la url de notificación de esa sesión.
 
 ```json
 // CreateRequest body
@@ -77,4 +77,26 @@ Debido a la evolución de algunas funcionalidades, es probable que algunas respu
 ```
 
 Este cambio no afectará las integraciones existentes.
+
+### Cambiar parámetros requeridos a opcionales en las solicitudes de API existentes
+
+Debido a la evolución de algunas funcionalidades, es probable que cambiemos un parámetro existente que es requerido a **opcional** en las solicitudes que pueden hacer los clientes integradores.
+
+**Ejemplo:** En el api `CreateRequest` el parámetro requerido `ipAddress` se podría cambiar para que fuera **opcional**.
+
+
+```json
+// CreateRequest body
+
+{
+  ...
+  "payment": { ... }
+  "ipAddress": "1.0.0.0.1" // changed to be optional
+  ...
+}
+```
+
+Este cambio no afectará las integraciones existentes.
+
+No se podrá hacer lo contrario, es decir, un parámetro opcional no se podrá volver **requerido**.
 
