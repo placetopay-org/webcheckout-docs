@@ -2,6 +2,8 @@
 stoplight-id: 14206cdfa4c0f
 ---
 
+![Frame 10.png](<../assets/images/Frame 10-2.png>)
+
 # Webcheckout PlacetoPay
 
 WebCheckout es una página web prediseñada, optimizada y alojada en Placetopay que le permite aceptar pagos en línea de forma rápida y segura desde dispositivos móviles y de escritorio. Puedes aceptar pagos únicos, pagos recurrentes, pagos mixtos y suscribir medios de pago.
