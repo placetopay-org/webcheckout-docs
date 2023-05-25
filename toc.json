@@ -12,13 +12,18 @@
     },
     {
       "type": "item",
-      "title": "Autenticación",
-      "uri": "docs/Autenticacion.md"
+      "title": "Changelog",
+      "uri": "docs/changelog.md"
     },
     {
       "type": "item",
       "title": "Plugins y componentes",
       "uri": "docs/Plugins-y-componentes.md"
+    },
+    {
+      "type": "item",
+      "title": "Autenticación",
+      "uri": "docs/Autenticacion.md"
     },
     {
       "type": "item",
