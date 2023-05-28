@@ -1343,7 +1343,7 @@ paths:
       x-internal: false
   /api/instrument/invalidate:
     post:
-      summary: Instrument Invalidate
+      summary: Invalidar Token (InstrumentInvalidateRequest)
       tags:
         - instrument-invalidate
       responses:
@@ -1352,46 +1352,9 @@ paths:
         '400':
           $ref: '#/components/responses/StatusResponse'
       operationId: post-api-instrument-invalidate
-      description: Invalidate an existing Token. It will make the given Token not valid.
+      description: Permite invalidar un token ya existente del sitio. Esto hará que el token o el subtoken ya no se pueda usar.
       requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                auth:
-                  $ref: '#/components/schemas/Autentication'
-                locale:
-                  $ref: '#/components/schemas/Locale'
-                instrument:
-                  type: object
-                  required:
-                    - token
-                  properties:
-                    token:
-                      type: object
-                      required:
-                        - token
-                      properties:
-                        token:
-                          type: string
-              required:
-                - auth
-                - instrument
-            examples:
-              Example 1:
-                value:
-                  auth:
-                    auth:
-                      login: c51ce410c124a10e0db5e4b97fc2af39
-                      tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
-                      nonce: NjE0OWVkODgwYjNhNw==
-                      seed: '2021-09-21T09:34:48-05:00'
-                  locale: es_CO
-                  instrument:
-                    token:
-                      token: 239bd2573205e974c4bed7c99cc1125c464f6350a905565333fff041d8f5ef79
-        description: ''
+        $ref: '#/components/requestBodies/InstrumentInvalidateRequest'
 components:
   schemas:
     Person:
@@ -2829,3 +2792,60 @@ components:
                   reason: XN
                   message: El token usado es inválido
                   date: '2022-07-27T14:51:27-05:00'
+  requestBodies:
+    InstrumentInvalidateRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              auth:
+                $ref: '#/components/schemas/Autentication'
+              locale:
+                $ref: '#/components/schemas/Locale'
+              instrument:
+                type: object
+                required:
+                  - token
+                properties:
+                  token:
+                    type: object
+                    minProperties: 1
+                    properties:
+                      token:
+                        type:
+                          - string
+                          - 'null'
+                      subtoken:
+                        type:
+                          - string
+                          - 'null'
+            required:
+              - auth
+              - instrument
+          examples:
+            Using Token:
+              value:
+                auth:
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                locale: en_US
+                instrument:
+                  token:
+                    token: a3bfc8e2afb9ac5583922eccd6d2061c1b0592b099f04e352a894f37ae51cf1a
+            Using Subtoken:
+              value:
+                auth:
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                locale: en_US
+                instrument:
+                  token:
+                    subtoken: '8740257204881112'
+      description: Instrument Invalidate Request

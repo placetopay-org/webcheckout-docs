@@ -2,7 +2,13 @@
 stoplight-id: 14206cdfa4c0f
 ---
 
-![Frame 10.png](<../assets/images/Frame 10-2.png>)
+<!--
+focus: false
+-->
+
+![Frame 10.png](<../assets/images/placetopay_banner.png>)
+
+---
 
 # Webcheckout PlacetoPay
 
