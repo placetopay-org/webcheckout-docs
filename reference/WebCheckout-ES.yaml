@@ -1344,8 +1344,6 @@ paths:
   /api/instrument/invalidate:
     post:
       summary: Invalidar Token (InstrumentInvalidateRequest)
-      tags:
-        - instrument-invalidate
       responses:
         '200':
           $ref: '#/components/responses/StatusResponse'
