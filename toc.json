@@ -7,6 +7,21 @@
     },
     {
       "type": "item",
+      "title": "Cómo funciona Checkout?",
+      "uri": "docs/Integration.md"
+    },
+    {
+      "type": "item",
+      "title": "Plugins y componentes",
+      "uri": "docs/Plugins-y-componentes.md"
+    },
+    {
+      "type": "item",
+      "title": "Lightbox",
+      "uri": "docs/Lightbox.md"
+    },
+    {
+      "type": "item",
       "title": "API Version",
       "uri": "docs/API-Version.md"
     },
@@ -16,28 +31,13 @@
       "uri": "docs/changelog.md"
     },
     {
-      "type": "item",
-      "title": "Plugins y componentes",
-      "uri": "docs/Plugins-y-componentes.md"
+      "type": "divider",
+      "title": "Integración"
     },
     {
       "type": "item",
       "title": "Autenticación",
       "uri": "docs/Autenticacion.md"
-    },
-    {
-      "type": "item",
-      "title": "Notificación",
-      "uri": "docs/Notificacion.md"
-    },
-    {
-      "type": "item",
-      "title": "Lightbox",
-      "uri": "docs/Lightbox.md"
-    },
-    {
-      "type": "divider",
-      "title": "Crear Sesión"
     },
     {
       "type": "item",
@@ -83,6 +83,11 @@
       "type": "item",
       "title": "Preautorización",
       "uri": "docs/crear-sesion/G. Preautorización.md"
+    },
+    {
+      "type": "item",
+      "title": "Notificación",
+      "uri": "docs/Notificacion.md"
     },
     {
       "type": "divider",

@@ -12,46 +12,32 @@ focus: false
 
 # PlacetoPay Checkout
 
-Checkout es una página web prediseñada, optimizada y alojada en Placetopay que le permite aceptar pagos en línea de forma rápida y segura desde dispositivos móviles y de escritorio. Puedes aceptar pagos únicos, pagos recurrentes, pagos mixtos y suscribir medios de pago.
+Bienvenido a PlacetoPay Checkout, la solución completa para agilizar y asegurar tus pagos en línea. Con nuestra plataforma prediseñada y alojada, podrás aceptar pagos de forma rápida, segura y desde cualquier dispositivo. Puedes aceptar pagos únicos, pagos recurrentes, pagos mixtos y suscribir medios de pago.
 
-Checkout te permite:
+## Beneficios de PlacetoPay Checkout
 
-* **Diseño personalizado:** Puedes personalizar los nombres, logos y colores de tu empresa.
-* **Diferentes idiomas y monedas:** Aceptar pagos en multiples idiomas y monedas.
-* **Adaptado a diferentes dispositivos:** Diseño optimizado para diferentes dispositivos.
-* **Wallet PlacetoPay:** Checkout cuenta con su propia billetera que le permite a usuarios guardar sus medios de pago, brindando mayor seguridad y facilidad en el proceso de pago.
-* **Seguridad de la información:** Lineamientos PCI que garantizan seguridad en la captura y procesamiento de la información sensible de tarjetas.
-* **Pagos avanzados:** Pagos con Impuestos, pagos mixtos, suscripciones, cobros recurrentes, promociones y más...
+**Diseño personalizado:** Personaliza la apariencia de Checkout con logotipos y colores de tu empresa. Crea una experiencia de pago única y coherente con tu marca.
 
-# Integración
+**Múltiples idiomas y monedas:** Acepta pagos en diferentes idiomas y monedas para atraer a clientes de todo el mundo. Amplía tu alcance y aumenta tus oportunidades de venta.
 
-Para usar Checkout se debe hacer una integración mediante servicios HTTP donde tu aplicación o tienda en línea redirige al usuario a Checkout para que complete el pago.
+**Optimizado para cualquier dispositivo:** Nuestro checkout está diseñado para adaptarse y funcionar sin problemas en dispositivos móviles y de escritorio. Brinda una experiencia de pago optimizada, independientemente del dispositivo que utilice tu cliente.
 
-<!--
-focus: false
--->
+**Wallet PlacetoPay:** Con Checkout, tus clientes pueden aprovechar nuestra billetera digital, permitiéndoles guardar y gestionar sus medios de pago de forma segura. Esto agiliza el proceso de pago y brinda una mayor comodidad al realizar transacciones futuras.
 
-![Frame 10.png](<../assets/images/Checkout_flow.png>)
+**Seguridad de la información:** Nos tomamos en serio la protección de los datos sensibles. PlacetoPay Checkout cumple con los estándares de seguridad de la industria, incluidos los lineamientos PCI, para garantizar la seguridad en la captura y procesamiento de la información de tarjetas.
 
-**1.** Para aceptar un pago por WebCheckout es necesario tener una *Sesión* de pago que se puede crear usando el método [API - Crear sesión (CreateRequest)](../reference/WebCheckout-ES.yaml/paths/~1api~1session/post), en la respuesta de este servicio se obtendrá el `processURL` y el `requestId`.
+**Pagos avanzados:** Nuestra plataforma ofrece una amplia gama de opciones de pago, incluyendo pagos con impuestos, pagos mixtos, suscripciones, cobros recurrentes y promociones. Ten el control total sobre tus transacciones y ofrece opciones flexibles a tus clientes.
 
-Ver más en: [Crear Sesión](create-session.md)
+## Cómo aprovechar esta documentación
 
-**2.** En su sistema, crear un registro que relacione el pago en proceso con el `requestID` entregado, el proceso se encuentra en estado **pendiente**.
+Esta documentación está diseñada para ayudarte a aprovechar al máximo todas las características y funcionalidades de PlacetoPay Checkout. Aquí encontrarás guías detalladas, ejemplos de uso y referencias útiles para que puedas integrar y configurar fácilmente nuestra solución de pago en tu sitio web o aplicación.
 
-**3.** El usuario debe ser redireccionado al `processUrl` entregado.
+¡Comienza a optimizar tus pagos en línea con PlacetoPay Checkout y brinda a tus clientes una experiencia de compra fluida y segura!
 
-**4.** En la interfaz de WebCheckout el usuario realizará el proceso de pago o suscripción, WebCheckout se encargará de recaudar todos los datos requeridos.
+---
 
-**6.** Una vez completado el proceso, el usuario puede ser redireccionado de vuelta a la *URL* de retorno indicada como `returnUrl` (Atributo enviado en `CreateRequest`).
+Continuar Con: 
 
-**7.** Al llegar al sitio del comercio, se debe consultar el estado de la *Sesión*. 
+- [Cómo funciona Checkout](Integration.md)
 
-Consumir él método [API - Consultar sesión (getRequestInformation)](../reference/WebCheckout-ES.yaml/paths/~1api~1session~1{requestId}/post)
-
-**8.** Segun sea el estado final del pago, se debe ejecutar las regla de negocio y actualizar la información correspondiente al pago.
-
-**9.** De manera asincrónica, PlacetoPay realiza una notificación, del estado final de una sesión, a tu sitio.
-
-**10.** Recomendamos implementar un proceso sonda para resolver aquellas transacciones que no se resolvieron en los numerales 7 y 9.
 
