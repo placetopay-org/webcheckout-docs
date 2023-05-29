@@ -25,8 +25,7 @@ Checkout te permite:
 
 # Integración
 
-Para usar Checkout se debe hacer una integración mediante servicios HTTP donde tu aplicación o tienda en línearedirige al usuario a Checkout y nosotros nos encargamos de capturar los datos y completar el pago.
-
+Para usar Checkout se debe hacer una integración mediante servicios HTTP donde tu aplicación o tienda en línea redirige al usuario a Checkout para que complete el pago.
 
 <!--
 focus: false
