@@ -1,6 +1,6 @@
 # API Version Policy
 
-En Placetopay contamos con una única versión del api disponible hasta la fecha. Tal que si te vas a conectar o ya estas conectado con nuestro api, estás usando la única versión disponible y la más actual.
+En Placetopay contamos con una única versión del api disponible hasta la fecha. Tal que si te vas a conectar o ya estas conectado con nuestro api, estás usando la única versión disponible y la más reciente.
 
 Al tratarse de una única versión de API, todas las funcionalidades nuevas y ajustes se hacen en la misma versión del API y pretenden ser **retro-compatibles**.
 

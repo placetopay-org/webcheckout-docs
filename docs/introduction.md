@@ -10,20 +10,29 @@ focus: false
 
 ---
 
-# Webcheckout PlacetoPay
+# PlacetoPay Checkout
 
-WebCheckout es una página web prediseñada, optimizada y alojada en Placetopay que le permite aceptar pagos en línea de forma rápida y segura desde dispositivos móviles y de escritorio. Puedes aceptar pagos únicos, pagos recurrentes, pagos mixtos y suscribir medios de pago.
+Checkout es una página web prediseñada, optimizada y alojada en Placetopay que le permite aceptar pagos en línea de forma rápida y segura desde dispositivos móviles y de escritorio. Puedes aceptar pagos únicos, pagos recurrentes, pagos mixtos y suscribir medios de pago.
 
-Webcheckout te permite:
+Checkout te permite:
 
 * **Diseño personalizado:** Puedes personalizar los nombres, logos y colores de tu empresa.
 * **Diferentes idiomas y monedas:** Aceptar pagos en multiples idiomas y monedas.
-* **Adaptado a diferentes resoluciones:** Diseño receptivo para diferentes dispositivos.
-* **Wallet PlacetoPay:** WebCheckout cuenta con su propia billetera que le permite a usuarios guardar medios de pago frecuentes brindando mayor seguridad y facilidad en el proceso de pago.
+* **Adaptado a diferentes dispositivos:** Diseño optimizado para diferentes dispositivos.
+* **Wallet PlacetoPay:** Checkout cuenta con su propia billetera que le permite a usuarios guardar sus medios de pago, brindando mayor seguridad y facilidad en el proceso de pago.
 * **Seguridad de la información:** Lineamientos PCI que garantizan seguridad en la captura y procesamiento de la información sensible de tarjetas.
 * **Pagos avanzados:** Pagos con Impuestos, pagos mixtos, suscripciones, cobros recurrentes, promociones y más...
 
-# Flujo de integración
+# Integración
+
+Para usar Checkout se debe hacer una integración mediante servicios HTTP donde tu aplicación o tienda en línearedirige al usuario a Checkout y nosotros nos encargamos de capturar los datos y completar el pago.
+
+
+<!--
+focus: false
+-->
+
+![Frame 10.png](<../assets/images/Checkout_flow.png>)
 
 **1.** Para aceptar un pago por WebCheckout es necesario tener una *Sesión* de pago que se puede crear usando el método [API - Crear sesión (CreateRequest)](../reference/WebCheckout-ES.yaml/paths/~1api~1session/post), en la respuesta de este servicio se obtendrá el `processURL` y el `requestId`.
 
