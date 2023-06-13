@@ -11,11 +11,15 @@ Con el Lightbox SDK, puedes ofrecer una experiencia de usuario mejorada al evita
 	<script src="<URL_BASE>/lightbox.min.js"></script>
 	```
 
-	**Nota:** La `<URL_BASE>` depende del país donde se encuentre tu cuenta PlacetoPay, **Ejemplo:**
+	**Nota:** La `<URL_BASE>` depende del país donde se encuentre tu cuenta PlacetoPay, obtén la URL base de tu país en la siguiente tabla:
 
-	- **Colombia, Puerto Rico, Costa Rica, Panamá:** https://secure.placetopay.com/redirection/lightbox.min.js
-
-	- **Ecuador:** https://secure.placetopay.ec/redirection/lightbox.min.js
+	| País | URL Base |
+	| :---: | :--- |
+	| CO | https://checkout.placetopay.com |
+	| CL | https://checkout.getnet.cl |
+	| EC | https://checkout.placetopay.ec |
+	| CR | https://checkout.davivienda.cr |
+	| HN | https://pagoenlinea.bancatlan.hn |
 
 2.	Crea la sesión de checkout y obtén el `processURL` de la respuesta PlacetoPay. **Ejemplo**:
 	```json
@@ -69,8 +73,6 @@ El Lightbox SDK permite ejecutar los siguientes métodos:
 	| Opción | Tipo | Descripción | Valor por defecto |
 	| --- | --- | --- | --- |
 	| `opacity` | `number` | Establece la transparencia del fondo del iframe. El valor debe ser un número entre 0 y 1, donde 1 indica que el fondo no es transparente y 0 indica que es completamente transparente. | `0.7` |
-	| `radius` | `number` | Establece que tan cuadradas son las esquinas del iframe. (CSS property: `border-radius`) | `2` |
-
 
 - `on` : Suscribe un evento al Lightbox SDK. **Ejemplo:**
 
