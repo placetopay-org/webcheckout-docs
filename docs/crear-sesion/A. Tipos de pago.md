@@ -91,7 +91,6 @@ Para hacer uso de esta funcionalidad, en la estructura payment del Pago recurren
 }
 ```
 
-
 Atributo | Tipo | Descripción | ¿Requerido?
 ---------|----------|--------- |---------
  **periodicity**  | `string` | Periodicidad de la factura [D=Día, M=Mes, Y=Año]| Requerido |
@@ -219,3 +218,37 @@ Ejemplo:
     ]
 }
 ```
+## Pago con subscripción
+Un pago se puede convertir en pago y subscripción al mismo tiempo, para realizar este flujo es importante agregar en el objeto `payment` el atributo  `subscribe` en `true` de la siguiente manera
+
+```json
+{
+  "auth": {
+    "login": "usuarioPrueba",
+    "tranKey": "jsHJzM3+XG754wXh+aBvi70D9/4=",
+    "nonce": "TTJSa05UVmtNR000TlRrM1pqQTRNV1EREprWkRVMU9EZz0=",
+    "seed": "2019-04-25T18:17:23-04:00"
+    },
+    "payment": {
+        "reference": "3210",
+        "description": "Pago con subscripcion de prueba",
+        "amount": {
+            "currency": "COP",
+            "total": 100000
+        },
+        "subscribe" : true //Definimos subscribe en true
+    },
+    "expiration": "2021-12-31T00:00:00-05:00",
+    "returnUrl": "https://mysite.com/response/3210",
+    "ipAddress": "127.0.0.1",
+    "userAgent": "PlacetoPay Sandbox"
+}
+```
+<!-- theme: warning -->
+> ### Importante
+>
+>- *El atributo `subscribe` es un valor de tipo `bool` por defecto en `false`. Se declara `true` cuando se quiere guardar la información para realizar subscripciones*
+>- *Solamente permite guardar información de subscripciones cuando se realiza con el flujo de `Wallet` de caso contrario solamente efectuará el pago y no guardará la subscripción*
+
+
+
