@@ -16,11 +16,6 @@ Por lo tanto, la configuración de los medios de pago se brinda según el país 
 ---------|----------
  DBTAC | Registro cuentas débito 
 
-### ACH
-
- Código | Nombre
----------|----------
- PSEAV | Débito Bancario PSE
 
  ### BANCOLOMBIA
 
