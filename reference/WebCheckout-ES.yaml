@@ -239,6 +239,40 @@ paths:
                   returnUrl: 'https://dnetix.co/p2p/client'
                   ipAddress: 127.0.0.1
                   userAgent: PlacetoPay Sandbox
+              Crear sesión con pago y subscripción:
+                value:
+                  locale: es_CO
+                  auth:
+                    login: c51ce410c124a10e0db5e4b97fc2af39
+                    tranKey: VQOcRcVH2DfL6Y4B4SaK6yhoH/VOUveZ3xT16OQnvxE=
+                    nonce: NjE0OWVkODgwYjNhNw==
+                    seed: '2021-09-21T09:34:48-05:00'
+                  payer:
+                    document: '1122334455'
+                    documentType: CC
+                    name: John
+                    surname: Doe
+                    company: Evertec
+                    email: johndoe@app.com
+                    mobile: '+5731111111111'
+                  payment:
+                    reference: '12345'
+                    description: Prueba de pago y subscripción
+                    amount:
+                      currency: COP
+                      total: 2000
+                    subscribe: true
+                  fields:
+                    - keyword: _processUrl_
+                      value: 'https://checkout.redirection.test/session/1/a592098e22acc709ec7eb30fc0973060'
+                      displayOn: none
+                  expiration: '2019-08-24T14:15:22Z'
+                  returnUrl: 'https://commerce.test/return'
+                  cancelUrl: 'https://commerce.test/cancel'
+                  ipAddress: 127.0.0.1
+                  userAgent: PlacetoPay Sandbox
+                  skipResult: false
+                  noBuyerFill: false
       responses:
         '200':
           description: OK
