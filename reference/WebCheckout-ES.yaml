@@ -909,6 +909,47 @@ paths:
                       receipt: '230955511860'
                       franchise: PS_VS
                       refunded: false
+                      processorFields:
+                        - keyword: merchantCode
+                          value: '1465675'
+                          displayOn: none
+                        - keyword: terminalNumber
+                          value: '00990099'
+                          displayOn: none
+                        - keyword: credit
+                          value:
+                            code: '1'
+                            type: '00'
+                            groupCode: C
+                            installments: 1
+                          displayOn: none
+                        - keyword: totalAmount
+                          value: 52
+                          displayOn: none
+                        - keyword: interestAmount
+                          value: 0
+                          displayOn: none
+                        - keyword: installmentAmount
+                          value: 0
+                          displayOn: none
+                        - keyword: iceAmount
+                          value: 0
+                          displayOn: none
+                        - keyword: bin
+                          value: '411111'
+                          displayOn: none
+                        - keyword: expiration
+                          value: '1223'
+                          displayOn: none
+                        - keyword: lastDigits
+                          value: '1111'
+                          displayOn: none
+                        - keyword: id
+                          value: a10fe0690cfe557283310ba90746e159
+                          displayOn: none
+                        - keyword: b24
+                          value: '00'
+                          displayOn: none
         '400':
           description: Bad Request
           content:
