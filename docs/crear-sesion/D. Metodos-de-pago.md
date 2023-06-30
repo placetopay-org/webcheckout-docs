@@ -205,11 +205,13 @@ Código | Nombre
  TS_DN | Tarjeta Diners Club 
  TS_AM | Tarjeta American Express 
  TSPVS | Tarjeta Puntos Visa 
- TSPMC | Tarjeta Puntos Mastercard 
+ TSPMC | Tarjeta Puntos Mastercard
  TSIVS | Tarjeta Internacional Visa 
  TSIMC | Tarjeta Internacional Mastercard 
  TSIDN | Tarjeta Internacional Diners Club 
- TSIAM | Tarjeta Internacional American Express 
+ TSIAM | Tarjeta Internacional American Express
+ TIPVS | Tarjeta Internacional Puntos Visa 
+ TIPMC | Tarjeta Internacional Puntos Mastercard   
 
 
 ## PUERTO RICO
