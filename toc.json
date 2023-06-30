@@ -81,6 +81,11 @@
     },
     {
       "type": "item",
+      "title": "Reversos",
+      "uri": "docs/crear-sesion/H. Reversos.md"
+    },
+    {
+      "type": "item",
       "title": "Preautorización",
       "uri": "docs/crear-sesion/G. Preautorización.md"
     },
