@@ -2274,7 +2274,7 @@ components:
             - 'null'
           description: Estructura que contiene información de dispersión
           items:
-            $ref: '#/components/schemas/Transaction'
+            $ref: '#/components/schemas/TransactionDispersion'
         agreement:
           type:
             - integer
@@ -2317,6 +2317,78 @@ components:
           type:
             - string
             - 'null'
+    TransactionDispersion:
+      title: Transaction Dispersion
+      x-stoplight:
+        id: sc9t9q5yfgeuj
+      type: object
+      description: |
+        Estructura que contiene información sobre el proceso de la transacción dispersada.
+      examples:
+        - status:
+            status: APPROVED
+            reason: '00'
+            message: La petición ha sido aprobada exitosamente
+            date: '2022-07-27T14:51:27-05:00'
+          agreement: null
+          agreementType: null
+          authorization: '965960'
+          receipt: '052617800175'
+          amount:
+            from:
+              'currency ': COP
+              'total ': 10000
+            to:
+              'currency ': COP
+              'total ': 10000
+            factor: 1
+          refunded: false
+          paymentMethod: visa
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+        agreement:
+          type:
+            - integer
+            - 'null'
+            - string
+            - number
+          description: Identificador de destinatario de la transacción. Para el sitio principal de la transacción.
+          example: 186
+        agreementType:
+          type:
+            - string
+            - 'null'
+          description: Tipo de dispersión
+          enum:
+            - MERCHANT
+            - AIRLINE
+          example: MERCHANT
+        authorization:
+          type:
+            - string
+            - 'null'
+          description: |
+            Código de autorización.
+          example: '965960'
+        receipt:
+          type:
+            - string
+            - 'null'
+          description: |
+            Numero de recibo de la transacción.
+          example: '052617800175'
+        amount:
+          $ref: '#/components/schemas/AmountConversion'
+        refunded:
+          type: boolean
+          description: Se utiliza para definir si la transacción ha sido reversada
+          default: false
+        paymentMethod:
+          type: string
+          description: |
+            Código del método de pago utilizado.
+          example: visa
     AmountConversion:
       title: AmountConversion
       type: object
