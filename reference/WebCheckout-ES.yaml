@@ -853,6 +853,14 @@ paths:
                     - integer
                   description: |
                     Referencia interna de la transacción a reversar que se encuentra en el listado de transacciones del getRequestInformation (payment).
+                amount:
+                  $ref: '#/components/schemas/AmountBase'
+                  x-stoplight:
+                    id: 2n7c2p2nnqen2
+                  description: monto a reembolsar de una transacción
+              required:
+                - auth
+                - internalReference
             examples:
               Ejemplo:
                 value:
@@ -862,6 +870,7 @@ paths:
                     nonce: NjE0OWVkODgwYjNhNw==
                     seed: '2021-09-21T09:34:48-05:00'
                   internalReference: 1
+        description: ''
       description: |
         Permite revertir un pago aprobado con el código de referencia interna `internalReference`.
       responses:
