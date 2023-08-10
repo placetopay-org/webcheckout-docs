@@ -8,12 +8,18 @@ focus: false
 
 ![Frame 10.png](<../assets/images/placetopay_banner.png>)
 
+
+
 ---
 
 # PlacetoPay Checkout
 
 Bienvenido a PlacetoPay Checkout, la solución completa para agilizar y asegurar tus pagos en línea. Con nuestra plataforma prediseñada y alojada, podrás aceptar pagos de forma rápida, segura y desde cualquier dispositivo. Puedes aceptar pagos únicos, pagos recurrentes, pagos mixtos y suscribir medios de pago.
 
+Descubre la documentación de Placetopay Checkout en 
+[https://docs.placetopay.dev/checkout](https://docs.placetopay.dev/checkout)
+
+<!--
 ## Beneficios de PlacetoPay Checkout
 
 **Diseño personalizado:** Personaliza la apariencia de Checkout con logotipos y colores de tu empresa. Crea una experiencia de pago única y coherente con tu marca.
@@ -39,5 +45,5 @@ Esta documentación está diseñada para ayudarte a aprovechar al máximo todas 
 Continuar Con: 
 
 - [Cómo funciona Checkout](Integration.md)
-
+-->
 
