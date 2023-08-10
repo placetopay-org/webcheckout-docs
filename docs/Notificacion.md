@@ -1,10 +1,14 @@
+---
+internal: true
+---
+
 # Notificacion
 
 Una notificación permite informar al comercio sobre el estado de las sesiones.
 
 Configura en tu servidor una URL de notificación usando los puertos 80 o 443 y en caso de que la sesión se cancele o apruebe, reciba una notificación mediante POST.
 
-```json json_schema
+```json jsonSchema
 {
   "type": "object",
   "properties": {
@@ -27,7 +31,6 @@ De manera asincrónica, una notificación del estado de la petición será envia
 
 **Identificar operación:**
 Con el identificador de la sesión requestId y la referencia reference identifican la sesión notificada. Para esta sesión debe validar que el estado de la operación notificada están pendientes en su sistema.
-
 
 **Validar autenticidad de la notificación:**
 Puedes validar que se trate de una respuesta de PlacetoPay haciendo un SHA-1 con los datos requestId + status + date + secretKey.

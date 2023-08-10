@@ -1,3 +1,7 @@
+---
+internal: true
+---
+
 # Seguridad
 
 En este apartado se presentan los diferentes módulos de seguridad que Placetopay tiene disponible según los diferentes países en los que se encuentra. **Para hacer uso de estos módulos de seguridad NO es necesario realizar ninguna integración adicional.**
@@ -13,7 +17,6 @@ Disponible en:
 - Colombia (CO)
 - Panamá (PA)
 ```
-
 
 ## Scudo
 

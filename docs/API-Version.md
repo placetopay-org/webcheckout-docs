@@ -1,3 +1,7 @@
+---
+internal: true
+---
+
 # API Version Policy
 
 En Placetopay contamos con una única versión del api disponible hasta la fecha. Tal que si te vas a conectar o ya estas conectado con nuestro api, estás usando la única versión disponible y la más reciente.
@@ -12,7 +16,7 @@ En Placetopay consideramos los siguientes cambios retro-compatibles:
 
 Cuando se agrega una nueva funcionalidad, es muy probable que venga acompañada de un nuevo endpoint y/o recurso.
 
-**Ejemplo:** Si se hiciera el lanzamiento de un nuevo API para obtener usuarios, la funcionalidad llevaría a un nuevo recurso `User` y nuevo endpoint `api.com/users`.   
+**Ejemplo:** Si se hiciera el lanzamiento de un nuevo API para obtener usuarios, la funcionalidad llevaría a un nuevo recurso `User` y nuevo endpoint `api.com/users`.
 
 ### Agregar nuevos parámetros opcionales a las solicitudes de API existentes
 
@@ -84,7 +88,6 @@ Debido a la evolución de algunas funcionalidades, es probable que cambiemos un 
 
 **Ejemplo:** En el api `CreateRequest` el parámetro requerido `ipAddress` se podría cambiar para que fuera **opcional**.
 
-
 ```json
 // CreateRequest body
 
@@ -99,4 +102,3 @@ Debido a la evolución de algunas funcionalidades, es probable que cambiemos un 
 Este cambio no afectará las integraciones existentes.
 
 No se podrá hacer lo contrario, es decir, un parámetro opcional no se podrá volver **requerido**.
-

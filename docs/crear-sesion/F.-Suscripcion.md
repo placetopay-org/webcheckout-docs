@@ -1,5 +1,6 @@
 ---
 tags: [Crear sesión]
+internal: true
 ---
 
 # Suscripción
@@ -11,6 +12,7 @@ La suscripción permite almacenar de forma segura (tokenizando) el medio de pago
 Para hacer uso de esta funcionalidad es necesario enviar en el `RedirectRequest` la estructura `subscription`.
 
 **Ejemplo:**
+
 ```json
 {
    "auth": {
@@ -30,12 +32,13 @@ Para hacer uso de esta funcionalidad es necesario enviar en el `RedirectRequest`
 }
 ```
 
-
 ### **Cobrar usando un token**
+
 La estructura de la respuesta contiene toda la información de la petición original y una estructura de suscripción (`subscription`) con un instrumento (`instrument`) representado en forma de token.
 
- <!-- theme: warning -->
+<!-- theme: warning -->
+
 > ### Importante
 >
->- *Se recomienda realizar un cobro por un valor mínimo para identificar que la tarjeta se encuentra activa.*
->- *La información del token debe ser almacenada en su sitio y relacionada al usuario y/o producto. Luego de tener el token, puede generar cobros al medio de pago tokenizado usando el servicio collect.*
+> - _Se recomienda realizar un cobro por un valor mínimo para identificar que la tarjeta se encuentra activa._
+> - _La información del token debe ser almacenada en su sitio y relacionada al usuario y/o producto. Luego de tener el token, puede generar cobros al medio de pago tokenizado usando el servicio collect._

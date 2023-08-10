@@ -1,13 +1,20 @@
+---
+internal: true
+---
+
 # Prueba tu integracion
 
 ## URL's Base
+
 Placetopay habilita diferentes URL base según el país con el que te estas integrando
 
 ### Pruebas
+
 - Colombia, Costa Rica, Panamá, Puerto Rico:
 - Ecuador:
 
 ### Producción
+
 - Colombia, Costa Rica, Panamá, Puerto Rico:
 - Ecuador:
 

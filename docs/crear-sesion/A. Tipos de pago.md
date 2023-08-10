@@ -1,6 +1,8 @@
 ---
 tags: [Crear sesión]
+internal: true
 ---
+
 ## Pago
 
 Un pago hace referencia al proceso que se ejecuta luego de que el usuario ingresa la información solicitada
@@ -50,11 +52,10 @@ Al obtener el resultado de la operación, debe tener muy presente los siguiente 
 Es importante identificar según la regla de negocio del sitio al obtener alguno de estos dos estados.
 
 <!-- theme: danger -->
+
 > ### Importante
 >
-> *No se permiten pagos parciales cuando se envían impuestos, estos no se pueden dividir.*
-
-
+> _No se permiten pagos parciales cuando se envían impuestos, estos no se pueden dividir._
 
 ## Pago Recurrente
 
@@ -91,24 +92,26 @@ Para hacer uso de esta funcionalidad, en la estructura payment del Pago recurren
 }
 ```
 
-Atributo | Tipo | Descripción | ¿Requerido?
----------|----------|--------- |---------
- **periodicity**  | `string` | Periodicidad de la factura [D=Día, M=Mes, Y=Año]| Requerido |
- **interval**   | `int` | Intervalo asociado a la periodicidad.| Requerido |
- **nextPayment**   | `date` |Fecha del próximo pago.| Opcional |
- **maxPeriods**   | `int` | Número máximo de periodo (-1 en caso de que no haya restricción.)| Requerido |
- **dueDate**   | `date` | Fecha para finalizar el pago.| Opcional |
- **notificationUrl**   | `string` |URL en el que el servicio notificará cada vez que se haga un pago recurrente.| Opcional |
+| Atributo            | Tipo     | Descripción                                                                   | ¿Requerido? |
+| ------------------- | -------- | ----------------------------------------------------------------------------- | ----------- |
+| **periodicity**     | `string` | Periodicidad de la factura [D=Día, M=Mes, Y=Año]                              | Requerido   |
+| **interval**        | `int`    | Intervalo asociado a la periodicidad.                                         | Requerido   |
+| **nextPayment**     | `date`   | Fecha del próximo pago.                                                       | Opcional    |
+| **maxPeriods**      | `int`    | Número máximo de periodo (-1 en caso de que no haya restricción.)             | Requerido   |
+| **dueDate**         | `date`   | Fecha para finalizar el pago.                                                 | Opcional    |
+| **notificationUrl** | `string` | URL en el que el servicio notificará cada vez que se haga un pago recurrente. | Opcional    |
 
 <!-- theme: warning -->
+
 > ### Importante
 >
->- *El atributo `nextPayment` no es obligatorio, en caso de que no se envié, se calcula dependiendo del atributo `interval` y `periodicity`, en caso de que se declare debe ser una fecha futura a la fecha actual.*
->- *En el caso de fallar un cobro recurrente, éste seguirá reintentado una vez cada día durante 3 días, si luego de esto no se obtiene una transacción aprobada, la recurrencia se le cancela al tarjetahabiente.*
-> - *La recurrencia se deja de reintentar si la primera respuesta no tiene sentido reintentar (Tarjeta invalida, robada, etc), es decir se reintenta sólo si es por saldo.*
->- *Las recurrencias sólo pueden ser canceladas en la consola administrativa de PlacetoPay.*
+> - _El atributo `nextPayment` no es obligatorio, en caso de que no se envié, se calcula dependiendo del atributo `interval` y `periodicity`, en caso de que se declare debe ser una fecha futura a la fecha actual._
+> - _En el caso de fallar un cobro recurrente, éste seguirá reintentado una vez cada día durante 3 días, si luego de esto no se obtiene una transacción aprobada, la recurrencia se le cancela al tarjetahabiente._
+> - _La recurrencia se deja de reintentar si la primera respuesta no tiene sentido reintentar (Tarjeta invalida, robada, etc), es decir se reintenta sólo si es por saldo._
+> - _Las recurrencias sólo pueden ser canceladas en la consola administrativa de PlacetoPay._
 
 ## Pago con dispersión
+
 El pago con dispersión permite dividir el pago principal a diferentes convenios registrados en una misma sesión, además permite que cada parte de la transacción sea procesada por diferentes proveedores.
 **[Más información](https://docs-gateway.placetopay.com/docs/api-services-docs/ZG9jOjExNjAxOTc1)**
 
@@ -161,12 +164,13 @@ Ejemplo:
 ```
 
 <!-- theme: warning -->
+
 > ### Importante
 >
->- *No se permiten pagos mixtos con valores de dispersión*
->- *No se permiten pagos de preautorización con valores de dispersión.*
->- *La suma total de las dispersiones deben ser igual al total del pago.*
->- *Todas las monedas de las dispersiones deben ser igual a la moneda del pago.*
+> - _No se permiten pagos mixtos con valores de dispersión_
+> - _No se permiten pagos de preautorización con valores de dispersión._
+> - _La suma total de las dispersiones deben ser igual al total del pago._
+> - _Todas las monedas de las dispersiones deben ser igual a la moneda del pago._
 
 Para el envió de impuestos, es importante que se encuentre en la estructura de cada una de las dispersiones
 
@@ -218,7 +222,9 @@ Ejemplo:
     ]
 }
 ```
+
 ## Pago con subscripción
+
 Un pago se puede convertir en pago y subscripción al mismo tiempo, para realizar este flujo es importante agregar en el objeto `payment` el atributo  `subscribe` en `true` de la siguiente manera
 
 ```json
@@ -244,11 +250,10 @@ Un pago se puede convertir en pago y subscripción al mismo tiempo, para realiza
     "userAgent": "PlacetoPay Sandbox"
 }
 ```
+
 <!-- theme: warning -->
+
 > ### Importante
 >
->- *El atributo `subscribe` es un valor de tipo `bool` por defecto en `false`. Se declara `true` cuando se quiere guardar la información para realizar subscripciones*
->- *Solamente permite guardar información de subscripciones cuando se realiza con el flujo de `Wallet` de caso contrario solamente efectuará el pago y no guardará la subscripción*
-
-
-
+> - _El atributo `subscribe` es un valor de tipo `bool` por defecto en `false`. Se declara `true` cuando se quiere guardar la información para realizar subscripciones_
+> - _Solamente permite guardar información de subscripciones cuando se realiza con el flujo de `Wallet` de caso contrario solamente efectuará el pago y no guardará la subscripción_

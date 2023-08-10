@@ -1,5 +1,6 @@
 ---
 tags: [Crear sesión]
+internal: true
 ---
 
 # Métodos de pago
@@ -10,229 +11,222 @@ Por lo tanto, la configuración de los medios de pago se brinda según el país 
 
 ## COLOMBIA
 
- ### ACCOUNT
+### ACCOUNT
 
- Código | Nombre
----------|----------
- DBTAC | Registro cuentas débito 
+| Código | Nombre                  |
+| ------ | ----------------------- |
+| DBTAC  | Registro cuentas débito |
 
+### BANCOLOMBIA
 
- ### BANCOLOMBIA
-
-  Código | Nombre
----------|----------
- BTNBC | Botón Bancolombia 
+| Código | Nombre            |
+| ------ | ----------------- |
+| BTNBC  | Botón Bancolombia |
 
 ### CODENSA
 
-  Código | Nombre
----------|----------
- CDNSA | Tarjeta CODENSA
+| Código | Nombre          |
+| ------ | --------------- |
+| CDNSA  | Tarjeta CODENSA |
 
+### COMFANDI
 
- ### COMFANDI
+| Código | Nombre   |
+| ------ | -------- |
+| CMFDI  | Comfandi |
 
- Código | Nombre
----------|----------
- CMFDI | Comfandi 
+### CREDIBANCO
 
- ### CREDIBANCO
+| Código | Nombre                       |
+| ------ | ---------------------------- |
+| CR_VS  | Tarjeta Visa                 |
+| CR_MC  | Tarjeta Mastercard           |
+| CR_DN  | Tarjeta Diners Club          |
+| CR_AM  | Tarjeta American Express     |
+| CR_VE  | Tarjeta débito Visa Electron |
 
-Código | Nombre 
----------|----------
- CR_VS | Tarjeta Visa 
- CR_MC | Tarjeta Mastercard 
- CR_DN | Tarjeta Diners Club  
- CR_AM | Tarjeta American Express 
- CR_VE | Tarjeta débito Visa Electron
+### EQUITY
 
- ### EQUITY
-
-  Código | Nombre
----------|----------
- CAFAM | Tarjeta CAFAM
-
+| Código | Nombre        |
+| ------ | ------------- |
+| CAFAM  | Tarjeta CAFAM |
 
 ### FLAMINGO
 
- Código | Nombre
----------|----------
- MEFIA | Tarjeta Mefia
+| Código | Nombre        |
+| ------ | ------------- |
+| MEFIA  | Tarjeta Mefia |
 
- ### GANAPIN
+### GANAPIN
 
- Código | Nombre
----------|----------
- GNPIN | Gana PIN
+| Código | Nombre   |
+| ------ | -------- |
+| GNPIN  | Gana PIN |
 
- ### PAGOEFECTIVO
+### PAGOEFECTIVO
 
-  Código | Nombre
----------|----------
- PGEFT | Pago Efectivo 
+| Código | Nombre        |
+| ------ | ------------- |
+| PGEFT  | Pago Efectivo |
 
- ### PROCESA
+### PROCESA
 
-  Código | Nombre
----------|----------
- PRCSA | Billetera compensar 
+| Código | Nombre              |
+| ------ | ------------------- |
+| PRCSA  | Billetera compensar |
 
 ### REDEBAN
 
- Código | Nombre 
----------|----------
- RM_VS | Tarjeta Visa 
- RM_MC | Tarjeta Mastercard 
- RM_DN | Tarjeta Diners Club    
- RM_AM | Tarjeta American Express 
- SOMOS | Somos Grupo EPM
+| Código | Nombre                   |
+| ------ | ------------------------ |
+| RM_VS  | Tarjeta Visa             |
+| RM_MC  | Tarjeta Mastercard       |
+| RM_DN  | Tarjeta Diners Club      |
+| RM_AM  | Tarjeta American Express |
+| SOMOS  | Somos Grupo EPM          |
 
- ### SAFETYPAY
+### SAFETYPAY
 
-  Código | Nombre
----------|----------
- SFPAY | Safety Pay
+| Código | Nombre     |
+| ------ | ---------- |
+| SFPAY  | Safety Pay |
 
- ###  SOAP
+### SOAP
 
- Código | Nombre
----------|----------
- ´_ATH_´ | Corresponsales bancarios Grupo Aval 
- ´_PSE_´ | Débito a cuentas corrientes y ahorros (PSE)
- AC_WU | Western Union
- AV_AV | Banco AV Villas Recaudos
- AV_BB | Banco de Bogota Recaudos
- AV_BO | Banco de Occidente Recaudos
- BBVAC | BBVA Colombia Oficinas y corresponsales
- DVVND | Davivienda Oficinas y corresponsales
- EFCTY | Efecty
- GNOFC | Gana Recaudo en Oficina
- SPGRS | Supergiros
- T1_BC | Bancolombia Recaudos 
+| Código  | Nombre                                      |
+| ------- | ------------------------------------------- |
+| ´_ATH_´ | Corresponsales bancarios Grupo Aval         |
+| ´_PSE_´ | Débito a cuentas corrientes y ahorros (PSE) |
+| AC_WU   | Western Union                               |
+| AV_AV   | Banco AV Villas Recaudos                    |
+| AV_BB   | Banco de Bogota Recaudos                    |
+| AV_BO   | Banco de Occidente Recaudos                 |
+| BBVAC   | BBVA Colombia Oficinas y corresponsales     |
+| DVVND   | Davivienda Oficinas y corresponsales        |
+| EFCTY   | Efecty                                      |
+| GNOFC   | Gana Recaudo en Oficina                     |
+| SPGRS   | Supergiros                                  |
+| T1_BC   | Bancolombia Recaudos                        |
 
- ### TUYA-DIRECT
+### TUYA-DIRECT
 
-  Código | Nombre
----------|----------
- TYDEX | Tarjeta Éxito 
- TYDAK | Tarjeta Alkosto 
+| Código | Nombre          |
+| ------ | --------------- |
+| TYDEX  | Tarjeta Éxito   |
+| TYDAK  | Tarjeta Alkosto |
 
 ## CHILE / URUGUAY
 
 ### PAYSTUDIO
 
- Código | Nombre
----------|----------
- PS_VS | Tarjeta Visa 
- PS_MC | Tarjeta Mastercard 
- PS_DN | Tarjeta Diners Club 
- PS_AM | Tarjeta American Express 
- PS_MS | Tarjeta Maestro 
-
+| Código | Nombre                   |
+| ------ | ------------------------ |
+| PS_VS  | Tarjeta Visa             |
+| PS_MC  | Tarjeta Mastercard       |
+| PS_DN  | Tarjeta Diners Club      |
+| PS_AM  | Tarjeta American Express |
+| PS_MS  | Tarjeta Maestro          |
 
 ## ECUADOR
 
 ### AUSTRO
 
- Código | Nombre
----------|----------
- AT_VS | Tarjeta Visa 
- AT_MC | Tarjeta Mastercard 
- AT_DN | Tarjeta Diners Club 
- AT_AM | Tarjeta American Express
+| Código | Nombre                   |
+| ------ | ------------------------ |
+| AT_VS  | Tarjeta Visa             |
+| AT_MC  | Tarjeta Mastercard       |
+| AT_DN  | Tarjeta Diners Club      |
+| AT_AM  | Tarjeta American Express |
 
 ### DATAFAST
 
- Código | Nombre
----------|----------
- DF_VS | Tarjeta Visa 
- DF_MC | Tarjeta Mastercard 
- DF_DN | Tarjeta Diners Club 
- DF_DS | Tarjeta Discover   
- DF_AM | Tarjeta American Express
+| Código | Nombre                   |
+| ------ | ------------------------ |
+| DF_VS  | Tarjeta Visa             |
+| DF_MC  | Tarjeta Mastercard       |
+| DF_DN  | Tarjeta Diners Club      |
+| DF_DS  | Tarjeta Discover         |
+| DF_AM  | Tarjeta American Express |
 
 ### INTERDIN
 
- Código | Nombre
----------|----------
- ID_VS | Tarjeta Visa 
- ID_MC | Tarjeta Mastercard 
- ID_DN | Tarjeta Diners Club 
- ID_DS | Tarjeta Discover   
- ID_AM | Tarjeta American Express 
+| Código | Nombre                   |
+| ------ | ------------------------ |
+| ID_VS  | Tarjeta Visa             |
+| ID_MC  | Tarjeta Mastercard       |
+| ID_DN  | Tarjeta Diners Club      |
+| ID_DS  | Tarjeta Discover         |
+| ID_AM  | Tarjeta American Express |
 
- ### MEDIANET
+### MEDIANET
 
- Código | Nombre
----------|----------
- MD_VS | Tarjeta Visa 
- MD_MC | Tarjeta Mastercard 
- MD_DN | Tarjeta Diners Club 
- MD_AM | Tarjeta American Express 
-  
+| Código | Nombre                   |
+| ------ | ------------------------ |
+| MD_VS  | Tarjeta Visa             |
+| MD_MC  | Tarjeta Mastercard       |
+| MD_DN  | Tarjeta Diners Club      |
+| MD_AM  | Tarjeta American Express |
 
- ## INTERNACIONAL
+## INTERNACIONAL
 
-  Código | Nombre
----------|----------
- PYPAL | PayPal 
-
+| Código | Nombre |
+| ------ | ------ |
+| PYPAL  | PayPal |
 
 ## PANAMÁ / COSTA RICA / BELICE / HONDURAS
 
 ### TECNICARD
 
- Código | Nombre
----------|----------
- TC_VS | Tarjeta Visa 
- TC_MC | Tarjeta Mastercard 
- TC_DN | Tarjeta Diners Club 
- TC_DS | Tarjeta Discover   
- TC_AM | Tarjeta American Express  
+| Código | Nombre                   |
+| ------ | ------------------------ |
+| TC_VS  | Tarjeta Visa             |
+| TC_MC  | Tarjeta Mastercard       |
+| TC_DN  | Tarjeta Diners Club      |
+| TC_DS  | Tarjeta Discover         |
+| TC_AM  | Tarjeta American Express |
 
 ### TELERED
 
-  Código | Nombre
----------|----------
- TR_TC | Tarjeta Clave
+| Código | Nombre        |
+| ------ | ------------- |
+| TR_TC  | Tarjeta Clave |
 
 ### TRANSERVER
 
- Código | Nombre
----------|----------
- TS_VS | Tarjeta Visa 
- TS_MC | Tarjeta Mastercard 
- TS_DN | Tarjeta Diners Club 
- TS_AM | Tarjeta American Express 
- TSPVS | Tarjeta Puntos Visa 
- TSPMC | Tarjeta Puntos Mastercard
- TSIVS | Tarjeta Internacional Visa 
- TSIMC | Tarjeta Internacional Mastercard 
- TSIDN | Tarjeta Internacional Diners Club 
- TSIAM | Tarjeta Internacional American Express
- TIPVS | Tarjeta Internacional Puntos Visa 
- TIPMC | Tarjeta Internacional Puntos Mastercard   
-
+| Código | Nombre                                  |
+| ------ | --------------------------------------- |
+| TS_VS  | Tarjeta Visa                            |
+| TS_MC  | Tarjeta Mastercard                      |
+| TS_DN  | Tarjeta Diners Club                     |
+| TS_AM  | Tarjeta American Express                |
+| TSPVS  | Tarjeta Puntos Visa                     |
+| TSPMC  | Tarjeta Puntos Mastercard               |
+| TSIVS  | Tarjeta Internacional Visa              |
+| TSIMC  | Tarjeta Internacional Mastercard        |
+| TSIDN  | Tarjeta Internacional Diners Club       |
+| TSIAM  | Tarjeta Internacional American Express  |
+| TIPVS  | Tarjeta Internacional Puntos Visa       |
+| TIPMC  | Tarjeta Internacional Puntos Mastercard |
 
 ## PUERTO RICO
 
 ### ATH-MOVIL
 
- Código | Nombre
----------|----------
- ATHMV | ATH Móvil 
+| Código | Nombre    |
+| ------ | --------- |
+| ATHMV  | ATH Móvil |
 
- ### EBUS
+### EBUS
 
- Código | Nombre
----------|----------
- EB_VS | Tarjeta Visa 
- EB_MC | Tarjeta Mastercard 
- EB_AM | Tarjeta American Express 
- EBATH | Tarjeta ATH 
- EBATV | Tarjeta ATH Visa 
- EBATM | Tarjeta ATH Mastercard 
- EBACH | ACH 
+| Código | Nombre                   |
+| ------ | ------------------------ |
+| EB_VS  | Tarjeta Visa             |
+| EB_MC  | Tarjeta Mastercard       |
+| EB_AM  | Tarjeta American Express |
+| EBATH  | Tarjeta ATH              |
+| EBATV  | Tarjeta ATH Visa         |
+| EBATM  | Tarjeta ATH Mastercard   |
+| EBACH  | ACH                      |
 
 Al momento de crear una sesión puedes limitar los medios de pagos, de esa forma obligas a tu usuario a pagarte esa sesión con métodos de pago en específicos. Puedes enviar el listado de métodos de pago en el atributo `paymentMethod`
 

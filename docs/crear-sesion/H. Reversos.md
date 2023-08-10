@@ -1,6 +1,7 @@
 ---
 tags: [Crear sesión]
 stoplight-id: u39gg1c6qvyjx
+internal: true
 ---
 
 # Reversos
@@ -8,13 +9,14 @@ stoplight-id: u39gg1c6qvyjx
 El proceso de reverso consiste en realizar un reembolso de una transacción aprobada por medio de la referencia interna.
 
 ## **Reverso Total**
+
 Un reverso total permite el reembolso de una transacción por el monto total del pago.
 
 **Ejemplo:**
 
-API | URL
----------|----------
- `POST` | /api/reverse |
+| API    | URL          |
+| ------ | ------------ |
+| `POST` | /api/reverse |
 
 ```json
 {
@@ -34,9 +36,9 @@ Un reverso parcial permite el reembolso de una transacción estableciendo un mon
 
 **Ejemplo:**
 
-API | URL
----------|----------
- `POST` | /api/transaction |
+| API    | URL              |
+| ------ | ---------------- |
+| `POST` | /api/transaction |
 
 ```json
 {
@@ -58,8 +60,7 @@ API | URL
 ```
 
 <!-- theme: warning -->
+
 > ### Importante
 >
->- *Los procesos de reembolso no crean una sesión de pago, sino que se comunica con el core transaccional para efectuar el reembolso.*
-
-
+> - _Los procesos de reembolso no crean una sesión de pago, sino que se comunica con el core transaccional para efectuar el reembolso._

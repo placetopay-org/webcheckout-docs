@@ -1,6 +1,7 @@
 ---
 tags: [Crear sesión]
 stoplight-id: 2d1b9eb6160d6
+internal: true
 ---
 
 # Taxes (Impuestos)
@@ -13,21 +14,21 @@ Dependiendo de la actividad sobre la que recaiga, se le aplica un impuesto u otr
 
 El valor `kind` representa el tipo de impuesto que está incluido en el pago, los diferentes tipos de impuestos son:
 
-
-Kind | Traducción | País
----------|----------|---------
- **valueAddedTax** | IVA | Todos
- **exciseDuty** | Impuesto | Todos
- **ice** | ICE | Todos
- **airportTax** | Tasa aeroportuaria | Colombia y Ecuador
- **stateTax** | IVU Estatal | Puerto Rico
- **municipalTax** | IVU Municipal | Puerto Rico
- **reducedStateTax** | IVU Reducido | Puerto Rico
+| Kind                | Traducción         | País               |
+| ------------------- | ------------------ | ------------------ |
+| **valueAddedTax**   | IVA                | Todos              |
+| **exciseDuty**      | Impuesto           | Todos              |
+| **ice**             | ICE                | Todos              |
+| **airportTax**      | Tasa aeroportuaria | Colombia y Ecuador |
+| **stateTax**        | IVU Estatal        | Puerto Rico        |
+| **municipalTax**    | IVU Municipal      | Puerto Rico        |
+| **reducedStateTax** | IVU Reducido       | Puerto Rico        |
 
 <!-- theme: warning -->
+
 > ### Importante
 >
-> *Cuando se escribe erroneamente el `kind` o no existe en el listado de tipos de impuestos, el `tax` no se incluye dentro de la sesión de Webcheckout*
+> _Cuando se escribe erroneamente el `kind` o no existe en el listado de tipos de impuestos, el `tax` no se incluye dentro de la sesión de Webcheckout_
 
 ## Estructura de los impuestos
 
@@ -66,26 +67,26 @@ Los Details son los detalles que pueden tener una transacción
 
 El valor `kind` representa el tipo de detalle que está incluido en el pago, los diferentes tipos de detalles son:
 
+| Kind                  | Traducción      |
+| --------------------- | --------------- |
+| **discount**          | Descuento       |
+| **additional**        | Adicional       |
+| **vatDevolutionBase** | Base devolución |
+| **shipping**          | Envío           |
+| **handlingFee**       | Cuota manejo    |
+| **insurance**         | Seguro          |
+| **giftWrap**          | Regalo          |
+| **subtotal**          | Subtotal        |
+| **fee**               | Cobro           |
+| **tip**               | Propina         |
+| **airline**           | Aerolínea       |
+| **interests**         | Intereses       |
 
-Kind | Traducción 
----------|----------
- **discount** | Descuento 
- **additional** | Adicional 
- **vatDevolutionBase** | Base devolución 
- **shipping** | Envío
- **handlingFee** | Cuota manejo 
- **insurance** | Seguro
- **giftWrap** | Regalo
- **subtotal** | Subtotal
- **fee** | Cobro
- **tip** | Propina
- **airline** | Aerolínea
- **interests** | Intereses
- 
- <!-- theme: warning -->
+<!-- theme: warning -->
+
 > ### Nota Importante
 >
-> *Cuando se escribe erroneamente el `kind` o no existe en el listado de tipos de detalles, el `detail` no se incluye dentro de la sesión de Webcheckout*
+> _Cuando se escribe erroneamente el `kind` o no existe en el listado de tipos de detalles, el `detail` no se incluye dentro de la sesión de Webcheckout_
 
 ## Estructura de los detalles
 
@@ -115,8 +116,7 @@ los `details` estan dentro de la estructura `amount` siendo el atributo `details
 ```
 
 <!-- theme: danger -->
+
 > ### Importante
 >
-> *No se permite el uso de pagos mixtos cuando se utilizan taxes/details ya que estos no se pueden dividir y genera un error al crear la sesión*
-
-
+> _No se permite el uso de pagos mixtos cuando se utilizan taxes/details ya que estos no se pueden dividir y genera un error al crear la sesión_
