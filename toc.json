@@ -31,10 +31,6 @@
       "uri": "docs/changelog.md"
     },
     {
-      "type": "divider",
-      "title": "Integración"
-    },
-    {
       "type": "item",
       "title": "Autenticación",
       "uri": "docs/Autenticacion.md"
@@ -93,10 +89,6 @@
       "type": "item",
       "title": "Notificación",
       "uri": "docs/Notificacion.md"
-    },
-    {
-      "type": "divider",
-      "title": "API"
     },
     {
       "type": "item",
